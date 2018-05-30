@@ -8,8 +8,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <body>
-<h2>Hello World!</h2>
-<a href="getGnlb.action">点我跳转后台111</a>
+<h2>欢迎使用本系统！</h2>
+<a href="login.jsp">点我跳转jsp登陆页面</a>
 <<br />
 </body>
 </html>
