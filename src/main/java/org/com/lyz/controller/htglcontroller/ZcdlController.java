@@ -1,6 +1,5 @@
 package org.com.lyz.controller.htglcontroller;
 
-import com.sun.deploy.net.HttpResponse;
 import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.constant.Constant_htgl;
@@ -11,17 +10,11 @@ import org.com.lyz.util.MisException;
 import org.com.lyz.util.encryptionutil.SHAEncryptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -75,14 +68,11 @@ public class ZcdlController {
      */
     @RequestMapping(value = "/htgl.dlxt.action")
     public String dlxtAction(Model model, GG_CZRY czry, HttpSession session, RedirectAttributes attr){
-        boolean result =false;
         GG_CZRY gg_czry = CzryService.getCzryByDlh(czry.getDlh());
-        System.out.println(result+"\t result");
         if (gg_czry == null) {
             model.addAttribute("msg", "账号不存在！");
             attr.addFlashAttribute("msg", "账号不存在！");
             return "login";
-//            return ControllerUtils.getStringRedirect("zcdl/login");
         }
 
         if (!gg_czry.getZt().equals(Constant_htgl.GG_CZRY_ZT_ZC)) {
@@ -95,10 +85,8 @@ public class ZcdlController {
                 model.addAttribute("msg", "密码不正确！");
                 attr.addFlashAttribute("msg", "密码不正确！");
                 return "login";
-//                return ControllerUtils.getStringRedirect("zcdl/login");
             } else {
                 //登陆用户添加session
-                result = true;
                 session.setAttribute("user",gg_czry);
                 model.addAttribute("user",gg_czry);
                 attr.addFlashAttribute("user", gg_czry);
@@ -131,7 +119,6 @@ public class ZcdlController {
             throw new MisException("发生未知异常");
         }
         return ControllerUtils.getStringRedirect("login.jsp");
-//        return ControllerUtils.getStringForward("login.jsp");
     }
 
 }
