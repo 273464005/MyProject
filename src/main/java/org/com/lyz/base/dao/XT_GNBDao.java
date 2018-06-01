@@ -1,13 +1,14 @@
 package org.com.lyz.base.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.com.lyz.base.dao.basedao.BaseDao;
 import org.com.lyz.base.model.po.XT_GNB;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public interface XT_GNBDao {
+public interface XT_GNBDao extends BaseDao{
     int deleteByPrimaryKey(String id) throws SQLException;
 
     int insert(XT_GNB record) throws SQLException;

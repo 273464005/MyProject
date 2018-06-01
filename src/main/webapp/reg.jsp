@@ -12,8 +12,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<title>注册</title>
 	<link rel="stylesheet" type="text/css" href="<%=path%>/regcss/css/bootstrap.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=path%>/regcss/css/font-span.css"/>
-	<script src="<%=path%>/js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/formcheck.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=basePath%>/js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
+	<%--<script src="<%=basePath%>/js/formcheck.js" type="text/javascript" charset="utf-8"></script>--%>
 	<script type="text/javascript" src="<%=path%>/layer/layer.js"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="panel panel-primary magin_center">
 	<div class="panel-heading">用户注册</div>
 	<div class="panel-body">
-		<form method="post" action="htgl.zcczry.action">
+		<form method="post" action="">
 			<table class="table table-hover">
 				<tr>
 					<td>姓名<span style="color: red">*</span></td>
@@ -112,14 +112,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="text" value="${msg}" name="msg"/>
 	</div>
 </div>
+
+<script type="text/javascript" src="js/prompt.js"></script>
 <script type="text/javascript">
 
 	//----------------------消息提示开始-------------------------
-    var msg = $("input[name=msg]").val();
-		if(msg != "") {
-            layer.msg(msg);
+//    var msg = $("input[name=msg]").val();
+//		if(msg != "") {
+//            layer.msg(msg);
 //            location.href = "login.jsp";
-        }
+//        }
+
 	//----------------------消息提示结束-------------------------
 
 	function yyzh() {
@@ -146,11 +149,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
             //两次密码值校验
 			if(inputName == "repmm"){
-                return repmm(inp);
-			}
+//                return repmm(inp);
+				if(!repmm(inp)){
+				    return false;
+				}
+            }
 
         }
-        return true;
+//        return true;
+		$.ajax({
+			method:"post",
+			url:"zcdl/htgl.zcczry.action",
+			data:$(form).serialize(),
+            success:function(data){
+//                layer.open({
+//                    type: 1
+//                    ,offset: 'auto'
+//                    ,id: 'layerDemo'+'auto' //防止重复弹出
+//                    ,content: '<div style="padding: 20px 100px;">'+ data.text +'</div>'
+//					,time:3000
+//                });
+				prompt(data,function(){
+//                    window.location = "login.jsp";
+				})
+			}
+		})
+		return false;
     }
 
     function qc(obj) {

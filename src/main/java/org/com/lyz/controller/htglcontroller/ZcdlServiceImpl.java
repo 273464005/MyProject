@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  * 作者： 鲁玉震
  * 创建时间： 2018/5/31
  */
-@Service("zcdlService")
+//@Service("zcdlService")
 public class ZcdlServiceImpl extends BaseServiceImpl implements ZcdlService {
 
 }

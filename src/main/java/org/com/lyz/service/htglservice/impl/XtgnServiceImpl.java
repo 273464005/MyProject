@@ -1,5 +1,6 @@
 package org.com.lyz.service.htglservice.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ public class XtgnServiceImpl implements XtgnService{
     @Autowired
     private XT_GNBDao xtgnDao;
     
-    public List<Map<String, Object>> getXtgnList(Integer dyqx) {
+    public List<Map<String, Object>> getXtgnList(Integer dyqx) throws SQLException {
         List<Map<String,Object>> xtgnList = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> fatherList = xtgnDao.selectByPrimaryKeyIsNull(dyqx);
         logger.info("获取功能列表，共"+fatherList.size()+"条");

@@ -8,11 +8,13 @@ import org.com.lyz.service.htglservice.XtgnService;
 import org.com.lyz.util.ControllerUtils;
 import org.com.lyz.util.MisException;
 import org.com.lyz.util.encryptionutil.SHAEncryptionUtil;
+import org.com.lyz.util.returnvalue.ReturnValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -50,23 +52,27 @@ public class ZcdlController {
      * @return
      */
     @RequestMapping(value = "/htgl.zcczry.action")
-    public String zcczryAction(Model model, GG_CZRY gg_czry) throws SQLException{
+    @ResponseBody
+    public ReturnValue zcczryAction(Model model, GG_CZRY gg_czry) throws SQLException{
         try {
             String mm = SHAEncryptionUtil.SHAEncryption(gg_czry.getMm());
             gg_czry.setMm(mm);
         } catch (Exception e) {
-            logger.error("加密失败！");
-            model.addAttribute("msg", "注册失败，发生未知错误，请联系管理员解决！");
+            logger.error("注册失败，失败原因："+e.getMessage());
+//            model.addAttribute("msg", "注册失败，发生未知错误，请联系管理员解决！");
             e.printStackTrace();
-            return "reg";
+            return ReturnValue.newErrorInstance();
+        }
+        GG_CZRY czry = CzryService.getCzryByDlh(gg_czry.getDlh());
+        if(czry != null){
+            logger.info("注册失败！账号已被占用！");
+            return ReturnValue.newErrorInstance("注册失败，该登录号已被注册！");
         }
         if(CzryService.insert(gg_czry)){
             logger.info("注册用户成功------------");
-            model.addAttribute("msg", "注册成功");
+//            model.addAttribute("msg", "注册成功");
         }
-//        zcdlService.insert(gg_czry);
-//        System.out.println("===============================成功！！！！！！！！！！！");
-        return "reg";
+        return ReturnValue.newSuccessInstance();
     }
 
     /**

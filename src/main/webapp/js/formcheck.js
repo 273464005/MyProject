@@ -2,7 +2,7 @@
  * Created by Administrator on 2018/5/16.
  */
 
-document.write("<script language=javascript src='jquery-3.2.1.js'></script>");
+// document.write("<script language=javascript src='jquery-3.2.1.js'></script>");
 
 /*function checkForm(form){
     var values = $(form).serializeArray();
