@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,10 @@ public class ZcdlController {
     @Qualifier("czryService")
     private CzryService CzryService;
 
+    /*@Autowired
+    @Qualifier("zcdlService")
+    private ZcdlService zcdlService;*/
+
     /**
      * 注册用户
      * @param model
@@ -45,7 +50,7 @@ public class ZcdlController {
      * @return
      */
     @RequestMapping(value = "/htgl.zcczry.action")
-    public String zcczryAction(Model model, GG_CZRY gg_czry) {
+    public String zcczryAction(Model model, GG_CZRY gg_czry) throws SQLException{
         try {
             String mm = SHAEncryptionUtil.SHAEncryption(gg_czry.getMm());
             gg_czry.setMm(mm);
@@ -59,6 +64,8 @@ public class ZcdlController {
             logger.info("注册用户成功------------");
             model.addAttribute("msg", "注册成功");
         }
+//        zcdlService.insert(gg_czry);
+//        System.out.println("===============================成功！！！！！！！！！！！");
         return "reg";
     }
 
@@ -67,7 +74,7 @@ public class ZcdlController {
      * @return
      */
     @RequestMapping(value = "/htgl.dlxt.action")
-    public String dlxtAction(Model model, GG_CZRY czry, HttpSession session, RedirectAttributes attr){
+    public String dlxtAction(Model model, GG_CZRY czry, HttpSession session, RedirectAttributes attr) throws SQLException{
         GG_CZRY gg_czry = CzryService.getCzryByDlh(czry.getDlh());
         if (gg_czry == null) {
             model.addAttribute("msg", "账号不存在！");

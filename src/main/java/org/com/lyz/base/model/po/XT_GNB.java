@@ -1,8 +1,17 @@
 package org.com.lyz.base.model.po;
 
+import org.com.lyz.base.model.basepo.BasePo;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-public class XT_GNB {
+public class XT_GNB extends BasePo<XT_GNB>{
+
+    private static final RowMapper<XT_GNB> ROW_MAPPER = new BeanPropertyRowMapper<XT_GNB>(XT_GNB.class);
+
     private String id;
 
     private String gnmc;
@@ -91,5 +100,24 @@ public class XT_GNB {
 
     public void setZt(Integer zt) {
         this.zt = zt;
+    }
+
+    /**
+     * 将ResultSet一行转换为PO
+     * @param resultSet
+     * @param i
+     * @return
+     * @throws SQLException
+     */
+    public XT_GNB mapRow(ResultSet resultSet, int i) throws SQLException {
+        return ROW_MAPPER.mapRow(resultSet,i);
+    }
+
+    public String getPkValue() {
+        return this.id;
+    }
+
+    public void setPkValue(String id) {
+        this.id = id;
     }
 }

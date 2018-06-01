@@ -1,6 +1,16 @@
 package org.com.lyz.base.model.po;
 
-public class GG_CZRY {
+import org.com.lyz.base.model.basepo.BasePo;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class GG_CZRY extends BasePo<GG_CZRY>{
+
+    public static final RowMapper<GG_CZRY> ROW_MAPPER = new BeanPropertyRowMapper<GG_CZRY>(GG_CZRY.class);
+
     private String id;
 
     private String mc;
@@ -99,5 +109,24 @@ public class GG_CZRY {
 
     public void setSsdp(String ssdp) {
         this.ssdp = ssdp == null ? null : ssdp.trim();
+    }
+
+    /**
+     * 将resultset一行转换为PO
+     * @param resultSet
+     * @param i
+     * @return
+     * @throws SQLException
+     */
+    public GG_CZRY mapRow(ResultSet resultSet, int i) throws SQLException {
+        return ROW_MAPPER.mapRow(resultSet,i);
+    }
+
+    public String getPkValue() {
+        return this.id;
+    }
+
+    public void setPkValue(String id) {
+        this.id = id;
     }
 }
