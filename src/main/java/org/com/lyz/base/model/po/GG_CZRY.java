@@ -29,7 +29,9 @@ public class GG_CZRY extends BasePo<GG_CZRY>{
 
     private Integer zt;
 
-    private String ssdp;
+    private String email;
+
+    private String sfzh;
 
     public String getId() {
         return id;
@@ -103,12 +105,20 @@ public class GG_CZRY extends BasePo<GG_CZRY>{
         this.zt = zt;
     }
 
-    public String getSsdp() {
-        return ssdp;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSsdp(String ssdp) {
-        this.ssdp = ssdp == null ? null : ssdp.trim();
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSfzh() {
+        return sfzh;
+    }
+
+    public void setSfzh(String sfzh) {
+        this.sfzh = sfzh;
     }
 
     /**
