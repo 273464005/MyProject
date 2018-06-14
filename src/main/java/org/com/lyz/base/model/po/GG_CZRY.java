@@ -11,6 +11,14 @@ public class GG_CZRY extends BasePo<GG_CZRY>{
 
     public static final RowMapper<GG_CZRY> ROW_MAPPER = new BeanPropertyRowMapper<GG_CZRY>(GG_CZRY.class);
 
+    public GG_CZRY(){
+
+    }
+
+    public GG_CZRY(String id){
+        this.id = id;
+    }
+
     private String id;
 
     private String mc;

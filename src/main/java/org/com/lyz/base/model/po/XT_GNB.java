@@ -12,6 +12,14 @@ public class XT_GNB extends BasePo<XT_GNB>{
 
     private static final RowMapper<XT_GNB> ROW_MAPPER = new BeanPropertyRowMapper<XT_GNB>(XT_GNB.class);
 
+    public XT_GNB(){
+
+    }
+
+    public XT_GNB(String id){
+        this.id = id;
+    }
+
     private String id;
 
     private String gnmc;
