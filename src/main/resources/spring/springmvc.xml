@@ -3,9 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	<!-- 对静态资源以servlet方式访问 -->
 	<!-- <mvc:default-servlet-handler/> -->
@@ -13,13 +16,13 @@
 	<!-- 静态资源不过滤 -->
 	
 	<!-- 包扫描器 -->
-	<context:component-scan base-package="org.com.lyz"></context:component-scan>
+	<context:component-scan base-package="org.com.lyz" />
 	<!-- 开启web注解驱动：类型转换，时间处理，json处理 -->
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven />
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/"></property>
-		<property name="suffix" value=".jsp"></property>
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp"/>
 	</bean>
 	
 	<!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">

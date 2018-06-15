@@ -93,8 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     //退出登陆
     function tcdl() {
         if(confirm("确认退出登陆？")){
-            <%--location.href = "<%=path%>/exit.action";--%>
-            location.href = "exit.action";
+            location.href = "/exit";
         }
 //        layer.msg("退出登录！");
         /*layer.open({

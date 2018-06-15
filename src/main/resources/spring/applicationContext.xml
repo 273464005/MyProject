@@ -9,15 +9,18 @@
 	<!-- 加载配置文件 -->
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:prop/jdbc.properties"></property>
+		<property name="location" value="classpath:prop/jdbc.properties"/>
 	</bean>
 
 	<!-- 1.创建连接数据源 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${jdbc.driver}"></property>
-		<property name="url" value="${jdbc.url}"></property>
-		<property name="username" value="${jdbc.username}"></property>
-		<property name="password" value="${jdbc.password}"></property>
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+
+		<!--最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常，如果设置-1表示无限等待（默认为无限，调整为60000ms，避免因线程池不够用，而导致请求被无限制挂起） -->
+		<!--<property name="maxWait" value="60000" />-->
 	</bean>
 
 	<!-- 2.创建SQLSessionFactory 依赖一个数据源，一个配置文件 -->
@@ -29,24 +32,63 @@
 	-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 读取mybatis配置文件 -->
-		<property name="configLocation" value="classpath:spring/mybatisContext.xml"></property>
+		<property name="configLocation" value="classpath:spring/mybatisContext.xml"/>
 		
-		<property name="dataSource" ref="dataSource"></property>
+		<property name="dataSource" ref="dataSource"/>
 		<!-- 将指定包下面的类设置别名，默认首字母小写 -->
-		<property name="typeAliasesPackage" value="org.com.lyz.base.model.po"></property>
+		<property name="typeAliasesPackage" value="org.com.lyz.base.model.po"/>
 		<!-- 读取mybatis默认配置文件 -->
 		<!-- <property name="configLocation" value="classpath:mybatis-config.xml"></property> -->
 		<!-- 读取org/lyz/spring/mapper文件夹下面所有的mapper配置文件 -->
 		
-		<property name="mapperLocations" value="classpath:org/com/lyz/base/mapper/*.xml"></property>
+		<property name="mapperLocations" value="classpath:org/com/lyz/base/mapper/*.xml"/>
 		 
 	</bean>
 
 	<!-- 2. Mybatis数据库操作的工具模板类 -->
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-	
+
+	<!--事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<bean id="service" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="query*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="create*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="insert*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="add*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="set*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="mod*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="update*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="del*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="exec*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="save*">PROPAGATION_REQUIRED, -Exception</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 配置事务异常封装 -->
+	<bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<!-- 配置事务管理开始 -->
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor"
+		  p:transactionManager-ref="transactionManager"
+		  p:transactionAttributeSource-ref="transactionAttributeSource" />
+	<bean id="transactionAttributeSource"
+		  class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource">
+		<constructor-arg value="false" />
+	</bean>
+	<!-- 配置事务管理结束 -->
+
 	<!-- 防止第二次登陆 -->
 	<!-- <http auto-config="true">
 		<concurrent-session-control max-sessions="1" />
@@ -61,9 +103,9 @@
 	-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property> -->
-		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"></property>
+		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"/>
 		
-		<property name="basePackage" value="org.com.lyz.base.dao"></property>
+		<property name="basePackage" value="org.com.lyz.base.dao"/>
 		 
 	</bean>
 </beans>

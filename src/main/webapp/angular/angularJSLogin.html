@@ -3,9 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>angularJS登陆页面</title>
+    <script type="text/javascript" src="angularJS/angular.min.js"></script>
 </head>
-<body>
+<body ng-app="app">
+<div class="row" ng-controller="byDate">
+    <p style="margin-top:5rem">登陆系统</p>
+    <div class="row" style="margin-top:5rem">
+        <div class="col-xs-3">
+            <input type="text" ng-model="gg_czry.dlh" class="form-control" placeholder="请输入登录号" >
+        </div>
+        <div class="col-xs-3">
+            <input type="text" ng-model="gg_czry.mm" class="form-control" placeholder="请输入密码" >
+        </div>
 
-<script type="text/javascript" src="angularJS/angular.min.js"></script>
+        <div class="col-xs-3">
+            <button class="btn btn-primary" ng-click="searchByDate()">登陆</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var a=angular.module('app',[]);
+    a.controller('byDate',function ($http,$scope) {
+//        $scope.searchByDate = function () {
+//            $http({
+//                method: 'POST',
+//                data: {
+//                    "dlh": $scope.dlh,
+//                    "mm": $scope.mm
+//                },
+//                params: {
+//                    userId: '11345973',
+//                    methodName: 'searchUserInfoByTime'
+//                },
+//                url: "csaction"
+//            }).success(function (response) {
+//
+//            })
+//        };
+        $scope.searchByDate = function() {
+            $http({
+                url: 'csaction',
+                method: 'POST',
+                data: {
+                    dlh: '55555555555',
+                    mm: '8888888888888888'
+                }
+            }).success(function () {
+                console.log("success!");
+            }).error(function () {
+                console.log("error");
+            });
+        };
+    })
+</script>
 </body>
 </html>

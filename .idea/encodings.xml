@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
-    <file url="file://$PROJECT_DIR$/src/main/webapp/assets" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/img/zanwu.jpg" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/login.jsp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/assets" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/zanwu.jpg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/login.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/msg.jsp" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/reg.jsp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/regcss" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/reg.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/regcss" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

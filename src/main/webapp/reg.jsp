@@ -108,26 +108,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div align="right">
 		<button type="button" title="login" class="btn btn-link" onclick="yyzh()">已有账号？点我登陆</button>
 	</div>
-	<div id="msg" hidden="hidden">
-		<input type="text" value="${msg}" name="msg"/>
-	</div>
 </div>
 
 <script type="text/javascript" src="js/prompt.js"></script>
 <script type="text/javascript">
 
-	//----------------------消息提示开始-------------------------
-//    var msg = $("input[name=msg]").val();
-//		if(msg != "") {
-//            layer.msg(msg);
-//            location.href = "login.jsp";
-//        }
-
-	//----------------------消息提示结束-------------------------
-
 	function yyzh() {
 //        location.href = "login.jsp";
-
     }
 
 	//提交校验
@@ -156,10 +143,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
 
         }
-//        return true;
 		$.ajax({
 			method:"post",
-			url:"zcdl/htgl.zcczry.action",
+			url:"zcczry",
 			data:$(form).serialize(),
             success:function(data){
 //                layer.open({
@@ -173,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 //                    window.location = "login.jsp";
 				})
 			}
-		})
+		});
 		return false;
     }
 

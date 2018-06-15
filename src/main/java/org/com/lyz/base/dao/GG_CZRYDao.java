@@ -1,11 +1,10 @@
 package org.com.lyz.base.dao;
 
-import org.com.lyz.base.dao.basedao.BaseDao;
 import org.com.lyz.base.model.po.GG_CZRY;
 
 import java.sql.SQLException;
 
-public interface GG_CZRYDao extends BaseDao{
+public interface GG_CZRYDao{
     int deleteByPrimaryKey(String id) throws SQLException;
 
     int insert(GG_CZRY record) throws SQLException;

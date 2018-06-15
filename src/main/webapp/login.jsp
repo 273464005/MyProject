@@ -9,12 +9,8 @@
 <html>
 
     <head>
-
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>后台管理系统</title>
-
         <!-- CSS -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="<%=path%>/assets/bootstrap/css/bootstrap.min.css">
@@ -66,7 +62,7 @@
                         		</div>
                             </div>
                             <div class="form-bottom">
-			                    <form role="form" action="zcdl/htgl.dlxt.action" method="post" class="login-form">
+			                    <form role="form" action="" method="post" class="login-form" id="dlFrom">
 			                    	<div class="form-group">
 			                    		<label class="sr-only" for="dlh">登录号</label>
 			                        	<input type="text" name="dlh" placeholder="请输入登陆号" class="form-username form-control" id="dlh">
@@ -75,7 +71,8 @@
 			                        	<label class="sr-only" for="mm">密码</label>
 			                        	<input type="password" name="mm" placeholder="请输入密码" class="form-password form-control" id="mm">
 			                        </div>
-			                        <button type="submit" class="btn">登陆</button>
+			                        <%--<button type="submit" class="btn">登陆</button>--%>
+                                    <button class="btn" onclick="return dlxt('dlFrom')">登陆</button>
 			                    </form>
                                 <div hidden="hidden">
                                     <input type="text" id="msg" value="${msg}">
@@ -104,22 +101,38 @@
         </div>
         
         <script type="text/javascript">
-            var msg = $("#msg").val();
-            if(msg != ""){
-                $("span[name=msg]").css("color", "#FC4343");
-                $("span[name=msg]").text(msg);
-            }
+//            var msg = $("#msg").val();
+//            if(msg != ""){
+//                $("span[name=msg]").css("color", "#FC4343");
+//                $("span[name=msg]").text(msg);
+//            }
             function zczh(){
-//                location.href = "reg.jsp";
-//                layer.msg('玩命提示中');
                 layer.open({
                     type: 2,
                     title: '用户注册',
                     maxmin: true,
                     shadeClose: true, //点击遮罩关闭层
                     area : ['505px' , '691px'],
-                    content: 'reg.jsp'
+                    content: '/reg.jsp'
                 });
+            }
+
+            function dlxt(fromid){
+                $.ajax({
+                    method: "post",
+                    url: "dlxt",
+                    data: $("#"+fromid).serialize(),
+                    success: function (data) {
+                        if(data.state != 1){
+                            $("span[name=msg]").css("color", "#FC4343");
+                            $("span[name=msg]").text(data.text);
+                            $("input[name=mm]").val("");
+                        } else {
+                            window.location = "htgl/htglMainHome.jsp"
+                        }
+                    }
+                });
+                return false;
             }
         </script>
     </body>
