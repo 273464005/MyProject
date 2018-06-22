@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页</title>
+</head>
+<script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
+<body>
+
+<h1>欢迎使用本系统</h1>
+<h2>
+    当前时间：
+    <span id="time"></span>
+</h2>
+<script>
+    setInterval("time.innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000);
+</script>
+
+</body>
+</html>

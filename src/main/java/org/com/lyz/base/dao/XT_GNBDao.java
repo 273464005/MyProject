@@ -34,4 +34,19 @@ public interface XT_GNBDao{
      * @return
      */
     List<Map<String, Object>> selectByFid(@Param("fid") String fid,@Param("dyqx") Integer dyqx) throws SQLException;
+
+    /**
+     * 根据FID获取最大顺序号
+     * @param fid fid
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    Map<String, Object> selectMaxSxhByFid(@Param("fid") String fid) throws SQLException;
+
+    /**
+     * 获取顶级功能最大顺序号
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    Map<String,Object> selectMaxSxhByFidIsNull() throws SQLException;
 }

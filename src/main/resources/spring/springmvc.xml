@@ -4,7 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		http://www.springframework.org/schema/context
@@ -15,13 +15,14 @@
 	
 	<!-- 静态资源不过滤 -->
 	
-	<!-- 包扫描器 -->
-	<context:component-scan base-package="org.com.lyz" />
+	<!-- 包扫描器，扫描包下面的注解（@Controller，@Service 等等） -->
+	<context:component-scan base-package="org.com.lyz.controller.**" />
+	<context:component-scan base-package="org.com.lyz.service.**" />
 	<!-- 开启web注解驱动：类型转换，时间处理，json处理 -->
 	<mvc:annotation-driven />
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/" />
+		<property name="prefix" value="/view/" />
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	

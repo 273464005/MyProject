@@ -1,10 +1,10 @@
-package org.com.lyz.controller.htglcontroller;
+package org.com.lyz.controller;
 
 import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.constant.Constant_htgl;
-import org.com.lyz.service.htglservice.CzryService;
-import org.com.lyz.service.htglservice.XtgnService;
+import org.com.lyz.service.htgl.CzryService;
+import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.ControllerUtils;
 import org.com.lyz.util.MisException;
 import org.com.lyz.util.encryptionutil.SHAEncryptionUtil;
@@ -13,14 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +26,7 @@ import java.util.Map;
  * 注册、登录、初始化
  */
 @Controller
+@RequestMapping("zcdl")
 public class ZcdlController {
 
     private final static Logger logger = Logger.getLogger(ZcdlController.class);
@@ -49,7 +47,7 @@ public class ZcdlController {
      * @param gg_czry
      * @return
      */
-    @RequestMapping(value = "zcczry")
+    @RequestMapping(value = "/zcczry")
     @ResponseBody
     public ReturnValue zcczryAction(Model model, GG_CZRY gg_czry) throws SQLException{
         try {
@@ -68,18 +66,18 @@ public class ZcdlController {
         if(CzryService.insert(gg_czry)){
             logger.info("注册用户成功------------");
         }
-        return ReturnValue.newSuccessInstance("注册成功！欢迎使用本系统~~");
+        return ReturnValue.newSuccessInstance("注册成功！欢迎使用本系统^_^");
     }
 
 
     /**
-     * 登陆系统
+     * 登陆校验
      * @param czry 用户信息
      * @param session session
      * @return 登陆信息
      * @throws SQLException 错误信息
      */
-    @RequestMapping(value = "dlxt")
+    @RequestMapping(value = "/dlxtjy")
     @ResponseBody
     public ReturnValue dlxtAction(GG_CZRY czry, HttpSession session) throws SQLException{
 
@@ -110,6 +108,19 @@ public class ZcdlController {
         }
     }
 
+    /**
+     * 跳转登陆系统
+     * @return
+     */
+    @RequestMapping("/htglMainHome")
+    public String htglMainHome(HttpSession session) throws SQLException{
+        logger.info("========进入后台管理页面=======");
+        GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
+        List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(gg_czry.getQx());
+        session.setAttribute("xtgnList", xtgnList);
+        return "htgl/htglMainHome";
+    }
+
 
     /**
      * 退出系统
@@ -130,21 +141,6 @@ public class ZcdlController {
     }
 
 
-    /**
-     * angularJS提交方式
-     * --@RequestBody 处理angularJS传过来的数据，Content-Type为 application/json
-     *  jquery请求的"Content-Type"默认为" application/x-www-form-urlencoded"，
-     * @param request
-     * @param gg_czry
-     * @return
-     */
-    @RequestMapping("/angular/csaction")
-    @ResponseBody
-    public Map<String,Object> csAction(HttpServletRequest request, @RequestBody GG_CZRY gg_czry){
-        Map<String, Object> returnMap = new HashMap<String,Object>();
-        returnMap.put("dlh", gg_czry.getDlh());
-        returnMap.put("mm", gg_czry.getMm());
-        return returnMap;
-    }
+
 
 }

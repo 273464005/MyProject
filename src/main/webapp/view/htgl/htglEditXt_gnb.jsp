@@ -1,0 +1,128 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+    <title>添加功能</title>
+    <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css">
+    <%--<link rel="stylesheet" href="<%=basePath%>layer/css/modules/layer/default/layer.css">--%>
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>编辑功能</legend>
+</fieldset>
+<div>
+    <form class="layui-form" action="" method="post" id="formId">
+        <div class="layui-form-item">
+            <label class="layui-form-label">功能名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="gnmc" lay-verify="required" placeholder="请输入功能名称" autocomplete="off" class="layui-input" value="${xt_gnb.gnmc}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">功能类别</label>
+            <div class="layui-input-block">
+                <c:if test="${xt_gnb.gnlb == 0}">
+                    <input type="radio" name="gnlb" value="1" title="目录" >
+                    <input type="radio" name="gnlb" value="0" title="节点" checked="checked">
+                </c:if>
+                <c:if test="${xt_gnb.gnlb == 1}">
+                    <input type="radio" name="gnlb" value="1" title="目录" checked="checked">
+                    <input type="radio" name="gnlb" value="0" title="节点">
+                </c:if>
+                <c:if test="${xt_gnb==null}">
+                    <input type="radio" name="gnlb" value="1" title="目录">
+                    <input type="radio" name="gnlb" value="0" title="节点" checked="checked">
+                </c:if>
+            </div>
+        </div>
+        <div class="layui-form-item" id="ssgn">
+            <label class="layui-form-label">连接地址</label>
+            <div class="layui-input-inline">
+                <input type="text" name="ljdz" lay-verify="required" placeholder="请输入连接地址" autocomplete="off" class="layui-input" value="${xt_gnb.ljdz}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属功能</label>
+            <div class="layui-input-inline">
+                <select name="fid">
+                    <option value="">默认（默认为父级功能）</option>
+                    <c:forEach items="${xt_gnbList}" var="gns">
+                        <option value="${gns.id}">${gns.gnmc}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="layui-form-mid layui-word-aux">默认为父级功能</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-inline">
+                <select name="dyqx">
+                    <c:forEach items="${qxList}" var="qxs">
+                        <option value="${qxs.key}">${qxs.value}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">禁用/启用</label>
+            <div class="layui-input-block">
+                <input type="checkbox"  name="zt" lay-skin="switch" value="1" lay-filter="switchTest" lay-text="禁用|启用">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">确认添加</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="<%=basePath%>js/jquery-3.2.1.js" ></script>
+<script type="text/javascript" src="<%=basePath%>layui/layui.all.js" ></script>
+<script type="text/javascript" src="<%=basePath%>js/prompt.js"></script>
+<script type="text/javascript" src="<%=basePath%>layer/layer.js" ></script>
+<script type="text/javascript">
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('radio', function (data) {
+            if(data.value==="1") {
+                $("input[name=ljdz]").removeAttr("lay-verify");
+                $("#ssgn").attr("hidden", "hidden");
+
+            }else{
+                $("#ssgn").removeAttr("hidden");
+                $("input[name=ljdz]").attr("lay-verify")
+            }
+        });
+        form.on('submit(formDemo)',function (data) {
+            $.ajax({
+                url:"<%=basePath%>htgl/saveXt_gnb",
+                method:"post",
+                data:$("#formId").serialize(),
+                beforeSend:function () {
+                    index = layer.load();
+                },
+                success:function (data) {
+                    layer.close(index);
+                    prompt(data,function () {
+                        window.location.reload();
+                    })
+                },
+                error:function (data) {
+                    layer.close(index);
+                }
+            });
+            return false;
+        });
+
+    });
+
+</script>
+</body>
+</html>

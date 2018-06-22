@@ -1,10 +1,10 @@
-package org.com.lyz.service.htglservice.impl;
+package org.com.lyz.service.htgl.impl;
 
 import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.GG_CZRYDao;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.constant.Constant_htgl;
-import org.com.lyz.service.htglservice.CzryService;
+import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

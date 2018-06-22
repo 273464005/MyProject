@@ -113,14 +113,14 @@
                     maxmin: true,
                     shadeClose: true, //点击遮罩关闭层
                     area : ['505px' , '691px'],
-                    content: '/reg.jsp'
+                    content: '<%=basePath%>reg.jsp'
                 });
             }
 
             function dlxt(fromid){
                 $.ajax({
                     method: "post",
-                    url: "dlxt",
+                    url: "<%=basePath%>zcdl/dlxtjy",
                     data: $("#"+fromid).serialize(),
                     success: function (data) {
                         if(data.state != 1){
@@ -128,7 +128,7 @@
                             $("span[name=msg]").text(data.text);
                             $("input[name=mm]").val("");
                         } else {
-                            window.location = "htgl/htglMainHome.jsp"
+                            location.href = "zcdl/htglMainHome";
                         }
                     }
                 });

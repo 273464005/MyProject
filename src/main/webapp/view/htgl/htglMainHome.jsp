@@ -10,24 +10,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>后台管理系统</title>
-  <link rel="stylesheet" href="<%=path%>/layui/css/layui.css">
-  <%--<link rel="stylesheet" href="/layer/mobile/need/layer.css">--%>
+  <title>后台管理</title>
+  <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css">
+  <link rel="stylesheet" href="<%=basePath%>layer/mobile/need/layer.css">
 
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo">LOGO位置</div>
+    <div class="layui-logo"><a href="####" onclick="window.location.reload()"><span style="color:#ffffff">LOGO位置</span></a></div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item">
-        <a href="javascript:;">功能管理</a>
+        <a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgnIndex','add')">功能管理</a>
         <dl class="layui-nav-child">
-          <dd><a href="javascript:;" onclick="">添加功能</a></dd>
+          <dd><a href="javascript:;" onclick="tz('<%=basePath%>htgl/editXt_gnb','add')">添加功能</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item"><a href="">用户管理</a></li>
+      <li class="layui-nav-item"><a href="####">用户管理</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <c:if test="${xtgnList.get('childrenList') != null}">
             <dl class="layui-nav-child">
               <c:forEach items="${xtgnList.get('childrenList')}" var="childrenList">
-                <dd><a href="javascript:;" onclick="tz('${childrenList.get('ljdz')}')">${childrenList.get('gnmc')}</a></dd>
+                <dd><a href="javascript:;" onclick="tz('${childrenList.get('ljdz')}','url')">${childrenList.get('gnmc')}</a></dd>
               </c:forEach>
             </dl>
           </c:if>
@@ -66,8 +66,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <div class="layui-body">
     <!-- 内容主体区域 -->
-    <div style="padding: 15px;">
-    	<iframe id="if_content" name="if_content" width="100%" onload="this.height=if_content.document.body.scrollHeight" frameborder="0" src="/msg.jsp"></iframe>
+    <div style="padding: 10px;">
+    	<iframe id="ztnr" name="ztnr" width="100%" onload="this.height=ztnr.document.body.scrollHeight" frameborder="0" marginwidth="0" marginheight="0"
+                src="<%=basePath%>view/htgl/welcome.html">
+
+        </iframe>
     </div>
   </div>
   
@@ -77,45 +80,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
 </div>
 <script type="text/javascript" src="<%=path%>/js/jquery-3.2.1.js" ></script>
-<script src="<%=path%>/layui/layui.js"></script>
+<script src="<%=path%>/layui/layui.js" type="text/javascript"></script>
 <script type="text/javascript" src="<%=path%>/layer/layer.js" ></script>
-<script>
+<script type="text/javascript">
 //JavaScript代码区域
     layui.use('element', function(){
       var element = layui.element;
 
     });
     //跳转页面
-    function tz(tzdz){
-        $("#ztnr").attr("src",tzdz);
+    function tz(tzdz,type){
+        ztnr = $("#ztnr");
+        ztnr.attr("height","97%");
+        if(type==="url"){
+            url = "<%=basePath%>view/"+tzdz;
+        }else{
+            url = tzdz;
+        }
+        ztnr.attr("src",url);
     }
 
     //退出登陆
     function tcdl() {
         if(confirm("确认退出登陆？")){
-            location.href = "/exit";
+            location.href = "exit";
         }
-//        layer.msg("退出登录！");
-        /*layer.open({
-            type: 1,
-            title: false, //不显示标题栏
-            closeBtn: false,
-            area: '300px;',
-            shade: 0.8,
-            id: 'exitHtgl', //设定一个id，防止重复弹出
-            resize: false,
-            btn: ['确认', '取消'],
-            btnAlign: 'c',
-            moveType: 1, //拖拽模式，0或者1
-            content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">内容<br>内容</div>',
-            success: function(layero){
-                var btn = layero.find('.layui-layer-btn');
-                btn.find('.layui-layer-btn0').attr({
-                    href: 'http://www.layui.com/'
-                    ,target: '_blank'
-                });
-            }
-        });*/
     }
 </script>
 </body>

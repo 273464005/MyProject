@@ -12,27 +12,6 @@
     <result column="zt" jdbcType="INTEGER" property="zt" />
   </resultMap>
 
-  <!--<resultMap id="QueryForList" type="org.com.lyz.base.model.po.XT_GNB">-->
-    <!--<id column="id" jdbcType="VARCHAR" property="id" />-->
-    <!--<result column="gnmc" jdbcType="VARCHAR" property="gnmc" />-->
-    <!--<result column="dyqx" jdbcType="INTEGER" property="dyqx" />-->
-    <!--<result column="fid" jdbcType="VARCHAR" property="fid" />-->
-    <!--<result column="ljdz" jdbcType="VARCHAR" property="ljdz" />-->
-    <!--<result column="gnlb" jdbcType="INTEGER" property="gnlb" />-->
-    <!--<result column="sxh" jdbcType="INTEGER" property="sxh" />-->
-    <!--<result column="zt" jdbcType="INTEGER" property="zt" />-->
-    <!--<collection property="childrenGn" javaType="java.util.List" ofType="org.com.lyz.base.model.po.XT_GNB">-->
-      <!--<id column="cid" jdbcType="VARCHAR" property="id" />-->
-      <!--<result column="cgnmc" jdbcType="VARCHAR" property="gnmc" />-->
-      <!--<result column="cdyqx" jdbcType="INTEGER" property="dyqx" />-->
-      <!--<result column="cfid" jdbcType="VARCHAR" property="fid" />-->
-      <!--<result column="cljdz" jdbcType="VARCHAR" property="ljdz" />-->
-      <!--<result column="cgnlb" jdbcType="INTEGER" property="gnlb" />-->
-      <!--<result column="csxh" jdbcType="INTEGER" property="sxh" />-->
-      <!--<result column="czt" jdbcType="INTEGER" property="zt" />-->
-    <!--</collection>-->
-  <!--</resultMap>-->
-
   <sql id="Base_Column_List">
     id, gnmc, dyqx, fid, ljdz, gnlb, sxh, zt
   </sql>
@@ -149,17 +128,27 @@
   </update>
 
   <!-- 自定义SQL -->
+  <!-- 查询当前权限下的所有顶级功能 -->
   <select id="selectByPrimaryKeyIsNull" parameterType="java.lang.Integer" resultType="java.util.HashMap">
     select * from xt_gnb
     where fid is NULL
     and dyqx<![CDATA[ >= ]]> #{dyqx,jdbcType=INTEGER}
     ORDER BY sxh
   </select>
+  <!-- 根据FID查询功能 -->
   <select id="selectByFid" parameterType="org.com.lyz.base.model.po.XT_GNB" resultType="java.util.HashMap">
     select * from xt_gnb
     where fid = #{fid,jdbcType=VARCHAR}
     and dyqx <![CDATA[ >= ]]> #{dyqx,jdbcType=INTEGER}
     ORDER BY sxh
+  </select>
+  <!-- 根据FID查询最大顺序号 -->
+  <select id="selectMaxSxhByFid" parameterType="org.com.lyz.base.model.po.XT_GNB" resultType="java.util.HashMap">
+    select MAX(sxh) maxsxh from xt_gnb where fid = #{fid,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询FID为空的最大顺序号 -->
+  <select id="selectMaxSxhByFidIsNull" parameterType="org.com.lyz.base.model.po.XT_GNB" resultType="java.util.HashMap">
+    select MAX(sxh) maxsxh from xt_gnb where fid is NULL
   </select>
 
 </mapper>

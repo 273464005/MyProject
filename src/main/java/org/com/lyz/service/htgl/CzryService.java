@@ -1,11 +1,11 @@
-package org.com.lyz.service.htglservice;
+package org.com.lyz.service.htgl;
 
 import org.com.lyz.base.model.po.GG_CZRY;
 
 import java.sql.SQLException;
 
 /**
- * Created by Administrator on 2018/5/17.
+ * 操作人员接口
  */
 public interface CzryService {
 

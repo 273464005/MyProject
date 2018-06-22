@@ -4,7 +4,7 @@ function prompt(data){
             type: 1
             ,offset: 'auto'
             ,id: 'layerDemo'+'auto' //防止重复弹出
-            ,content: '<div style="padding: 20px 100px;"><i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: #4cae4c;"></i>' + data.text +'</div>'
+            ,content: '<div><i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: #4cae4c;"></i>' + data.text +'</div>'
             ,time:3000
             ,btn: '确定'
             ,btnAlign: 'r'
@@ -23,7 +23,7 @@ function prompt(data){
             type: 1
             ,offset: 'auto'
             ,id: 'layerDemo'+'auto' //防止重复弹出
-            ,content: '<div style="padding: 20px 100px;"><i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #c9302c;"></i>' + data.text +'</div>'
+            ,content: '<div><i class="layui-icon layui-icon-face-cry" style="font-size: 30px; color: #c9302c;"></i>' + data.text +'</div>'
             ,btn: '确定'
             ,btnAlign: 'r'
             ,shade: 0 //不显示遮罩
