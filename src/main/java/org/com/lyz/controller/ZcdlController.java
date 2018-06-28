@@ -136,9 +136,9 @@ public class ZcdlController {
      */
     @RequestMapping("/exit")
     public String extiAction(HttpSession session){
-        GG_CZRY czry = (GG_CZRY)session.getAttribute("user");
-        logger.info("用户["+czry.getMc()+"]登录号["+czry.getDlh()+"]退出登陆");
         try {
+            GG_CZRY czry = (GG_CZRY)session.getAttribute("user");
+            logger.info("用户["+czry.getMc()+"]登录号["+czry.getDlh()+"]退出登陆");
             session.removeAttribute("user");
             session.removeAttribute("xtgnList");
         } catch (Exception e){

@@ -66,6 +66,9 @@
                         $.ajax({
                             method:'post'
                             , url:'<%=basePath%>/htgl/czry/deleteGg_czry'
+                            ,beforeSend: function () {
+                                processIndex = layer.load();
+                            }
                             , data:{
                                 id:data.id
                                 ,zt:data.zt
@@ -73,8 +76,12 @@
                             }
                             , success:function (data) {
                                 popupOk(data,function () {
+                                    layer.close(processIndex);
                                     table.reload('czryTable');
                                 });
+                            }
+                            , error:function (data) {
+                                layer.close(processIndex);
                             }
                         });
                         layer.close(index);
@@ -91,6 +98,9 @@
                         $.ajax({
                             method:'post'
                             , url:'<%=basePath%>/htgl/czry/editGg_czry_zt'
+                            ,beforeSend: function () {
+                                processIndex = layer.load();
+                            }
                             , data:{
                                 id:data.id
                                 ,zt:data.zt
@@ -98,8 +108,12 @@
                             }
                             , success:function (data) {
                                 popupOk(data,function () {
+                                    layer.close(processIndex);
                                     table.reload('czryTable');
                                 });
+                            }
+                            , error:function (data) {
+                                layer.close(processIndex);
                             }
                         });
                         layer.close(index);
@@ -111,7 +125,6 @@
             var $ = layui.$, active = {
                 reload: function(){
                     var mc = $('#mc');
-
                     //执行重载
                     table.reload('czryTable', {
                         page: {
