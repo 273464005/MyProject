@@ -25,7 +25,16 @@ public interface XT_GNBDao{
      * @param dyqx
      * @return
      */
-    List<Map<String, Object>> selectByPrimaryKeyIsNull(@Param("dyqx") Integer dyqx) throws SQLException;
+    List<Map<String, Object>> selectByPrimaryKeyIsNull(@Param("dyqx") Integer dyqx, @Param("zt") Integer zt) throws SQLException;
+
+    /**
+     * 查询所有fid不为null的功能
+     * @param dyqx
+     * @param zt
+     * @return
+     * @throws SQLException
+     */
+    List<Map<String, Object>> selectByFidIsNotNull(@Param("dyqx") Integer dyqx, @Param("zt") Integer zt) throws SQLException;
 
     /**
      * 根据fid和权限查询子功能
@@ -33,7 +42,7 @@ public interface XT_GNBDao{
      * @param dyqx
      * @return
      */
-    List<Map<String, Object>> selectByFid(@Param("fid") String fid,@Param("dyqx") Integer dyqx) throws SQLException;
+    List<Map<String, Object>> selectByFid(@Param("fid") String fid,@Param("dyqx") Integer dyqx, @Param("zt") Integer zt) throws SQLException;
 
     /**
      * 根据FID获取最大顺序号

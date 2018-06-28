@@ -110,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 </div>
 
-<script type="text/javascript" src="js/prompt.js"></script>
+<script type="text/javascript" src="js/information.js"></script>
 <script type="text/javascript">
 
 	function yyzh() {
@@ -155,7 +155,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 //                    ,content: '<div style="padding: 20px 100px;">'+ data.text +'</div>'
 //					,time:3000
 //                });
-				prompt(data,function(){
+                popupOk(data,function(){
 //                    window.location = "login.jsp";
 				})
 			}

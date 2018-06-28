@@ -22,12 +22,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item">
-        <a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgnIndex','add')">功能管理</a>
+        <a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/xtgnIndex')">功能管理</a>
         <dl class="layui-nav-child">
-          <dd><a href="javascript:;" onclick="tz('<%=basePath%>htgl/editXt_gnb','add')">添加功能</a></dd>
+          <dd><a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/editXt_gnb')">添加功能</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item"><a href="####">用户管理</a></li>
+      <li class="layui-nav-item"><a href="####" onclick="tz('<%=basePath%>htgl/czry')">用户管理</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <c:if test="${xtgnList.get('childrenList') != null}">
             <dl class="layui-nav-child">
               <c:forEach items="${xtgnList.get('childrenList')}" var="childrenList">
-                <dd><a href="javascript:;" onclick="tz('${childrenList.get('ljdz')}','url')">${childrenList.get('gnmc')}</a></dd>
+                <dd><a href="javascript:;" onclick="tz('<%=basePath%>${childrenList.get('ljdz')}')">${childrenList.get('gnmc')}</a></dd>
               </c:forEach>
             </dl>
           </c:if>
@@ -89,15 +89,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     });
     //跳转页面
-    function tz(tzdz,type){
+    function tz(tzdz){
         ztnr = $("#ztnr");
         ztnr.attr("height","97%");
-        if(type==="url"){
-            url = "<%=basePath%>view/"+tzdz;
-        }else{
-            url = tzdz;
-        }
-        ztnr.attr("src",url);
+        ztnr.attr("src",tzdz);
     }
 
     //退出登陆

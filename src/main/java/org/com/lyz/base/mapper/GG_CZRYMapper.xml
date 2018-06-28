@@ -171,5 +171,15 @@
     select  <include refid="Base_Column_List" /> from gg_czry
     where dlh = #{dlh,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectAllLimit" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    select <include refid="Base_Column_List" /> from gg_czry
+    <where>
+      <if test="mc != null and mc != ''">
+        mc LIKE #{mc,jdbcType=VARCHAR}
+      </if>
+    </where>
+    limit #{pageMin,jdbcType=INTEGER},#{pageMax,jdbcType=INTEGER}
+  </select>
 
 </mapper>

@@ -133,6 +133,15 @@
     select * from xt_gnb
     where fid is NULL
     and dyqx<![CDATA[ >= ]]> #{dyqx,jdbcType=INTEGER}
+    and zt = #{zt,jdbcType=INTEGER}
+    ORDER BY sxh
+  </select>
+  <!--  查询所有FID不为空的功能 -->
+  <select id="selectByFidIsNotNull" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    select * from xt_gnb
+    where fid is NOT NULL
+    and dyqx<![CDATA[ >= ]]> #{dyqx,jdbcType=INTEGER}
+    and zt = #{zt,jdbcType=INTEGER}
     ORDER BY sxh
   </select>
   <!-- 根据FID查询功能 -->
@@ -140,6 +149,7 @@
     select * from xt_gnb
     where fid = #{fid,jdbcType=VARCHAR}
     and dyqx <![CDATA[ >= ]]> #{dyqx,jdbcType=INTEGER}
+    and zt = #{zt,jdbcType=INTEGER}
     ORDER BY sxh
   </select>
   <!-- 根据FID查询最大顺序号 -->

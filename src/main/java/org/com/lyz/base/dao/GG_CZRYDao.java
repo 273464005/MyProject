@@ -1,8 +1,11 @@
 package org.com.lyz.base.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.com.lyz.base.model.po.GG_CZRY;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public interface GG_CZRYDao{
     int deleteByPrimaryKey(String id) throws SQLException;
@@ -30,4 +33,13 @@ public interface GG_CZRYDao{
      * @return
      */
     GG_CZRY selectByDlh(String dlh) throws SQLException;
+
+    /**
+     * 分页查询所有用户
+     * @param pageMin 开始条数
+     * @param pageMax 分页大小
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    List<Map<String,Object>> selectAllLimit(@Param("mc") String mc,@Param("pageMin") Integer pageMin,@Param("pageMax") Integer pageMax) throws SQLException;
 }

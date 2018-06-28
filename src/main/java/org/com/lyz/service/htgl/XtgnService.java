@@ -12,11 +12,11 @@ import java.util.Map;
 public interface XtgnService {
    /**
     * 根据权限查询当前功能
-    * @param dyqx 权限
+    * @param xt_gnb 功能信息
     * @return 查询结果
     * @throws SQLException 异常信息
     */
-   List<Map<String,Object>> getXtgnList(Integer dyqx) throws SQLException;
+   List<Map<String,Object>> getXtgnList(XT_GNB xt_gnb) throws SQLException;
 
    /**
     * 根据id查询功能
@@ -56,10 +56,18 @@ public interface XtgnService {
 
    /**
     * 根据权限获取所有的FID为null的功能
-    * @param dyqx 对应权限
+    * @param xt_gnb 功能信息
     * @return 查询结果
     */
-   List<Map<String,Object>> getFatherGnbList(Integer dyqx) throws SQLException;
+   List<Map<String,Object>> getFatherGnbList(XT_GNB xt_gnb) throws SQLException;
+
+   /**
+    * 根据权限获取所有的FID不为null的功能
+    * @param xt_gnb 功能信息
+    * @return 查询结果
+    * @throws SQLException 异常信息
+    */
+   List<Map<String,Object>> getAllChildrenGnbList(XT_GNB xt_gnb) throws SQLException;
 
    /**
     * 获取当前父ID下面的所有子功能
@@ -67,5 +75,5 @@ public interface XtgnService {
     * @param dyqx 对应权限
     * @return 查询结果
     */
-   List<Map<String, Object>> getChildrenGbnList(String fid,Integer dyqx) throws SQLException;
+   List<Map<String, Object>> getChildrenGbnList(XT_GNB xt_gnb) throws SQLException;
 }

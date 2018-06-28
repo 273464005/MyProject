@@ -18,6 +18,10 @@
 </fieldset>
 <div>
     <form class="layui-form" action="" method="post" id="formId">
+        <div hidden="hidden">
+            <input name="id" value="${xt_gnb.id}">
+            <input name="sxh" value="${xt_gnb.sxh}">
+        </div>
         <div class="layui-form-item">
             <label class="layui-form-label">功能名称</label>
             <div class="layui-input-inline">
@@ -53,7 +57,12 @@
                 <select name="fid">
                     <option value="">默认（默认为父级功能）</option>
                     <c:forEach items="${xt_gnbList}" var="gns">
-                        <option value="${gns.id}">${gns.gnmc}</option>
+                        <c:if test="${xt_gnb.fid == gns.id}">
+                            <option value="${gns.id}" id="${gns.id}" selected>${gns.gnmc}</option>
+                        </c:if>
+                        <c:if test="${xt_gnb.fid != gns.id}">
+                            <option value="${gns.id}" id="${gns.id}">${gns.gnmc}</option>
+                        </c:if>
                     </c:forEach>
                 </select>
             </div>
@@ -64,7 +73,12 @@
             <div class="layui-input-inline">
                 <select name="dyqx">
                     <c:forEach items="${qxList}" var="qxs">
-                        <option value="${qxs.key}">${qxs.value}</option>
+                        <c:if test="${xt_gnb.dyqx == qxs.key}">
+                            <option value="${qxs.key}" id="${qxs.key}" selected>${qxs.value}</option>
+                        </c:if>
+                        <c:if test="${xt_gnb.dyqx != qxs.key}">
+                            <option value="${qxs.key}" id="${qxs.key}">${qxs.value}</option>
+                        </c:if>
                     </c:forEach>
                 </select>
             </div>
@@ -72,12 +86,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label">禁用/启用</label>
             <div class="layui-input-block">
-                <input type="checkbox"  name="zt" lay-skin="switch" value="1" lay-filter="switchTest" lay-text="禁用|启用">
+                <c:if test="${xt_gnb.zt == gnjy}">
+                    <input type="checkbox" checked  name="zt" lay-skin="switch" value="1" lay-filter="switchTest" lay-text="禁用|启用">
+                </c:if>
+                <c:if test="${xt_gnb.zt != gnjy}">
+                    <input type="checkbox"  name="zt" lay-skin="switch" value="1" lay-filter="switchTest" lay-text="禁用|启用">
+                </c:if>
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">确认添加</button>
+                <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
@@ -85,11 +104,12 @@
 </div>
 <script type="text/javascript" src="<%=basePath%>js/jquery-3.2.1.js" ></script>
 <script type="text/javascript" src="<%=basePath%>layui/layui.all.js" ></script>
-<script type="text/javascript" src="<%=basePath%>js/prompt.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/information.js"></script>
 <script type="text/javascript" src="<%=basePath%>layer/layer.js" ></script>
 <script type="text/javascript">
     layui.use('form', function () {
-        var form = layui.form;
+        var form = layui.form
+            , $ = layui.jquery;
         form.on('radio', function (data) {
             if(data.value==="1") {
                 $("input[name=ljdz]").removeAttr("lay-verify");
@@ -102,7 +122,7 @@
         });
         form.on('submit(formDemo)',function (data) {
             $.ajax({
-                url:"<%=basePath%>htgl/saveXt_gnb",
+                url:"<%=basePath%>htgl/xtgn/saveXt_gnb",
                 method:"post",
                 data:$("#formId").serialize(),
                 beforeSend:function () {
@@ -110,7 +130,7 @@
                 },
                 success:function (data) {
                     layer.close(index);
-                    prompt(data,function () {
+                    popupOk(data,function () {
                         window.location.reload();
                     })
                 },
@@ -120,9 +140,7 @@
             });
             return false;
         });
-
     });
-
 </script>
 </body>
 </html>

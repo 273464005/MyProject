@@ -30,6 +30,7 @@
         <script src="<%=path%>/assets/js/scripts.js"></script>
         <!-- layer JS -->
         <script src="<%=path%>/layer/layer.js"></script>
+        <script type="text/javascript" src="<%=basePath%>js/information.js"></script>
 
     </head>
 
@@ -124,6 +125,9 @@
                     data: $("#"+fromid).serialize(),
                     success: function (data) {
                         if(data.state != 1){
+                            popupOk(data, function () {
+
+                            });
                             $("span[name=msg]").css("color", "#FC4343");
                             $("span[name=msg]").text(data.text);
                             $("input[name=mm]").val("");

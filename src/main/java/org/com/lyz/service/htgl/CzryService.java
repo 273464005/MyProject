@@ -1,8 +1,11 @@
 package org.com.lyz.service.htgl;
 
 import org.com.lyz.base.model.po.GG_CZRY;
+import org.com.lyz.util.pageutil.SplitPageInfo;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 操作人员接口
@@ -28,4 +31,12 @@ public interface CzryService {
      * @return
      */
     GG_CZRY getCzryByDlh(String dlh)throws SQLException;
+
+    /**
+     * 分页查询所有操作人员
+     * @param splitPageInfo 分页信息
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    List<Map<String,Object>> getAllCzryLimit(String mc,SplitPageInfo splitPageInfo) throws SQLException;
 }

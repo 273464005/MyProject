@@ -29,16 +29,16 @@ public class XtgnServiceImpl implements XtgnService{
 
     /**
      * 根据权限获取功能列表
-     * @param dyqx 权限
+     * @param xt_gnb 功能信息
      * @return 查询结果
      * @throws SQLException 异常信息
      */
-    public List<Map<String, Object>> getXtgnList(Integer dyqx) throws SQLException {
+    public List<Map<String, Object>> getXtgnList(XT_GNB xt_gnb) throws SQLException {
         List<Map<String,Object>> xtgnList = new ArrayList<Map<String,Object>>();
-        List<Map<String, Object>> fatherList = xtgnDao.selectByPrimaryKeyIsNull(dyqx);
+        List<Map<String, Object>> fatherList = xtgnDao.selectByPrimaryKeyIsNull(xt_gnb.getDyqx(),xt_gnb.getZt());
         logger.info("获取功能列表，共"+fatherList.size()+"条");
         for (Map<String, Object> fMap : fatherList) {
-            List<Map<String, Object>> childrenList = xtgnDao.selectByFid(ConvertUtils.createString(fMap.get("id")),dyqx);
+            List<Map<String, Object>> childrenList = xtgnDao.selectByFid(ConvertUtils.createString(fMap.get("id")),xt_gnb.getDyqx(),xt_gnb.getZt());
             logger.info("获取子功能列表，共"+childrenList.size()+"条");
             fMap.put("childrenList",childrenList);
             xtgnList.add(fMap);
@@ -87,6 +87,7 @@ public class XtgnServiceImpl implements XtgnService{
             xt_gnb.setId(StringUtils.getUUID());
             xtgnDao.insertSelective(xt_gnb);
         }
+        logger.info("----保存成功----");
     }
 
     /**
@@ -96,26 +97,36 @@ public class XtgnServiceImpl implements XtgnService{
      */
     public void insertXt_gnb(XT_GNB xt_gnb) throws SQLException {
         xtgnDao.insertSelective(xt_gnb);
+        logger.info("----添加成功----");
     }
 
     /**
-     * 获取所有的顶级功能
-     * @param dyqx 对应权限
+     * 获取该状态下所有的顶级功能
+     * @param xt_gnb 功能信息
      * @return 查询结果
      * @throws SQLException 异常信息
      */
-    public List<Map<String, Object>> getFatherGnbList(Integer dyqx) throws SQLException{
-        return xtgnDao.selectByPrimaryKeyIsNull(dyqx);
+    public List<Map<String, Object>> getFatherGnbList(XT_GNB xt_gnb) throws SQLException{
+        return xtgnDao.selectByPrimaryKeyIsNull(xt_gnb.getDyqx(),xt_gnb.getZt());
+    }
+
+    /**
+     * 获取所有的子功能
+     * @param xt_gnb 功能信息
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    public List<Map<String, Object>> getAllChildrenGnbList(XT_GNB xt_gnb) throws SQLException {
+        return xtgnDao.selectByFidIsNotNull(xt_gnb.getDyqx(),xt_gnb.getZt());
     }
 
     /**
      * 查询当前功能下的所有子功能
-     * @param fid FID
-     * @param dyqx 对应权限
+     * @param xt_gnb 功能信息
      * @return 查询结果
      * @throws SQLException 异常信息
      */
-    public List<Map<String, Object>> getChildrenGbnList(String fid,Integer dyqx) throws SQLException{
-        return xtgnDao.selectByFid(fid,dyqx);
+    public List<Map<String, Object>> getChildrenGbnList(XT_GNB xt_gnb) throws SQLException{
+        return xtgnDao.selectByFid(xt_gnb.getFid(),xt_gnb.getDyqx(),xt_gnb.getZt());
     }
 }

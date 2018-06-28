@@ -2,6 +2,7 @@ package org.com.lyz.controller;
 
 import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
+import org.com.lyz.base.model.po.XT_GNB;
 import org.com.lyz.constant.Constant_htgl;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.XtgnService;
@@ -96,7 +97,10 @@ public class ZcdlController {
             } else {
                 //登陆用户添加session
                 session.setAttribute("user",gg_czry);
-                List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(gg_czry.getQx());
+                XT_GNB xt_gnb = new XT_GNB();
+                xt_gnb.setDyqx(gg_czry.getQx());
+                xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
+                List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
                 session.setAttribute("xtgnList", xtgnList);
                 logger.info("用户【"+gg_czry.getMc()+"】登陆系统");
                 return ReturnValue.newSuccessInstance("登陆成功！");
@@ -116,7 +120,10 @@ public class ZcdlController {
     public String htglMainHome(HttpSession session) throws SQLException{
         logger.info("========进入后台管理页面=======");
         GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
-        List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(gg_czry.getQx());
+        XT_GNB xt_gnb = new XT_GNB();
+        xt_gnb.setDyqx(gg_czry.getQx());
+        xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
+        List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
         session.setAttribute("xtgnList", xtgnList);
         return "htgl/htglMainHome";
     }
@@ -134,8 +141,9 @@ public class ZcdlController {
         try {
             session.removeAttribute("user");
             session.removeAttribute("xtgnList");
-        } catch (MisException e){
-            throw new MisException("发生未知异常");
+        } catch (Exception e){
+//            throw new MisException("发生未知异常");
+            return ControllerUtils.getStringRedirect("/login.jsp");
         }
         return ControllerUtils.getStringRedirect("/login.jsp");
     }
