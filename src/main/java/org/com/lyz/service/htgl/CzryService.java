@@ -12,11 +12,41 @@ import java.util.Map;
  */
 public interface CzryService {
 
-    boolean insert(GG_CZRY GG_CZRY)throws SQLException;
+    /**
+     * 添加
+     * @param GG_CZRY 人员信息
+     * @throws SQLException 异常信息
+     */
+    void insert(GG_CZRY GG_CZRY)throws SQLException;
 
-    boolean update(GG_CZRY GG_CZRY) throws SQLException;
+    /**
+     * 修改
+     * @param GG_CZRY 人员信息
+     * @throws SQLException 异常信息
+     */
+    void update(GG_CZRY GG_CZRY) throws SQLException;
 
-    boolean delete(String id)throws SQLException;
+    /**
+     * 删除
+     * @param id 人员id
+     * @throws SQLException 异常信息
+     */
+    void delete(String id)throws SQLException;
+
+    /**
+     * 保存
+     * @param gg_czry 人员信息
+     * @throws SQLException 异常信息
+     */
+    void save(GG_CZRY gg_czry) throws SQLException;
+
+    /**
+     * 查询
+     * @param id 人员id
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    GG_CZRY selectById(String id) throws SQLException;
 
     /**
      * 根据登录号，密码查询操作人员

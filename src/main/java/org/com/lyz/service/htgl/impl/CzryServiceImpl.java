@@ -17,6 +17,7 @@ import java.util.Map;
 
 /**
  * Created by Administrator on 2018/5/17.
+ * 人员services
  */
 @Service("czryService")
 public class CzryServiceImpl implements CzryService {
@@ -26,32 +27,91 @@ public class CzryServiceImpl implements CzryService {
     @Autowired
     private GG_CZRYDao czryDao;
 
-    public boolean insert(GG_CZRY gg_czry) throws SQLException {
+    /**
+     * 添加
+     * @param gg_czry 人员信息
+     * @throws SQLException 异常信息
+     */
+    public void insert(GG_CZRY gg_czry) throws SQLException {
         gg_czry.setId(StringUtils.getUUID());
         gg_czry.setQx(Constant_htgl.GG_CZRY_QX_GLY);//暂时注册全部为普通管理员
         gg_czry.setZt(Constant_htgl.GG_CZRY_ZT_ZC);//新注册用户状态全部为正常
         logger.info("----添加成功----");
-        return czryDao.insertSelective(gg_czry) > 0;
+        czryDao.insertSelective(gg_czry);
     }
 
-    public boolean update(GG_CZRY gg_czry) throws SQLException {
+    /**
+     * 修改
+     * @param gg_czry 人员信息
+     * @throws SQLException 异常信息
+     */
+    public void update(GG_CZRY gg_czry) throws SQLException {
         logger.info("----修改成功----");
-        return czryDao.updateByPrimaryKeySelective(gg_czry) > 0;
+        czryDao.updateByPrimaryKeySelective(gg_czry);
     }
 
-    public boolean delete(String id) throws SQLException {
+    /**
+     * 删除
+     * @param id 人员id
+     * @throws SQLException 异常信息
+     */
+    public void delete(String id) throws SQLException {
         logger.info("----删除成功----");
-        return czryDao.deleteByPrimaryKey(id) > 0;
+        czryDao.deleteByPrimaryKey(id);
     }
 
-    public GG_CZRY getCzryByDlhMm(String dlh,String mm) throws SQLException {
+    /**
+     * 保存
+     * @param gg_czry 人员信息
+     * @throws SQLException 异常信息
+     */
+    public void save(GG_CZRY gg_czry) throws SQLException {
+        if(gg_czry.getId() != null && !"".equals(gg_czry.getId())){
+            czryDao.updateByPrimaryKeySelective(gg_czry);
+        } else {
+            czryDao.insertSelective(gg_czry);
+        }
+        logger.info("----保存成功----");
+    }
+
+    /**
+     * 查询
+     * @param id 人员id
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    public GG_CZRY selectById(String id) throws SQLException {
+        return czryDao.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 根据登录号密码查询
+     * @param dlh 登录号
+     * @param mm 密码
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    public GG_CZRY getCzryByDlhMm(String dlh, String mm) throws SQLException {
         return czryDao.selectByDlhMm(dlh,mm);
     }
 
+    /**
+     * 根据登录号查询
+     * @param dlh 登录号
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
     public GG_CZRY getCzryByDlh(String dlh) throws SQLException {
         return czryDao.selectByDlh(dlh);
     }
 
+    /**
+     * 分页查询
+     * @param mc 人员名称
+     * @param splitPageInfo 分页信息
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
     public List<Map<String,Object>> getAllCzryLimit(String mc,SplitPageInfo splitPageInfo) throws SQLException {
         if(mc != null && !"".equals(mc)){
             mc = "%" + mc + "%";

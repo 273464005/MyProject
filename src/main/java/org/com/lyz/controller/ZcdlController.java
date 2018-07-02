@@ -65,9 +65,8 @@ public class ZcdlController {
             logger.info("注册失败！账号已被占用！");
             return ReturnValue.newErrorInstance("注册失败，该登录号已被注册！");
         }
-        if(CzryService.insert(gg_czry)){
-            logger.info("注册用户成功------------");
-        }
+        CzryService.insert(gg_czry);
+        logger.info("注册用户成功------------");
         return ReturnValue.newSuccessInstance("注册成功！欢迎使用本系统^_^");
     }
 

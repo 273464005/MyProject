@@ -36,8 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           ${user.mc}
         </a>
         <dl class="layui-nav-child">
-          <dd><a href="javascript:;" onclick="tz()">基本资料</a></dd>
-          <dd><a href="javascript:;" onclick="tz()">安全设置</a></dd>
+          <dd><a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry/editGg_czry?czryid=${user.id}')">基本资料</a></dd>
+          <dd><a href="javascript:;"  id="czmm">重置密码</a></dd>
         </dl>
       </li>
       <li class="layui-nav-item"><a href="javascript:;" onclick="tcdl()">退出</a></li>
@@ -81,11 +81,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <script type="text/javascript" src="<%=path%>/js/jquery-3.2.1.js" ></script>
 <script src="<%=path%>/layui/layui.js" type="text/javascript"></script>
-<script type="text/javascript" src="<%=path%>/layer/layer.js" ></script>
+<script type="text/javascript" src="<%=basePath%>layer/layer.js" ></script>
+<script type="text/javascript" src="<%=basePath%>js/information.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/sha1.js"></script>
 <script type="text/javascript">
 //JavaScript代码区域
-    layui.use('element', function(){
-      var element = layui.element;
+    layui.use(['element','layer'], function(){
+      var element = layui.element
+          ,layer = layui.layer;
+
+      $("#czmm").click(function () {
+          layer.prompt({title: '请输入密码', formType: 1}, function (yzmm, index1) {
+              $.ajax({
+                  method: 'post'
+                  , url: '<%=basePath%>htgl/czry/jymm'
+                  , data: {
+                      id:${user.id}
+                      , mm: SHA2(yzmm)
+                  }
+                  , success: function (returnValue) {
+                      popupOk(returnValue, function () {
+                          layer.close(index1);
+                          layer.prompt({title: '请输入修改后的密码', formType: 3}, function (mm, index2) {
+                              layer.close(index2);
+                              layer.prompt({title: '请再次输入密码', formType: 3}, function (qrmm, index3) {
+                                  if (mm === qrmm) {
+                                      layer.close(index3);
+                                      $.ajax({
+                                          method: 'post'
+                                          , url: '<%=basePath%>htgl/czry/updateMm'
+                                          , data: {
+                                              id:${user.id}
+                                              , mm: SHA2(mm)
+                                          }
+                                          , success: function (returnValue) {
+                                              popupOk(returnValue, function () {
+                                                  location.href = "<%=basePath%>zcdl/exit";
+                                              }, function () {
+
+                                              });
+                                          }
+                                          , error: function () {
+
+                                          }
+                                      })
+                                  } else {
+                                      layer.msg("两次密码不匹配！", {
+                                          icon: 5
+                                          , shade: 0
+                                          , anim: 6
+                                          , time: 2000
+                                      });
+                                  }
+                              });
+                          });
+                      }, function () {
+
+                      });
+
+                  }
+                  , error: function () {
+                      layer.close(index);
+                  }
+              });
+
+
+          });
+      })
+
 
     });
     //跳转页面
@@ -98,9 +161,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     //退出登陆
     function tcdl() {
         if(confirm("确认退出登陆？")){
-            location.href = "exit";
+            location.href = "<%=basePath%>zcdl/exit";
         }
     }
+
 </script>
 </body>
 </html>

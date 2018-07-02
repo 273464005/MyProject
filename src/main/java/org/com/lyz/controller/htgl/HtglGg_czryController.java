@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.constant.Constant_htgl;
 import org.com.lyz.service.htgl.CzryService;
+import org.com.lyz.util.ConvertUtils;
+import org.com.lyz.util.DateUtil;
 import org.com.lyz.util.pageutil.SplitPageInfo;
 import org.com.lyz.util.returnvalue.ReturnValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +70,13 @@ public class HtglGg_czryController {
         return returnMap;
     }
 
+    /**
+     * 修改操作人员状态
+     * @param request 请求信息
+     * @param gg_czry 操作人员信息
+     * @return 修改结果
+     * @throws SQLException 异常信息
+     */
     @RequestMapping("/editGg_czry_zt")
     @ResponseBody
     public ReturnValue editGg_czry_zt(HttpServletRequest request, GG_CZRY gg_czry) throws SQLException{
@@ -83,6 +93,13 @@ public class HtglGg_czryController {
         return ReturnValue.newSuccessInstance();
     }
 
+    /**
+     * 删除操作人员
+     * @param request 请求信息
+     * @param gg_czry 操作人员信息
+     * @return 删除结果
+     * @throws SQLException 异常信息
+     */
     @RequestMapping("/deleteGg_czry")
     @ResponseBody
     public ReturnValue deleteGg_czry(HttpServletRequest request, GG_CZRY gg_czry) throws SQLException {
@@ -91,5 +108,83 @@ public class HtglGg_czryController {
         }
         CzryService.delete(gg_czry.getId());
         return ReturnValue.newSuccessInstance();
+    }
+
+    /**
+     * 跳转修改信息页面
+     * @param request 请求信息
+     * @param czryid 人员id
+     * @param model 模型信息
+     * @return 跳转页面
+     * @throws SQLException 异常信息
+     */
+    @RequestMapping("/editGg_czry")
+    public String editGg_czry(HttpServletRequest request, String czryid, Model model) throws SQLException {
+        GG_CZRY gg_czry = CzryService.selectById(czryid);
+        List<Map<String, Object>> qxList = new ArrayList<Map<String, Object>>();
+        Map<String, Object> qxMap;
+        for (Map.Entry<Integer,String> entry:Constant_htgl.GG_CZRY_QXMap.entrySet()){
+            qxMap = new HashMap<String, Object>();
+            qxMap.put("key",entry.getKey());
+            qxMap.put("value", entry.getValue());
+            qxList.add(qxMap);
+        }
+        String csnyr = null;
+        if (gg_czry != null) {
+            csnyr = DateUtil.dateFormateStr(ConvertUtils.createString(gg_czry.getCsnyr()));
+        }
+        model.addAttribute("csnyr", csnyr);
+        model.addAttribute("gg_czry", gg_czry);
+        model.addAttribute("qxList", qxList);
+        return "htgl/gg_czry/htglEdit_Czry";
+    }
+
+    /**
+     * 保存修改信息
+     * @param request 请求信息
+     * @param gg_czry 人员信息
+     * @return 修改结果
+     * @throws SQLException 异常信息
+     */
+    @RequestMapping("/saveGg_czry")
+    @ResponseBody
+    public ReturnValue saveGg_czry(HttpServletRequest request, GG_CZRY gg_czry) throws SQLException {
+        GG_CZRY czry = CzryService.selectById(gg_czry.getId());
+        gg_czry.setMm(czry.getMm());
+        CzryService.save(gg_czry);
+        return ReturnValue.newSuccessInstance("保存成功！");
+    }
+
+    /**
+     * 校验密码
+     * @param request 请求信息
+     * @param gg_czry 人员信息
+     * @return 校验结果
+     * @throws SQLException 异常信息
+     */
+    @RequestMapping("/jymm")
+    @ResponseBody
+    public ReturnValue getJymm(HttpServletRequest request, GG_CZRY gg_czry) throws SQLException {
+        GG_CZRY czry = CzryService.selectById(gg_czry.getId());
+        if (gg_czry.getMm().equals(czry.getMm())) {
+            return ReturnValue.newSuccessInstance("验证通过！");
+        }
+        return ReturnValue.newErrorInstance("密码不匹配！");
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param request 请求信息
+     * @param gg_czry 人员信息
+     * @return 修改结果
+     */
+    @RequestMapping("/updateMm")
+    @ResponseBody
+    public ReturnValue updateMm(HttpServletRequest request, GG_CZRY gg_czry) throws SQLException {
+        GG_CZRY czry = CzryService.selectById(gg_czry.getId());
+        czry.setMm(gg_czry.getMm());
+        CzryService.update(czry);
+        return ReturnValue.newSuccessInstance("修改成功！请重新登录系统！");
     }
 }

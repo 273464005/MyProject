@@ -73,11 +73,11 @@ public class GG_CZRY extends BasePo<GG_CZRY>{
         this.xb = xb;
     }
 
-    public Integer getNl() {
+    public Integer getCsnyr() {
         return csnyr;
     }
 
-    public void setNl(Integer csnyr) {
+    public void setCsnyr(Integer csnyr) {
         this.csnyr = csnyr;
     }
 
