@@ -8,6 +8,7 @@ import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.ControllerUtils;
 import org.com.lyz.util.MisException;
+import org.com.lyz.util.Pinyin4jUtil;
 import org.com.lyz.util.encryptionutil.SHAEncryptionUtil;
 import org.com.lyz.util.returnvalue.ReturnValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +42,6 @@ public class ZcdlController {
     @Autowired
     @Qualifier("czryService")
     private CzryService CzryService;
-
-
 
     /**
      * 注册用户
@@ -70,6 +71,15 @@ public class ZcdlController {
         return ReturnValue.newSuccessInstance("注册成功！欢迎使用本系统^_^");
     }
 
+    @RequestMapping("/getHypy")
+    @ResponseBody
+    public Map<String,Object> getHypy(HttpServletRequest request,String mc){
+        Map<String, Object> returnMap = new HashMap<String, Object>();
+        String dlh = Pinyin4jUtil.getHypy(mc);
+        returnMap.put("dlh", dlh);
+        return returnMap;
+    }
+
 
     /**
      * 登陆校验
@@ -91,8 +101,8 @@ public class ZcdlController {
             return ReturnValue.newErrorInstance("该账号已被禁止登陆！请联系管理员!");
         }
         try {
-            String mm = SHAEncryptionUtil.SHAEncryption(czry.getMm());
-            if (!gg_czry.getMm().equals(mm)) {
+            //已经经过前台加密
+            if (!gg_czry.getMm().equals(czry.getMm())) {
                 return ReturnValue.newErrorInstance("密码不正确！");
             } else {
                 //登陆用户添加session

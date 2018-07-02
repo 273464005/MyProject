@@ -364,8 +364,7 @@ public class DateUtil {
         String strYear = String.valueOf(cldCurrent.get(Calendar.YEAR));
         String strMonth = String.valueOf(cldCurrent.get(Calendar.MONTH) + 1);
         String strDate = String.valueOf(cldCurrent.get(Calendar.DATE));
-        String srtHours = String.valueOf(cldCurrent.get(Calendar.HOUR_OF_DAY));
-        String strMinute = String.valueOf(cldCurrent.get(Calendar.MINUTE));
+
         // 整理格式
         if (strMonth.length() < 2) {
             strMonth = "0" + strMonth;
@@ -373,17 +372,11 @@ public class DateUtil {
         if (strDate.length() < 2) {
             strDate = "0" + strDate;
         }
-        if (srtHours.length() < 2) {
-            srtHours = "0" + srtHours;
-        }
-        if (strMinute.length() < 2) {
-            strMinute = "0" + strMinute;
-        }
+
         return Long.valueOf(strYear + strMonth + strDate);
     }
 
     /**
-     * 作者：程伟平 创建时间：Feb 29, 2008
      * <p/>
      * <p/>
      * 获得系统当前时间。
@@ -395,7 +388,6 @@ public class DateUtil {
     }
 
     /**
-     * 作者：程伟平 创建时间：Feb 26, 2008
      * <p/>
      * <p/>
      * 获得相对于系统当前时间的前（后）month个月、前（后）date个日的时间。
@@ -440,7 +432,6 @@ public class DateUtil {
     }
 
     /**
-     * 作者：程伟平 创建时间：Nov 8, 2008
      * <p/>
      * <p/>
      * 获取当前年的第一天
@@ -714,8 +705,6 @@ public class DateUtil {
      * @param days
      *            天数
      * @return long <BR>
-     *         作者：杨凯<BR>
-     *         时间：Jun 17, 2008 <br>
      */
     public static long getTimeSubtractOfDay(long time, int days) {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
@@ -760,8 +749,6 @@ public class DateUtil {
      * @param number
      *            正数为以后时间 负数为之前时间 type 1 年 2 月 3 日 ws 返回的长度
      * @return long <BR>
-     *         作者：陈伟<BR>
-     *         时间：Jun 17, 2008 <br>
      */
     public static long getDateToNow(int number, int type, int ws) {
         Long resultLong = null;
@@ -785,7 +772,6 @@ public class DateUtil {
     /**
      * @param date
      * @return String
-     * @author 张苹苹
      * @date 2009-1-4
      * @discription : 20090104165030时间格式转换成16时50分30秒的格式
      */
@@ -861,7 +847,7 @@ public class DateUtil {
     }
 
     /**
-     * 获取指定日期date的星期dayOfWeek Author 张华 Aug 3, 2009
+     * 获取指定日期date的星期dayOfWeek
      * 
      * @param date
      *            日期如:20090803
@@ -886,7 +872,7 @@ public class DateUtil {
     }
 
     /**
-     * 获得当前周的“星期几” Author 张华 Jul 2, 2009
+     * 获得当前周的“星期几”
      * 
      * @param dayOfWeek
      *            周几(从2开始),请使用常量(如：Calendar.MONDAY)
@@ -901,8 +887,7 @@ public class DateUtil {
     }
 
     /**
-     * 计算此日期是一周中的第几天 Author 张华 Jul 30, 2009
-     * 
+     * 计算此日期是一周中的第几天
      * @param date
      *            长整型日期(如:20090730)
      * @return
@@ -913,7 +898,7 @@ public class DateUtil {
     }
 
     /**
-     * 计算月份的加减 Author 张华 Aug 3, 2009
+     * 计算月份的加减
      * 
      * @param date
      *            起始日期(如:20090801)
@@ -991,7 +976,7 @@ public class DateUtil {
     }
 
     /**
-     * 计算日期差值（2天前 2小时前 刚刚） Author 刘明瑞 Dec 22, 2015
+     * 计算日期差值（2天前 2小时前 刚刚）
      * 
      * @param startTime
      * @param endTime
@@ -1027,9 +1012,6 @@ public class DateUtil {
 
     /**
      * 开始时间和结束时间之间的天数
-     * 
-     * @作者： 张昆
-     * @创建日期：2016年1月26日
      * @参数: startDate 开始时间
      * @参数: endDate 结束时间
      * @返回值: list
@@ -1052,9 +1034,7 @@ public class DateUtil {
 
     /**
      * 计算消息通知时间已发生多久
-     * 
-     * @作者： 刘明磊
-     * @创建日期：2016年1月26日
+     *
      * @参数: tzsj 消息通知时间
      * @返回值: String
      * @修改记录（修改时间、作者、原因）：
@@ -1089,9 +1069,7 @@ public class DateUtil {
 
     /**
      * 计算消息通知时间还有多久到来
-     * 
-     * @作者： 刘明磊
-     * @创建日期：2016年1月26日
+     *
      * @参数: tzsj 消息通知时间
      * @返回值: String
      * @修改记录（修改时间、作者、原因）：
@@ -1137,9 +1115,7 @@ public class DateUtil {
 
     /**
      * 获取当天所在周的开始及结束时间
-     * 
-     * @作者: 武广飞
-     * @创建日期： 2016年7月7日
+     *
      * 
      * @参数：
      * @返回值： long
@@ -1192,9 +1168,6 @@ public class DateUtil {
     /**
      * 格式化8位格式日期为Date对象
      *
-     * @作者: 刘明磊
-     * @创建日期： 2016年11月9日
-     *
      * @参数： dateTime 日期
      * @返回值： Date
      *
@@ -1213,8 +1186,6 @@ public class DateUtil {
     /**
      * 格式化12位格式日期为Date对象
      *
-     * @作者: 刘明磊
-     * @创建日期： 2016年11月9日
      *
      * @参数： dateTime 日期
      * @返回值： Date
@@ -1234,8 +1205,6 @@ public class DateUtil {
     /**
      * 格式化14位格式日期为Date对象
      *
-     * @作者: 刘明磊
-     * @创建日期： 2016年11月9日
      *
      * @参数： dateTime 日期
      * @返回值： Date

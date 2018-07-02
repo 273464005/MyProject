@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>后台管理</title>
+  <title>信息管理平台</title>
   <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css">
   <link rel="stylesheet" href="<%=basePath%>layer/mobile/need/layer.css">
 
@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo"><a href="####" onclick="window.location.reload()"><span style="color:#ffffff">LOGO位置</span></a></div>
+    <div class="layui-logo"><a href="javascript:;" onclick="window.location.reload()"><span style="color:#ffffff">LOGO位置</span></a></div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item">
@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <dd><a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/editXt_gnb')">添加功能</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item"><a href="####" onclick="tz('<%=basePath%>htgl/czry')">用户管理</a></li>
+      <li class="layui-nav-item"><a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry')">用户管理</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
@@ -36,8 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           ${user.mc}
         </a>
         <dl class="layui-nav-child">
-          <dd><a href="">基本资料</a></dd>
-          <dd><a href="">安全设置</a></dd>
+          <dd><a href="javascript:;" onclick="tz()">基本资料</a></dd>
+          <dd><a href="javascript:;" onclick="tz()">安全设置</a></dd>
         </dl>
       </li>
       <li class="layui-nav-item"><a href="javascript:;" onclick="tcdl()">退出</a></li>

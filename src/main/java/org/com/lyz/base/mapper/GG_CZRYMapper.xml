@@ -8,14 +8,14 @@
     <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="xb" jdbcType="INTEGER" property="xb" />
-    <result column="nl" jdbcType="INTEGER" property="nl" />
+    <result column="csnyr" jdbcType="INTEGER" property="csnyr" />
     <result column="sjh" jdbcType="VARCHAR" property="sjh" />
     <result column="dlh" jdbcType="VARCHAR" property="dlh" />
     <result column="qx" jdbcType="INTEGER" property="qx" />
     <result column="zt" jdbcType="INTEGER" property="zt" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, mc, mm, sfzh, email, xb, nl, sjh, dlh, qx, zt
+    id, mc, mm, sfzh, email, xb, csnyr, sjh, dlh, qx, zt
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -29,10 +29,10 @@
   </delete>
   <insert id="insert" parameterType="org.com.lyz.base.model.po.GG_CZRY">
     insert into gg_czry (id, mc, mm, sfzh, email,
-    xb, nl, sjh, dlh, qx,
+    xb, csnyr, sjh, dlh, qx,
       zt)
     values (#{id,jdbcType=VARCHAR}, #{mc,jdbcType=VARCHAR}, #{mm,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
-    #{xb,jdbcType=INTEGER}, #{nl,jdbcType=INTEGER}, #{sjh,jdbcType=VARCHAR}, #{dlh,jdbcType=VARCHAR}, #{qx,jdbcType=INTEGER},
+    #{xb,jdbcType=INTEGER}, #{csnyr,jdbcType=INTEGER}, #{sjh,jdbcType=VARCHAR}, #{dlh,jdbcType=VARCHAR}, #{qx,jdbcType=INTEGER},
       #{zt,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.com.lyz.base.model.po.GG_CZRY">
@@ -56,8 +56,8 @@
       <if test="xb != null">
         xb,
       </if>
-      <if test="nl != null">
-        nl,
+      <if test="csnyr != null">
+        csnyr,
       </if>
       <if test="sjh != null">
         sjh,
@@ -91,8 +91,8 @@
       <if test="xb != null">
         #{xb,jdbcType=INTEGER},
       </if>
-      <if test="nl != null">
-        #{nl,jdbcType=INTEGER},
+      <if test="csnyr != null">
+        #{csnyr,jdbcType=INTEGER},
       </if>
       <if test="sjh != null">
         #{sjh,jdbcType=VARCHAR},
@@ -126,8 +126,8 @@
       <if test="xb != null">
         xb = #{xb,jdbcType=INTEGER},
       </if>
-      <if test="nl != null">
-        nl = #{nl,jdbcType=INTEGER},
+      <if test="csnyr != null">
+        csnyr = #{csnyr,jdbcType=INTEGER},
       </if>
       <if test="sjh != null">
         sjh = #{sjh,jdbcType=VARCHAR},
@@ -151,7 +151,7 @@
       sfzh = #{sfzh,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       xb = #{xb,jdbcType=INTEGER},
-      nl = #{nl,jdbcType=INTEGER},
+      csnyr = #{csnyr,jdbcType=INTEGER},
       sjh = #{sjh,jdbcType=VARCHAR},
       dlh = #{dlh,jdbcType=VARCHAR},
       qx = #{qx,jdbcType=INTEGER},

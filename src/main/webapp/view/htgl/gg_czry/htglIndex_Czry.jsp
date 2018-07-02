@@ -78,6 +78,8 @@
                                 popupOk(data,function () {
                                     layer.close(processIndex);
                                     table.reload('czryTable');
+                                },function () {
+                                    
                                 });
                             }
                             , error:function (data) {
@@ -110,6 +112,8 @@
                                 popupOk(data,function () {
                                     layer.close(processIndex);
                                     table.reload('czryTable');
+                                },function () {
+
                                 });
                             }
                             , error:function (data) {

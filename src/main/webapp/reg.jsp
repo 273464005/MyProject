@@ -10,183 +10,171 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<meta charset="UTF-8">
 	<title>注册</title>
-	<link rel="stylesheet" type="text/css" href="<%=path%>/regcss/css/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="<%=path%>/regcss/css/font-span.css"/>
-	<script src="<%=basePath%>/js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
-	<%--<script src="<%=basePath%>/js/formcheck.js" type="text/javascript" charset="utf-8"></script>--%>
+	<link rel="stylesheet" type="text/css" href="<%=path%>/layui/css/layui.css"/>
+	<script src="<%=basePath%>js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="<%=path%>/layer/layer.js"></script>
+	<script type="text/javascript" src="<%=path%>/layui/layui.all.js"></script>
 </head>
 <body>
-
-<div class="panel panel-primary magin_center">
-	<div class="panel-heading">用户注册</div>
-	<div class="panel-body">
-		<form method="post" action="">
-			<table class="table table-hover">
-				<tr>
-					<td>姓名<span style="color: red">*</span></td>
-					<td colspan="2"><input class="form-control" type="text"
-										   name="mc"  value="" placeholder="请输入姓名" onchange="qc(this)">
-						<span id="uname"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>登录号<span style="color: red">*</span></td>
-					<td colspan="2"><input class="form-control" type="text" name="dlh"
-										   value="" placeholder="请输入登录号" onchange="qc(this)" />
-						<span id="userName"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>密码<span style="color: red">*</span></td>
-					<td colspan="2"><input class="form-control" type="password"
-										   name="mm" value="" placeholder="密码长度3~16位" onchange="qc(this)"/>
-						<span id="pwd"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>确认密码<span style="color: red">*</span></td>
-					<td colspan="2"><input class="form-control" type="password"
-										   name="repmm" value="" placeholder="请再次输入密码" onchange="qc(this)"/>
-						<span id="reppwd"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>身份证号<span style="color: red">*</span></td>
-					<td colspan="2"><input class="form-control" type="text"
-										   name="sfzh" value="" placeholder="请输入身份证号" onchange="qc(this)"/>
-						<span id="idcard"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>邮箱<span style="color: red">*</span></td>
-					<td colspan="2"><input class="form-control" type="email"
-										   name="email" value="" placeholder="请输入邮箱" onchange="qc(this)"/>
-						<span id="email"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>手机号<span style="color: red">*</span></td>
-					<td colspan="2"><input class="form-control" type="text"
-										   name="sjh" value="" placeholder="请输入手机号" onchange="qc(this)"/>
-						<span id="phone"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>验证码<span style="color: red">*</span></td>
-					<td><input class="form-control" type="text" name="code"
-							   value="" placeholder="请输入验证码" />
-						<span id="code"></span>
-					</td>
-					<td><button type="button" name="getcode"
-								class="btn btn-default">免费获取验证码<span id="getcode"></span></button>
-					</td>
-				</tr>
-				<tr>
-					<td>性别</td>
-					<td colspan="2"><label> <input type="radio"
-												   name="xb" checked="checked" value="0" />男
-					</label> <span style="display: inline-block; width: 50px;"></span> <label>
-						<input type="radio" name="xb" value="1" />女
-					</label></td>
-				</tr>
-				<tr align="center">
-					<td colspan="3">
-						<button type="submit" name="submit" class="btn btn-primary" onclick="return checkForm(this.form)">注 册</button>
-						<button type="reset" class="btn btn-warning">重 置</button>
-
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<span id="submit"></span>
-					</td>
-				</tr>
-			</table>
+	<div>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>用户注册</legend>
+		</fieldset>
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<label class="layui-form-label">姓名</label>
+				<div class="layui-input-inline">
+					<input type="text" name="mc" id="mc" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" value="">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">登录号</label>
+				<div class="layui-input-inline">
+					<input type="text" name="dlh" id="dlh" lay-verify="required" placeholder="请输入登录号" autocomplete="off" class="layui-input" value="">
+				</div>
+				<div class="layui-form-mid layui-word-aux">登陆系统使用</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">密码</label>
+				<div class="layui-input-inline">
+					<input type="password" name="mm" id="mm" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">确认密码</label>
+				<div class="layui-input-inline">
+					<input type="password" name="qrmm" id="qrmm" lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input" value="" onchange="mmjy()">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">身份证号码</label>
+				<div class="layui-input-inline">
+					<input type="text" name="sfzh" lay-verify="identity" placeholder="请输入身份证号码" autocomplete="off" class="layui-input" value="">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">邮箱</label>
+				<div class="layui-input-inline">
+					<input type="text" name="email" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" value="">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">出生年月</label>
+				<div class="layui-input-inline">
+					<input type="text" name="csnyr" id="date" lay-verify="date" placeholder="选择出生年月日" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">手机号</label>
+				<div class="layui-input-inline">
+					<input type="text" name="sjh" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">性别</label>
+				<div class="layui-input-block">
+					<input type="radio" name="xb" value="0" title="男" checked="checked">
+					<input type="radio" name="xb" value="1" title="女">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
 		</form>
+		<div>
+			<div align="right">
+				<button class="layui-btn layui-btn-primary layui-btn-radius" onclick="yyzhdwdl()">已有账号？点我登陆</button>
+			</div>
+		</div>
 	</div>
-	<div align="right">
-		<button type="button" title="login" class="btn btn-link" onclick="yyzh()">已有账号？点我登陆</button>
-	</div>
-</div>
 
 <script type="text/javascript" src="js/information.js"></script>
 <script type="text/javascript">
+    layui.use(['form', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , laydate = layui.laydate;
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            mmjy()
+            data.field.csnyr = data.field.csnyr.replace(/-/g,'');
+            $.ajax({
+                url: '<%=basePath%>zcdl/zcczry'
+                , method: 'post'
+                , data: data.field
+                , beforeSend: function () {
+                   loadIndex = layer.load();
+                }
+                , success: function (returnValue) {
+                    popupOk(returnValue, function () {
+						index1 = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index1);
+                    },function () {
 
-	function yyzh() {
-//        location.href = "login.jsp";
+                    });
+                    layer.close(loadIndex);
+                }
+                , error:function () {
+                    layer.alert('发生未知异常！', {
+                        icon: 5
+                        , shade: 0
+                        , anim: 6
+                    });
+                    layer.close(loadIndex);
+                }
+            });
+            return false;
+        });
+
+        $('#mc').bind('input propertychange', function() {
+            getHypy();
+        });
+
+        form.render();
+    });
+
+    //关闭当前窗口
+    function yyzhdwdl() {
+        index0 = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index0);
     }
 
-	//提交校验
-    function checkForm(form){
-        var values = $(form).serializeArray();
-        var i;
-        for(i = 0;i < values.length;++i){
-            var inputName = values[i].name;
-            var inp = $("input[name=" + inputName + "]");
-            //空值校验
-            if(values[i].value == ""){
-                if(inp.next().text()==""){
-                    inp.next().css("color","#FC4343");
-                    inp.next().append("&#xe80d; 该值不能为空！");
-				}
-                inp.focus();
-                return false;
-            }
-
-            //两次密码值校验
-			if(inputName == "repmm"){
-//                return repmm(inp);
-				if(!repmm(inp)){
-				    return false;
-				}
-            }
-
-        }
-		$.ajax({
-			method:"post",
-			url:"zcczry",
-			data:$(form).serialize(),
-            success:function(data){
-//                layer.open({
-//                    type: 1
-//                    ,offset: 'auto'
-//                    ,id: 'layerDemo'+'auto' //防止重复弹出
-//                    ,content: '<div style="padding: 20px 100px;">'+ data.text +'</div>'
-//					,time:3000
-//                });
-                popupOk(data,function(){
-//                    window.location = "login.jsp";
-				})
-			}
-		});
-		return false;
-    }
-
-    function qc(obj) {
-		$(obj).next().text("");
-    }
-
-    //再次输入密码校验
-    function repmm(obj){
-        var remm = obj.val();
-        var mm = $("input[name=mm]").val();
-        if(remm != mm){
-            if(obj.next().text()==""){
-                obj.next().css("color","#FC4343");
-                obj.next().append("&#xe655; 密码不匹配");
-			}
-            obj.focus();
+    //两次密码校验
+    function mmjy() {
+		mm = $("#mm").val();
+		qrmm = $("#qrmm").val();
+		if(mm === qrmm){
+		}else{
+            layer.msg("两次密码不匹配！", {
+                icon: 5
+                , shade: 0
+                , anim:6
+            });
+            $("#mm").val('');
+            $("#qrmm").val('');
             return false;
 		}
-        return true;
-	}
+    }
 
-	//登录号校验
-	function  dlhyz(obj) {
-        /*$.ajax(
-
-        );*/
+    //获取姓名全拼
+    function getHypy() {
+        $.ajax({
+            method: 'post'
+			, url:'<%=basePath%>zcdl/getHypy'
+			, data:{
+                mc : $("#mc").val()
+			}
+			, success:function (returnValue) {
+                $("#dlh").val(returnValue.dlh);
+            }
+        });
     }
 
 </script>

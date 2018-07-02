@@ -27,7 +27,7 @@ public class GG_CZRY extends BasePo<GG_CZRY>{
 
     private Integer xb;
 
-    private Integer nl;
+    private Integer csnyr;
 
     private String sjh;
 
@@ -74,11 +74,11 @@ public class GG_CZRY extends BasePo<GG_CZRY>{
     }
 
     public Integer getNl() {
-        return nl;
+        return csnyr;
     }
 
-    public void setNl(Integer nl) {
-        this.nl = nl;
+    public void setNl(Integer csnyr) {
+        this.csnyr = csnyr;
     }
 
     public String getSjh() {

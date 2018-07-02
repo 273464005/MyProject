@@ -31,7 +31,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">功能类别</label>
             <div class="layui-input-block">
-                <c:if test="${xt_gnb.gnlb == 0}">
+                <c:if test="${xt_gnb==null || xt_gnb.gnlb == 0}">
                     <input type="radio" name="gnlb" value="1" title="目录" >
                     <input type="radio" name="gnlb" value="0" title="节点" checked="checked">
                 </c:if>
@@ -39,18 +39,24 @@
                     <input type="radio" name="gnlb" value="1" title="目录" checked="checked">
                     <input type="radio" name="gnlb" value="0" title="节点">
                 </c:if>
-                <c:if test="${xt_gnb==null}">
-                    <input type="radio" name="gnlb" value="1" title="目录">
-                    <input type="radio" name="gnlb" value="0" title="节点" checked="checked">
-                </c:if>
             </div>
         </div>
-        <div class="layui-form-item" id="ssgn">
-            <label class="layui-form-label">连接地址</label>
-            <div class="layui-input-inline">
-                <input type="text" name="ljdz" lay-verify="required" placeholder="请输入连接地址" autocomplete="off" class="layui-input" value="${xt_gnb.ljdz}">
+        <c:if test="${xt_gnb==null ||xt_gnb.gnlb == 0}">
+            <div class="layui-form-item" id="ssgn">
+                <label class="layui-form-label">连接地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="ljdz" lay-verify="required" placeholder="请输入连接地址" autocomplete="off" class="layui-input" value="${xt_gnb.ljdz}">
+                </div>
             </div>
-        </div>
+        </c:if>
+        <c:if test="${xt_gnb.gnlb == 1}">
+            <div class="layui-form-item" id="ssgn" hidden="hidden">
+                <label class="layui-form-label">连接地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="ljdz" placeholder="请输入连接地址" autocomplete="off" class="layui-input" value="${xt_gnb.ljdz}">
+                </div>
+            </div>
+        </c:if>
         <div class="layui-form-item">
             <label class="layui-form-label">所属功能</label>
             <div class="layui-input-inline">
@@ -132,6 +138,8 @@
                     layer.close(index);
                     popupOk(data,function () {
                         window.location.reload();
+                    },function () {
+
                     })
                 },
                 error:function (data) {

@@ -31,6 +31,7 @@
         <!-- layer JS -->
         <script src="<%=path%>/layer/layer.js"></script>
         <script type="text/javascript" src="<%=basePath%>js/information.js"></script>
+        <script type="text/javascript" src="<%=basePath%>js/sha1.js"></script>
 
     </head>
 
@@ -112,28 +113,39 @@
                     type: 2,
                     title: '用户注册',
                     maxmin: true,
-                    shadeClose: true, //点击遮罩关闭层
+                    shadeClose: false, //点击遮罩关闭层 true可以关闭
                     area : ['505px' , '691px'],
+                    resize : false,
                     content: '<%=basePath%>reg.jsp'
                 });
             }
 
+            function sha1() {
+                mm = $("input[name=mm]").val();
+                $("input[name=mm]").val(SHA2(mm));
+            }
+
             function dlxt(fromid){
+                sha1();
                 $.ajax({
                     method: "post",
                     url: "<%=basePath%>zcdl/dlxtjy",
                     data: $("#"+fromid).serialize(),
+                    beforeSend: function () {
+                        processIndex = layer.load();
+                    },
                     success: function (data) {
-                        if(data.state != 1){
-                            popupOk(data, function () {
-
-                            });
+                        layer.close(processIndex);
+                        popupOk(data, function () {
+                            location.href = "zcdl/htglMainHome";
+                        },function () {
                             $("span[name=msg]").css("color", "#FC4343");
                             $("span[name=msg]").text(data.text);
                             $("input[name=mm]").val("");
-                        } else {
-                            location.href = "zcdl/htglMainHome";
-                        }
+                        });
+                    },
+                    error:function (e) {
+                        layer.close(processIndex);
                     }
                 });
                 return false;

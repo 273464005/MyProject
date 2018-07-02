@@ -1,10 +1,10 @@
-function popupOk(data,callBack){
+function popupOk(data,successCallBack,errorCallBack){
     if(data.state == 1){
         layer.alert(data.text,{
             icon:1
             ,time:3000
             ,shade:0
-            ,end:callBack
+            ,end:successCallBack
         });
         return true;
     }
@@ -12,7 +12,7 @@ function popupOk(data,callBack){
         layer.alert(data.text,{
             icon:2
             ,shade:0
-            ,end:callBack
+            ,end:errorCallBack
         });
         return false;
     }
