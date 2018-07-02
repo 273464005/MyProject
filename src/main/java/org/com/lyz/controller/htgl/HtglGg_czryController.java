@@ -124,10 +124,12 @@ public class HtglGg_czryController {
         List<Map<String, Object>> qxList = new ArrayList<Map<String, Object>>();
         Map<String, Object> qxMap;
         for (Map.Entry<Integer,String> entry:Constant_htgl.GG_CZRY_QXMap.entrySet()){
-            qxMap = new HashMap<String, Object>();
-            qxMap.put("key",entry.getKey());
-            qxMap.put("value", entry.getValue());
-            qxList.add(qxMap);
+            if (gg_czry.getQx() <= entry.getKey()){
+                qxMap = new HashMap<String, Object>();
+                qxMap.put("key",entry.getKey());
+                qxMap.put("value", entry.getValue());
+                qxList.add(qxMap);
+            }
         }
         String csnyr = null;
         if (gg_czry != null) {
@@ -136,6 +138,7 @@ public class HtglGg_czryController {
         model.addAttribute("csnyr", csnyr);
         model.addAttribute("gg_czry", gg_czry);
         model.addAttribute("qxList", qxList);
+        model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
         return "htgl/gg_czry/htglEdit_Czry";
     }
 

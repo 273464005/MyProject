@@ -20,15 +20,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="layui-header">
     <div class="layui-logo"><a href="javascript:;" onclick="window.location.reload()"><span style="color:#ffffff">LOGO位置</span></a></div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
-    <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item">
-        <a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/xtgnIndex')">功能管理</a>
-        <dl class="layui-nav-child">
-          <dd><a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/editXt_gnb')">添加功能</a></dd>
-        </dl>
-      </li>
-      <li class="layui-nav-item"><a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry')">用户管理</a></li>
-    </ul>
+    <c:if test="${user.qx < GG_CZRY_QX_PTYH}">
+      <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item">
+          <a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/xtgnIndex')">功能管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/editXt_gnb')">添加功能</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item"><a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry')">用户管理</a></li>
+      </ul>
+    </c:if>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
         <a href="javascript:;">
@@ -96,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   method: 'post'
                   , url: '<%=basePath%>htgl/czry/jymm'
                   , data: {
-                      id:${user.id}
+                      id:'${user.id}'
                       , mm: SHA2(yzmm)
                   }
                   , success: function (returnValue) {
@@ -111,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                           method: 'post'
                                           , url: '<%=basePath%>htgl/czry/updateMm'
                                           , data: {
-                                              id:${user.id}
+                                              id:'${user.id}'
                                               , mm: SHA2(mm)
                                           }
                                           , success: function (returnValue) {
@@ -130,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                           icon: 5
                                           , shade: 0
                                           , anim: 6
-                                          , time: 2000
+                                          , time: 3000
                                       });
                                   }
                               });

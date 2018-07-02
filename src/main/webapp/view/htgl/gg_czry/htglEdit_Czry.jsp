@@ -24,6 +24,9 @@
         <div hidden="">
             <input type="hidden" value="${gg_czry.id}" name="id">
             <input type="hidden" value="${gg_czry.zt}" name="zt">
+            <c:if test="${user.qx >= GG_CZRY_QX_PTYH}">
+                <input type="hidden" value="${gg_czry.qx}" name="qx">
+            </c:if>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">姓名</label>
@@ -63,21 +66,23 @@
                 <input type="text" name="sjh" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input" value="">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">权限</label>
-            <div class="layui-input-inline">
-                <select name="dyqx">
-                    <c:forEach items="${qxList}" var="qxs">
-                        <c:if test="${gg_czry.qx == qxs.key}">
-                            <option value="${qxs.key}" id="${qxs.key}" selected>${qxs.value}</option>
-                        </c:if>
-                        <c:if test="${gg_czry.qx != qxs.key}">
-                            <option value="${qxs.key}" id="${qxs.key}">${qxs.value}</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
+        <c:if test="${user.qx < GG_CZRY_QX_PTYH}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限</label>
+                <div class="layui-input-inline">
+                    <select name="qx">
+                        <c:forEach items="${qxList}" var="qxs">
+                            <c:if test="${gg_czry.qx == qxs.key}">
+                                <option value="${qxs.key}" id="${qxs.key}" selected>${qxs.value}</option>
+                            </c:if>
+                            <c:if test="${gg_czry.qx != qxs.key}">
+                                <option value="${qxs.key}" id="${qxs.key}">${qxs.value}</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
+                </div>
             </div>
-        </div>
+        </c:if>
         <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
             <div class="layui-input-block">

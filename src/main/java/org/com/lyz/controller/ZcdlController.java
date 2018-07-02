@@ -126,7 +126,7 @@ public class ZcdlController {
      * @return
      */
     @RequestMapping("/htglMainHome")
-    public String htglMainHome(HttpSession session) throws SQLException{
+    public String htglMainHome(HttpSession session,Model model) throws SQLException{
         logger.info("========进入后台管理页面=======");
         GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
         XT_GNB xt_gnb = new XT_GNB();
@@ -134,6 +134,7 @@ public class ZcdlController {
         xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
         List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
         session.setAttribute("xtgnList", xtgnList);
+        model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
         return "htgl/htglMainHome";
     }
 

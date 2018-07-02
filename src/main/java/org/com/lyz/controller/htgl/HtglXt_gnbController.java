@@ -49,7 +49,6 @@ public class HtglXt_gnbController {
     public String xtgnIndex(HttpServletRequest request,Model model,HttpSession session) throws SQLException{
         GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
         TreeNodeUtils treeNode = new TreeNodeUtils("ROOT","所有功能",true);
-        int i = 0;
         //遍历状态
         for (Map.Entry<Integer, String> entry : Constant_htgl.XT_GNB_ZTMap.entrySet()) {
             TreeNodeUtils oneTreeNode = new TreeNodeUtils();
@@ -103,7 +102,8 @@ public class HtglXt_gnbController {
     }
 
     @RequestMapping("/editXt_gnb")
-    public String editXt_gnb(HttpServletRequest request,String gnid,Model model) throws SQLException{
+    public String editXt_gnb(HttpServletRequest request,HttpSession session,String gnid,Model model) throws SQLException{
+        GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
         XT_GNB xt_gnb = XtgnService.getXt_gnbById(gnid);
         XT_GNB queryGnb = new XT_GNB();
         queryGnb.setDyqx(Constant_htgl.GG_CZRY_QX_CJGLY);
@@ -112,10 +112,12 @@ public class HtglXt_gnbController {
         List<Map<String, Object>> qxList = new ArrayList<Map<String, Object>>();
 
         for (Map.Entry<Integer,String> entry:Constant_htgl.GG_CZRY_QXMap.entrySet()){
-            Map<String, Object> qxMap = new HashMap<String, Object>();
-            qxMap.put("key",entry.getKey());
-            qxMap.put("value", entry.getValue());
-            qxList.add(qxMap);
+            if(gg_czry.getQx() <= entry.getKey()){
+                Map<String, Object> qxMap = new HashMap<String, Object>();
+                qxMap.put("key",entry.getKey());
+                qxMap.put("value", entry.getValue());
+                qxList.add(qxMap);
+            }
         }
         model.addAttribute("xt_gnb",xt_gnb);
         model.addAttribute("xt_gnbList", xt_gnbList);
