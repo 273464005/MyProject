@@ -34,7 +34,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
         <a href="javascript:;">
-          <img src="<%=path%>/img/zanwu.jpg" class="layui-nav-img">
+          <c:if test="${showImg != '' && showImg != null}">
+            <img src="${showImg}" class="layui-nav-img">
+          </c:if>
+          <c:if test="${showImg == null || showImg == ''}">
+            <img src="<%=path%>/img/zanwu.jpg" class="layui-nav-img">
+          </c:if>
           ${user.mc}
         </a>
         <dl class="layui-nav-child">

@@ -41,6 +41,8 @@ public class GG_CZRY extends BasePo<GG_CZRY>{
 
     private String sfzh;
 
+    private String txdz;
+
     public String getId() {
         return id;
     }
@@ -127,6 +129,14 @@ public class GG_CZRY extends BasePo<GG_CZRY>{
 
     public void setSfzh(String sfzh) {
         this.sfzh = sfzh;
+    }
+
+    public String getTxdz() {
+        return txdz;
+    }
+
+    public void setTxdz(String txdz) {
+        this.txdz = txdz;
     }
 
     /**

@@ -20,6 +20,11 @@
 	<context:component-scan base-package="org.com.lyz.service.**" />
 	<!-- 开启web注解驱动：类型转换，时间处理，json处理 -->
 	<mvc:annotation-driven />
+
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000000" />
+	</bean>
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/view/" />

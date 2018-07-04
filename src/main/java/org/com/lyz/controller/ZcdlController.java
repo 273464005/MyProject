@@ -2,13 +2,13 @@ package org.com.lyz.controller;
 
 import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
+import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.base.model.po.XT_GNB;
 import org.com.lyz.constant.Constant_htgl;
 import org.com.lyz.service.htgl.CzryService;
+import org.com.lyz.service.htgl.ImgService;
 import org.com.lyz.service.htgl.XtgnService;
-import org.com.lyz.util.ControllerUtils;
-import org.com.lyz.util.MisException;
-import org.com.lyz.util.Pinyin4jUtil;
+import org.com.lyz.util.*;
 import org.com.lyz.util.encryptionutil.SHAEncryptionUtil;
 import org.com.lyz.util.returnvalue.ReturnValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +42,10 @@ public class ZcdlController {
     @Autowired
     @Qualifier("czryService")
     private CzryService CzryService;
+
+    @Autowired
+    @Qualifier("imgService")
+    private ImgService imgService;
 
     /**
      * 注册用户
@@ -126,14 +130,20 @@ public class ZcdlController {
      * @return
      */
     @RequestMapping("/htglMainHome")
-    public String htglMainHome(HttpSession session,Model model) throws SQLException{
+    public String htglMainHome(HttpServletRequest request,HttpSession session,Model model) throws SQLException{
         logger.info("========进入后台管理页面=======");
         GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
         XT_GNB xt_gnb = new XT_GNB();
         xt_gnb.setDyqx(gg_czry.getQx());
         xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
         List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
+        String imgPath = "";
+        if(StringUtils.isNotEmpty(gg_czry.getTxdz())){
+            GG_IMGS gg_imgs  = imgService.selectById(gg_czry.getTxdz());
+            imgPath = FileUtils.getZxImgPath(request) + gg_imgs.getTpmc();
+        }
         session.setAttribute("xtgnList", xtgnList);
+        model.addAttribute("showImg", imgPath);
         model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
         return "htgl/htglMainHome";
     }

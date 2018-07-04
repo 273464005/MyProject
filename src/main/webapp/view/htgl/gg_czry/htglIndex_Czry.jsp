@@ -27,9 +27,14 @@
         </div>
     </div>
 
+    <script type="text/html" id="xb">
+        <i class="layui-icon {{d.xb==0?'layui-icon-male layui-bg-blue':'layui-icon-female layui-bg-red'}}"></i> {{d.xbmc}}
+    </script>
+
     <script type="text/html" id="cz">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="bj"><i class="layui-icon layui-icon-edit"></i>编辑</a>
         <a class="layui-btn {{d.zt==0?'layui-btn-warm':'layui-btn'}} layui-btn-xs" lay-event="jy">{{d.zt==0?'禁用':'启用'}}</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
     </script>
     <script src="<%=basePath%>layui/layui.all.js" charset="utf-8"></script>
     <script type="text/javascript" src="<%=basePath%>js/jquery-3.2.1.js"></script>
@@ -43,6 +48,9 @@
             table.render({
                 elem: '#czryTable'
                 ,url:'<%=basePath%>/htgl/czry/getAllCzry'
+                ,where:{
+                    qx:${user.qx}
+                }
                 ,cellMinWidth: 80
                 ,cols: [[
                     {type:'numbers'}
@@ -52,9 +60,9 @@
                     ,{field:'email', title:'邮箱'}
                     ,{field:'sjh', title:'手机号'}
                     ,{field:'sfzh', title: '身份证号'}
-                    ,{field:'xbmc', title:'性别', width:80}
+                    ,{field:'xbmc', title:'性别', width:80,toolbar:'#xb'}
                     ,{field:'ztmc', title:'状态', width:80}
-                    ,{field:'right', title: '操作', width:177,toolbar:"#cz"}
+                    ,{field:'right', title: '操作', width:200,toolbar:"#cz"}
                 ]]
                 ,page: true
             });
@@ -76,11 +84,11 @@
                             }
                             , success:function (data) {
                                 popupOk(data,function () {
-                                    layer.close(processIndex);
                                     table.reload('czryTable');
                                 },function () {
                                     
                                 });
+                                layer.close(processIndex);
                             }
                             , error:function (data) {
                                 layer.close(processIndex);
@@ -110,11 +118,11 @@
                             }
                             , success:function (data) {
                                 popupOk(data,function () {
-                                    layer.close(processIndex);
                                     table.reload('czryTable');
                                 },function () {
 
                                 });
+                                layer.close(processIndex);
                             }
                             , error:function (data) {
                                 layer.close(processIndex);
@@ -122,6 +130,10 @@
                         });
                         layer.close(index);
                     });
+                }
+
+                if (obj.event === 'bj'){
+                    location.href = '<%=basePath%>htgl/czry/editGg_czry?czryid='+data.id;
                 }
 
             });

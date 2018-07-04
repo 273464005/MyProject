@@ -36,10 +36,12 @@ public interface GG_CZRYDao{
 
     /**
      * 分页查询所有用户
+     * @param mc 用户名称
+     * @param qx 用户权限
      * @param pageMin 开始条数
      * @param pageMax 分页大小
      * @return 查询结果
      * @throws SQLException 异常信息
      */
-    List<Map<String,Object>> selectAllLimit(@Param("mc") String mc,@Param("pageMin") Integer pageMin,@Param("pageMax") Integer pageMax) throws SQLException;
+    List<Map<String,Object>> selectAllLimit(@Param("mc") String mc,@Param("qx") Integer qx,@Param("pageMin") Integer pageMin,@Param("pageMax") Integer pageMax) throws SQLException;
 }

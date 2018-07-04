@@ -3,6 +3,7 @@
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/uploadImg"+"/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -84,6 +85,17 @@
             </div>
         </c:if>
         <div class="layui-form-item">
+            <div class="layui-input-block">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn layui-btn-normal" id="xzwj">选择文件</button>
+                    <%--<button type="button" class="layui-btn layui-btn-normal" id="sctp">上传图片</button>--%>
+                    <div id="myImgeDiv">
+                        <img src="${showImg}" alt="${gg_imgs.tpmc}" id="myImge" height="${showImgHeight}" width="${showImgWidth}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
                 <input type="radio" name="xb" value="0" title="男" checked="checked">
@@ -92,8 +104,8 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button class="layui-btn" lay-submit lay-filter="formDemo" id="formDemo">保存</button>
+                <%--<button type="reset" class="layui-btn layui-btn-primary">重置</button>--%>
             </div>
         </div>
     </form>
@@ -101,10 +113,11 @@
 
 <script type="text/javascript" src="<%=basePath%>js/information.js"></script>
 <script type="text/javascript">
-    layui.use(['form', 'laydate'], function () {
+    layui.use(['form', 'laydate','upload'], function () {
         var form = layui.form
             , layer = layui.layer
-            , laydate = layui.laydate;
+            , laydate = layui.laydate
+            , upload = layui.upload;
         //日期
         laydate.render({
             elem: '#date'
@@ -149,6 +162,38 @@
                 }
             });
             return false;
+        });
+
+        //文件上传
+        upload.render({
+            elem: '#xzwj'
+            ,url: '<%=basePath%>htgl/czry/uploadImg'
+            ,auto: false
+            //,multiple: true
+            ,accpt:'file'
+            ,acceptMime:'image/*'
+//            ,bindAction: '#sctp'
+            ,bindAction:'#formDemo'
+            ,data:{
+                czryid:$("input[name=id]").val()
+                ,imgid:'${gg_imgs.id}'
+            }
+            ,done: function(res){
+                console.log(res)
+            }
+            ,choose:function (obj) {
+                obj.preview(function(index, file, result){
+                    var img = new Image();
+                    img.src = result;
+                    img.onload = function () { //初始化夹在完成后获取上传图片宽高，判断限制上传图片的大小。
+                        wt = 190;
+                        hg = wt * (img.height/img.width);
+                        $("#myImge").attr('width', wt + 'px');
+                        $("#myImge").attr('height', hg + 'px');
+                    };
+                    $('#myImge').attr('src', result); //图片链接（base64）
+                });
+            }
         });
 
         form.render();

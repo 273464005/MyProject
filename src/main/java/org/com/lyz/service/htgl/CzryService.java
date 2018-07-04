@@ -64,9 +64,10 @@ public interface CzryService {
 
     /**
      * 分页查询所有操作人员
+     * @param gg_czry 操作人员信息
      * @param splitPageInfo 分页信息
      * @return 查询结果
      * @throws SQLException 异常信息
      */
-    List<Map<String,Object>> getAllCzryLimit(String mc,SplitPageInfo splitPageInfo) throws SQLException;
+    List<Map<String,Object>> getAllCzryLimit(GG_CZRY gg_czry,SplitPageInfo splitPageInfo) throws SQLException;
 }

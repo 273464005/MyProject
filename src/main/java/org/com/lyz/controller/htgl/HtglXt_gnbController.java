@@ -8,6 +8,7 @@ import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.TreeNodeUtils;
+import org.com.lyz.util.pageutil.SplitPageInfo;
 import org.com.lyz.util.returnvalue.ReturnValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -99,6 +100,13 @@ public class HtglXt_gnbController {
         model.addAttribute("zc", Constant_htgl.XT_GNB_ZT_ZC);
         model.addAttribute("jy", Constant_htgl.XT_GNB_ZT_JY);
         return "htgl/xt_gnb/htglIndex_Gnb";
+    }
+
+    @RequestMapping("/getXt_gnb_table")
+    @ResponseBody
+    public Map<String,Object> getXt_gnb_table(HttpServletRequest request, SplitPageInfo splitPageInfo){
+
+        return null;
     }
 
     @RequestMapping("/editXt_gnb")

@@ -11,11 +11,12 @@
     <result column="csnyr" jdbcType="INTEGER" property="csnyr" />
     <result column="sjh" jdbcType="VARCHAR" property="sjh" />
     <result column="dlh" jdbcType="VARCHAR" property="dlh" />
+    <result column="txdz" jdbcType="VARCHAR" property="txdz" />
     <result column="qx" jdbcType="INTEGER" property="qx" />
     <result column="zt" jdbcType="INTEGER" property="zt" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, mc, mm, sfzh, email, xb, csnyr, sjh, dlh, qx, zt
+    id, mc, mm, sfzh, email, xb, csnyr, sjh, dlh,txdz, qx, zt
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -30,10 +31,10 @@
   <insert id="insert" parameterType="org.com.lyz.base.model.po.GG_CZRY">
     insert into gg_czry (id, mc, mm, sfzh, email,
     xb, csnyr, sjh, dlh, qx,
-      zt)
+      zt,txdz)
     values (#{id,jdbcType=VARCHAR}, #{mc,jdbcType=VARCHAR}, #{mm,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
     #{xb,jdbcType=INTEGER}, #{csnyr,jdbcType=INTEGER}, #{sjh,jdbcType=VARCHAR}, #{dlh,jdbcType=VARCHAR}, #{qx,jdbcType=INTEGER},
-      #{zt,jdbcType=INTEGER})
+      #{zt,jdbcType=INTEGER},#{txdz,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.com.lyz.base.model.po.GG_CZRY">
     insert into gg_czry
@@ -71,6 +72,9 @@
       <if test="zt != null">
         zt,
       </if>
+      <if test="txdz != null">
+        txdz,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -105,6 +109,9 @@
       </if>
       <if test="zt != null">
         #{zt,jdbcType=INTEGER},
+      </if>
+      <if test="txdz != null">
+        #{txdz,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -141,6 +148,9 @@
       <if test="zt != null">
         zt = #{zt,jdbcType=INTEGER},
       </if>
+      <if test="txdz != null">
+        txdz = #{txdz,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -155,7 +165,8 @@
       sjh = #{sjh,jdbcType=VARCHAR},
       dlh = #{dlh,jdbcType=VARCHAR},
       qx = #{qx,jdbcType=INTEGER},
-      zt = #{zt,jdbcType=INTEGER},
+      txdz = #{txdz,jdbcType=VARCHAR},
+      zt = #{zt,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
@@ -175,8 +186,9 @@
   <select id="selectAllLimit" parameterType="java.lang.Integer" resultType="java.util.HashMap">
     select <include refid="Base_Column_List" /> from gg_czry
     <where>
+      qx <![CDATA[ >= ]]> #{qx,jdbcType=INTEGER}
       <if test="mc != null and mc != ''">
-        mc LIKE #{mc,jdbcType=VARCHAR}
+        and mc LIKE #{mc,jdbcType=VARCHAR}
       </if>
     </where>
     limit #{pageMin,jdbcType=INTEGER},#{pageMax,jdbcType=INTEGER}

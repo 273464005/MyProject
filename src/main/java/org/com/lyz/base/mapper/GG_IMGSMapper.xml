@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.com.lyz.base.dao.GG_IMGSDao">
+  <resultMap id="BaseResultMap" type="org.com.lyz.base.model.po.GG_IMGS">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="tpmc" jdbcType="VARCHAR" property="tpmc" />
+    <result column="tpdz" jdbcType="VARCHAR" property="tpdz" />
+    <result column="scsj" jdbcType="DECIMAL" property="scsj" />
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="width" jdbcType="INTEGER" property="width" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tpmc, tpdz, scsj,height,width
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gg_imgs
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from gg_imgs
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.com.lyz.base.model.po.GG_IMGS">
+    insert into gg_imgs (id, tpmc, tpdz, height,width,
+      scsj)
+    values (#{id,jdbcType=VARCHAR}, #{tpmc,jdbcType=VARCHAR}, #{tpdz,jdbcType=VARCHAR}, #{height,jdbcType=INTEGER},#{width,jdbcType=INTEGER},
+      #{scsj,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="org.com.lyz.base.model.po.GG_IMGS">
+    insert into gg_imgs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tpmc != null">
+        tpmc,
+      </if>
+      <if test="tpdz != null">
+        tpdz,
+      </if>
+      <if test="scsj != null">
+        scsj,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="tpmc != null">
+        #{tpmc,jdbcType=VARCHAR},
+      </if>
+      <if test="tpdz != null">
+        #{tpdz,jdbcType=VARCHAR},
+      </if>
+      <if test="scsj != null">
+        #{scsj,jdbcType=DECIMAL},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.com.lyz.base.model.po.GG_IMGS">
+    update gg_imgs
+    <set>
+      <if test="tpmc != null">
+        tpmc = #{tpmc,jdbcType=VARCHAR},
+      </if>
+      <if test="tpdz != null">
+        tpdz = #{tpdz,jdbcType=VARCHAR},
+      </if>
+      <if test="scsj != null">
+        scsj = #{scsj,jdbcType=DECIMAL},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.com.lyz.base.model.po.GG_IMGS">
+    update gg_imgs
+    set tpmc = #{tpmc,jdbcType=VARCHAR},
+      tpdz = #{tpdz,jdbcType=VARCHAR},
+      height = #{height,jdbcType=INTEGER},
+      width = #{width,jdbcType=INTEGER},
+      scsj = #{scsj,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

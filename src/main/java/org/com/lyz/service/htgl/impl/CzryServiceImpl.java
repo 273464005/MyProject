@@ -107,16 +107,16 @@ public class CzryServiceImpl implements CzryService {
 
     /**
      * 分页查询
-     * @param mc 人员名称
+     * @param gg_czry 操作人员信息
      * @param splitPageInfo 分页信息
      * @return 查询结果
      * @throws SQLException 异常信息
      */
-    public List<Map<String,Object>> getAllCzryLimit(String mc,SplitPageInfo splitPageInfo) throws SQLException {
-        if(mc != null && !"".equals(mc)){
-            mc = "%" + mc + "%";
+    public List<Map<String,Object>> getAllCzryLimit(GG_CZRY gg_czry,SplitPageInfo splitPageInfo) throws SQLException {
+        if(StringUtils.isNotEmpty(gg_czry.getMc())){
+            gg_czry.setMc("%" + gg_czry.getMc() + "%");
         }
-        List<Map<String, Object>> returnList = czryDao.selectAllLimit(mc, splitPageInfo.getPage(), splitPageInfo.getLimit());
+        List<Map<String, Object>> returnList = czryDao.selectAllLimit(gg_czry.getMc(), gg_czry.getQx(), splitPageInfo.getPage(), splitPageInfo.getLimit());
         for (Map<String, Object> map : returnList) {
             map.put("xbmc", Constant_htgl.getGG_CZRY_XBMap_Label(ConvertUtils.toInt(map.get("xb"))));
             map.put("ztmc", Constant_htgl.getGG_CZRY_ZTMap_Label(ConvertUtils.toInt(map.get("zt"))));

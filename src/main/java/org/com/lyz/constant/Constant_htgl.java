@@ -68,4 +68,9 @@ public class Constant_htgl {
         return XT_GNB_ZTMap.get(zt);
     }
 
+
+    //-------------------------------------------GG_IMGS----------------------------------------------------
+    // 默认展示图片宽度为190
+    public static final int GG_IMGS_WIDTH_SHOW = 190;
+
 }
