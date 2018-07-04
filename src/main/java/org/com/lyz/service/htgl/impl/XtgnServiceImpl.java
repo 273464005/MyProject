@@ -8,10 +8,13 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.XT_GNBDao;
+import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.XT_GNB;
+import org.com.lyz.constant.Constant_htgl;
 import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.StringUtils;
+import org.com.lyz.util.pageutil.SplitPageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,7 +90,7 @@ public class XtgnServiceImpl implements XtgnService{
             xt_gnb.setId(StringUtils.getUUID());
             xtgnDao.insertSelective(xt_gnb);
         }
-        logger.info("----保存成功----");
+        logger.info("----保存功能信息成功----");
     }
 
     /**
@@ -97,7 +100,22 @@ public class XtgnServiceImpl implements XtgnService{
      */
     public void insertXt_gnb(XT_GNB xt_gnb) throws SQLException {
         xtgnDao.insertSelective(xt_gnb);
-        logger.info("----添加成功----");
+        logger.info("----添加功能信息成功----");
+    }
+
+    public void updateXt_gnb(XT_GNB xt_gnb) throws SQLException {
+        xtgnDao.updateByPrimaryKeySelective(xt_gnb);
+        logger.info("----修改功能信息成功----");
+    }
+
+    public void deleteXt_gnb(XT_GNB xt_gnb) throws SQLException {
+        xtgnDao.deleteByPrimaryKey(xt_gnb.getId());
+        logger.info("----删除功能信息成功----");
+    }
+
+    public void deleteXt_gnb(String gnid) throws SQLException {
+        xtgnDao.deleteByPrimaryKey(gnid);
+        logger.info("----删除功能信息成功----");
     }
 
     /**
@@ -128,5 +146,32 @@ public class XtgnServiceImpl implements XtgnService{
      */
     public List<Map<String, Object>> getChildrenGbnList(XT_GNB xt_gnb) throws SQLException{
         return xtgnDao.selectByFid(xt_gnb.getFid(),xt_gnb.getDyqx(),xt_gnb.getZt());
+    }
+
+    /**
+     * 分页查询
+     * @param xt_gnb 功能信息
+     * @param splitPageInfo 分页信息
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    public List<Map<String, Object>> getAllGnbLimit(GG_CZRY gg_czry, XT_GNB xt_gnb, SplitPageInfo splitPageInfo) throws SQLException {
+        if (StringUtils.isNotEmpty(xt_gnb.getGnmc())){
+            xt_gnb.setGnmc("%" + xt_gnb.getGnmc() + "%");
+        }
+        List<Map<String, Object>> returnList = xtgnDao.selectAllByLimit(gg_czry.getQx(), xt_gnb.getGnmc(), splitPageInfo.getPage(), splitPageInfo.getLimit());
+        for (Map<String, Object> map : returnList) {
+            map.put("qxmc", Constant_htgl.getGG_CZRY_QXMap_Label(ConvertUtils.createInteger(map.get("dyqx"))));
+            map.put("ztmc", Constant_htgl.getXT_GNB_ZTMap_Label(ConvertUtils.createInteger(map.get("zt"))));
+            map.put("gnlbmc", Constant_htgl.getXT_GNB_GNLB_Map_Label(ConvertUtils.createInteger(map.get("gnlb"))));
+            String fid = ConvertUtils.createString(map.get("fid"));
+            String fmc = "";
+            if (StringUtils.isNotEmpty(fid)) {
+                XT_GNB gnb = xtgnDao.selectByPrimaryKey(fid);
+                fmc = gnb.getGnmc();
+            }
+            map.put("fmc", fmc);
+        }
+        return returnList;
     }
 }

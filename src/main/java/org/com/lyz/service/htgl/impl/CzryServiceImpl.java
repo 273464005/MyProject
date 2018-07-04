@@ -36,7 +36,7 @@ public class CzryServiceImpl implements CzryService {
         gg_czry.setId(StringUtils.getUUID());
         gg_czry.setQx(Constant_htgl.GG_CZRY_QX_GLY);//暂时注册全部为普通管理员
         gg_czry.setZt(Constant_htgl.GG_CZRY_ZT_ZC);//新注册用户状态全部为正常
-        logger.info("----添加成功----");
+        logger.info("----添加操作人员成功----");
         czryDao.insertSelective(gg_czry);
     }
 
@@ -46,7 +46,7 @@ public class CzryServiceImpl implements CzryService {
      * @throws SQLException 异常信息
      */
     public void update(GG_CZRY gg_czry) throws SQLException {
-        logger.info("----修改成功----");
+        logger.info("----修改操作人员成功----");
         czryDao.updateByPrimaryKeySelective(gg_czry);
     }
 
@@ -56,7 +56,7 @@ public class CzryServiceImpl implements CzryService {
      * @throws SQLException 异常信息
      */
     public void delete(String id) throws SQLException {
-        logger.info("----删除成功----");
+        logger.info("----删除操作人员成功----");
         czryDao.deleteByPrimaryKey(id);
     }
 
@@ -71,7 +71,7 @@ public class CzryServiceImpl implements CzryService {
         } else {
             czryDao.insertSelective(gg_czry);
         }
-        logger.info("----保存成功----");
+        logger.info("----保存操作人员成功----");
     }
 
     /**

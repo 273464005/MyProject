@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <c:if test="${user.qx < GG_CZRY_QX_PTYH}">
       <ul class="layui-nav layui-layout-left">
         <li class="layui-nav-item">
-          <a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/xtgnIndex')">功能管理</a>
+          <a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn')">功能管理</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn/editXt_gnb')">添加功能</a></dd>
           </dl>

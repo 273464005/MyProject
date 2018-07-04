@@ -179,7 +179,7 @@
                 ,imgid:'${gg_imgs.id}'
             }
             ,done: function(res){
-                console.log(res)
+//                console.log(res)
             }
             ,choose:function (obj) {
                 obj.preview(function(index, file, result){

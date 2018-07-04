@@ -1,6 +1,8 @@
 package org.com.lyz.service.htgl;
 
+import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.XT_GNB;
+import org.com.lyz.util.pageutil.SplitPageInfo;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -55,6 +57,27 @@ public interface XtgnService {
    void insertXt_gnb(XT_GNB xt_gnb) throws SQLException;
 
    /**
+    * 修改
+    * @param xt_gnb 功能信息
+    * @throws SQLException 异常信息
+    */
+   void updateXt_gnb(XT_GNB xt_gnb) throws SQLException;
+
+   /**
+    * 删除
+    * @param xt_gnb 功能信息
+    * @throws SQLException 异常信息
+    */
+   void deleteXt_gnb(XT_GNB xt_gnb) throws SQLException;
+
+   /**
+    * 删除
+    * @param gnid 功能id
+    * @throws SQLException 异常信息
+    */
+   void deleteXt_gnb(String gnid) throws SQLException;
+
+   /**
     * 根据权限获取所有的FID为null的功能
     * @param xt_gnb 功能信息
     * @return 查询结果
@@ -71,9 +94,18 @@ public interface XtgnService {
 
    /**
     * 获取当前父ID下面的所有子功能
-    * @param fid FID
-    * @param dyqx 对应权限
+    * @param xt_gnb 功能信息
     * @return 查询结果
     */
    List<Map<String, Object>> getChildrenGbnList(XT_GNB xt_gnb) throws SQLException;
+
+   /**
+    * 分页查询
+    * @param xt_gnb 功能信息
+    * @param gg_czry 人员信息
+    * @param splitPageInfo 分页信息
+    * @return 查询结果
+    * @throws SQLException 异常信息
+    */
+   List<Map<String, Object>> getAllGnbLimit(GG_CZRY gg_czry,XT_GNB xt_gnb, SplitPageInfo splitPageInfo) throws SQLException;
 }

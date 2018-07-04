@@ -18,7 +18,7 @@
 
 <div>
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>树形</legend>
+        <legend>功能树</legend>
     </fieldset>
 
     <div id="tree">

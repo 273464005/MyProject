@@ -1,5 +1,7 @@
 package org.com.lyz.controller.htgl;
 
+import net.sf.json.JSONArray;
+import org.apache.ibatis.jdbc.SQL;
 import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.XT_GNB;
@@ -38,10 +40,27 @@ public class HtglXt_gnbController {
     @Qualifier("xtgnService")
     private XtgnService XtgnService;
 
+    @RequestMapping()
+    public String index(HttpServletRequest request,Model model){
 
+        return "htgl/xt_gnb/htglIndex_Gnb";
+    }
 
     /**
-     * 功能管理列表页面初始化
+     * 功能列表页面
+     * @param request 请求信息
+     * @param model 模型信息
+     * @return 返回地址
+     * @throws SQLException 异常信息
+     */
+    @RequestMapping("/xtgnIndexTable")
+    public String xtgnIndexTable(HttpServletRequest request,Model model) throws SQLException{
+        model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
+        return "htgl/xt_gnb/htglTable_gnb";
+    }
+
+    /**
+     * 功能管理列表(树形)页面初始化
      * @param request 请求信息
      * @param model 模型信息
      * @return 返回地址
@@ -99,16 +118,40 @@ public class HtglXt_gnbController {
         model.addAttribute("treeDate", treeNode.toString());
         model.addAttribute("zc", Constant_htgl.XT_GNB_ZT_ZC);
         model.addAttribute("jy", Constant_htgl.XT_GNB_ZT_JY);
-        return "htgl/xt_gnb/htglIndex_Gnb";
+        return "htgl/xt_gnb/htglTree_gnb";
     }
 
+    /**
+     * 初始化功能列表
+     * @param request 请求信息
+     * @param splitPageInfo 分页信息
+     * @param gg_czry 人员信息
+     * @param xt_gnb 功能信息
+     * @return 初始化信息
+     * @throws SQLException 异常信息
+     */
     @RequestMapping("/getXt_gnb_table")
     @ResponseBody
-    public Map<String,Object> getXt_gnb_table(HttpServletRequest request, SplitPageInfo splitPageInfo){
-
-        return null;
+    public Map<String,Object> getXt_gnb_table(HttpServletRequest request, SplitPageInfo splitPageInfo,GG_CZRY gg_czry,XT_GNB xt_gnb) throws SQLException{
+        List<Map<String, Object>> tableGnbList = XtgnService.getAllGnbLimit(gg_czry,xt_gnb,splitPageInfo);
+        JSONArray jsonArray = JSONArray.fromObject(tableGnbList);
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+        returnMap.put("code", "0");
+        returnMap.put("msg", "");
+        returnMap.put("count",tableGnbList.size());
+        returnMap.put("data",jsonArray);
+        return returnMap;
     }
 
+    /**
+     * 跳转编辑功能页面
+     * @param request 请求信息
+     * @param session session信息
+     * @param gnid 功能ID
+     * @param model 模型信息
+     * @return 返回地址
+     * @throws SQLException 异常信息
+     */
     @RequestMapping("/editXt_gnb")
     public String editXt_gnb(HttpServletRequest request,HttpSession session,String gnid,Model model) throws SQLException{
         GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
@@ -134,6 +177,13 @@ public class HtglXt_gnbController {
         return "htgl/xt_gnb/htglEditXt_gnb";
     }
 
+    /**
+     * 保存功能
+     * @param request 请求信息
+     * @param xt_gnb 功能信息
+     * @return 保存结果
+     * @throws SQLException 异常信息
+     */
     @RequestMapping("/saveXt_gnb")
     @ResponseBody
     public ReturnValue saveXt_gnb(HttpServletRequest request,XT_GNB xt_gnb) throws SQLException{
@@ -172,6 +222,39 @@ public class HtglXt_gnbController {
         xt_gnb.setSxh(ConvertUtils.createInteger(sxh));
         XtgnService.saveXt_gnb(xt_gnb);
         return ReturnValue.newSuccessInstance("保存成功！");
+    }
+
+    /**
+     * 修改功能状态
+     * @param request 请求信息
+     * @param xt_gnb 功能信息
+     * @return 修改结果
+     * @throws SQLException 异常信息
+     */
+    @RequestMapping("/editXt_gnb_zt")
+    @ResponseBody
+    public ReturnValue editXt_gnb_zt(HttpServletRequest request,XT_GNB xt_gnb) throws SQLException{
+        if(xt_gnb.getZt() == Constant_htgl.XT_GNB_ZT_JY){
+            xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
+        } else {
+            xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_JY);
+        }
+        XtgnService.updateXt_gnb(xt_gnb);
+        return ReturnValue.newSuccessInstance("操作成功！");
+    }
+
+    /**
+     * 删除功能信息
+     * @param request 请求信息
+     * @param xt_gnb 功能信息
+     * @return 删除结果
+     * @throws SQLException 异常信息
+     */
+    @RequestMapping("/deleteXt_gnb")
+    @ResponseBody
+    public ReturnValue deleteXt_gnb(HttpServletRequest request,XT_GNB xt_gnb) throws SQLException{
+        XtgnService.deleteXt_gnb(xt_gnb);
+        return ReturnValue.newSuccessInstance("删除成功！");
     }
 
 }

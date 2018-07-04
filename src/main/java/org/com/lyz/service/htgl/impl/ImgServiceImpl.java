@@ -1,5 +1,6 @@
 package org.com.lyz.service.htgl.impl;
 
+import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.GG_IMGSDao;
 import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.service.htgl.ImgService;
@@ -16,6 +17,8 @@ import java.sql.SQLException;
 @Service("imgService")
 public class ImgServiceImpl implements ImgService{
 
+    private static final Logger logger = Logger.getLogger(ImgService.class);
+
     @Autowired
     private GG_IMGSDao imgsDao;
 
@@ -26,6 +29,7 @@ public class ImgServiceImpl implements ImgService{
      */
     public void insert(GG_IMGS gg_imgs) throws SQLException {
         imgsDao.insertSelective(gg_imgs);
+        logger.info("----添加图片成功----");
     }
 
     /**
@@ -40,6 +44,7 @@ public class ImgServiceImpl implements ImgService{
             gg_imgs.setId(StringUtils.getUUID());
             imgsDao.insertSelective(gg_imgs);
         }
+        logger.info("----保存图片成功----");
     }
 
     /**
@@ -49,6 +54,7 @@ public class ImgServiceImpl implements ImgService{
      */
     public void update(GG_IMGS gg_imgs) throws SQLException {
         imgsDao.updateByPrimaryKeySelective(gg_imgs);
+        logger.info("----修改图片成功----");
     }
 
     /**
@@ -58,6 +64,7 @@ public class ImgServiceImpl implements ImgService{
      */
     public void delete(GG_IMGS gg_imgs) throws SQLException {
         imgsDao.deleteByPrimaryKey(gg_imgs.getId());
+        logger.info("----删除图片成功----");
     }
 
     /**
@@ -67,6 +74,7 @@ public class ImgServiceImpl implements ImgService{
      */
     public void delete(String id) throws SQLException {
         imgsDao.deleteByPrimaryKey(id);
+        logger.info("----删除图片成功----");
     }
 
     /**

@@ -21,18 +21,18 @@
             <legend>所有功能</legend>
         </fieldset>
         <div>
-            <button class="layui-btn layui-btn-sm layui-btn-primary">
+            <button class="layui-btn layui-btn-sm layui-btn-primary" id="showTree" onclick="showGn('<%=basePath%>htgl/xtgn/xtgnIndex')">
                 树形展示
             </button>
-            <button class="layui-btn layui-btn-sm layui-btn-primary">
+            <button class="layui-btn layui-btn-sm layui-btn-primary" id="showTable" onclick="showGn('<%=basePath%>htgl/xtgn/xtgnIndexTable')">
                 列表展示
             </button>
 
         </div>
 
        <div>
-           <iframe id="editXt_gnb" name="if_content" width="100%" onload="this.height=if_content.document.body.scrollHeight" frameborder="0" marginwidth="0" marginheight="0"
-                   src="<%=basePath%>/view/htgl/xt_gnb/htglTree_gnb.jsp">
+           <iframe id="showXt_gnb" name="if_content" height="88.5%" width="100%" onload="this.height=if_content.document.body.scrollHeight" frameborder="0" marginwidth="0" marginheight="0"
+                   src="<%=basePath%>htgl/xtgn/xtgnIndex">
            </iframe>
        </div>
 
@@ -41,13 +41,14 @@
     <script type="text/javascript" src="<%=basePath%>js/jquery-3.2.1.js"></script>
     <script type="text/javascript" src="<%=basePath%>js/myjs/layui-xtree.js"></script>
     <script type="text/javascript">
-        layui.use(['tree', 'layer','form'], function () {
+        layui.use([ 'layer'], function () {
             var layer = layui.layer
                 , $ = layui.jquery
-                ,form = layui.form;
-
 
         });
+        function showGn(dz) {
+            $("#showXt_gnb").attr("src", dz);
+        }
     </script>
 </body>
 </html>

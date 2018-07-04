@@ -160,5 +160,16 @@
   <select id="selectMaxSxhByFidIsNull" parameterType="org.com.lyz.base.model.po.XT_GNB" resultType="java.util.HashMap">
     select MAX(sxh) maxsxh from xt_gnb where fid is NULL
   </select>
+  <!-- 分页查询所有功能列表 -->
+  <select id="selectAllByLimit" parameterType="org.com.lyz.base.model.po.XT_GNB" resultType="java.util.HashMap">
+    select <include refid="Base_Column_List" /> from xt_gnb
+    <where>
+      dyqx <![CDATA[ >= ]]> #{dyqx,jdbcType=INTEGER}
+      <if test="gnmc != null and gnmc != ''">
+        and gnmc LIKE #{gnmc,jdbcType=VARCHAR}
+      </if>
+    </where>
+    limit #{pageMin,jdbcType=INTEGER},#{pageMax,jdbcType=INTEGER}
+  </select>
 
 </mapper>
