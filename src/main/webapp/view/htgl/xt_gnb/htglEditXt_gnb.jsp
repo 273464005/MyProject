@@ -10,7 +10,6 @@
 <head>
     <title>添加功能</title>
     <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css">
-    <%--<link rel="stylesheet" href="<%=basePath%>layer/css/modules/layer/default/layer.css">--%>
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -53,7 +52,7 @@
             <div class="layui-form-item" id="ssgn" hidden="hidden">
                 <label class="layui-form-label">连接地址</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="ljdz" placeholder="请输入连接地址" autocomplete="off" class="layui-input" value="${xt_gnb.ljdz}">
+                    <input type="text" name="ljdz" placeholder="请输入连接地址" autocomplete="off" class="layui-input" value="${xt_gnb.ljdz}" onchange="">
                 </div>
             </div>
         </c:if>

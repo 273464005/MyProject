@@ -92,5 +92,7 @@ public class Constant_htgl {
     //-------------------------------------------GG_IMGS----------------------------------------------------
     // 默认展示图片宽度为190
     public static final int GG_IMGS_WIDTH_SHOW = 190;
+    // 默认相册大小为1000
+    public static final int GG_IMGS_WIDTH_ALBUM = 1000;
 
 }

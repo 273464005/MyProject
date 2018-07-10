@@ -34,11 +34,7 @@
     <script type="text/html" id="cz">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="bj"><i class="layui-icon layui-icon-edit"></i>编辑</a>
         <a class="layui-btn {{d.zt==0?'layui-btn-warm':'layui-btn'}} layui-btn-xs" lay-event="jy">{{d.zt==0?'禁用':'启用'}}</a>
-        {{
-            d.qx > ${user.qx}?
-                '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>'
-                :''
-        }}
+        {{d.qx > ${user.qx}?'<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>':''}}
     </script>
     <script src="<%=basePath%>layui/layui.all.js" charset="utf-8"></script>
     <script type="text/javascript" src="<%=basePath%>js/jquery-3.2.1.js"></script>
@@ -104,11 +100,12 @@
                 if (obj.event === 'jy'){
                     tsmc = '';
                     if(data.zt==0){
-                        tsmc = '禁用';
+                        tsmc = '<span style="color: #FF5722">禁用</span>';;
                     } else {
-                        tsmc = '启用';
+                        tsmc = '<span style="color: #009688">启用</span>';;
                     }
-                    layer.confirm('确定'+tsmc+'该用户吗？', function(index){
+                    ymc = '<span style="color: #FFB800">'+data.mc+'</span>';
+                    layer.confirm('确定'+tsmc+'用户['+ymc+']吗？', function(index){
                         $.ajax({
                             method:'post'
                             , url:'<%=basePath%>/htgl/czry/editGg_czry_zt'

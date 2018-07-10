@@ -101,11 +101,12 @@
             if (obj.event === 'jy'){
                 tsmc = '';
                 if(data.zt==0){
-                    tsmc = '禁用';
+                    tsmc = '<span style="color: #FF5722">禁用</span>';;
                 } else {
-                    tsmc = '启用';
+                    tsmc = '<span style="color: #009688">启用</span>';;
                 }
-                layer.confirm('确定'+tsmc+'该功能吗？', function(index){
+                gmc = '<span style="color: #FFB800">'+data.gnmc+'</span>';
+                layer.confirm('确定'+tsmc+'功能['+gmc+']吗？', function(index){
                     $.ajax({
                         method:'post'
                         , url:'<%=basePath%>htgl/xtgn/editXt_gnb_zt'

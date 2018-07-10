@@ -56,10 +56,26 @@ public class ImgUtils {
         return ret;
     }
 
+    /**
+     * 展示图片缩略图高度
+     * @param gg_imgs 图片信息
+     * @return 图片高度
+     */
     public static int getImgShowHeight(GG_IMGS gg_imgs){
+        int width = Constant_htgl.GG_IMGS_WIDTH_SHOW;
+        return getImgShowHeight(gg_imgs,width);
+    }
+
+
+    /**
+     * 展示图片高度
+     * @param gg_imgs 图片信息
+     * @param width 展示宽度
+     * @return 图片高度
+     */
+    public static int getImgShowHeight(GG_IMGS gg_imgs,int width){
         double imgHeight = ConvertUtils.createDouble(gg_imgs.getHeight());
         double imgWidth = ConvertUtils.createDouble(gg_imgs.getWidth());
-        int width = Constant_htgl.GG_IMGS_WIDTH_SHOW;
         String hg = ConvertUtils.createString(width * (imgHeight / imgWidth));
         int height = ConvertUtils.toInt(hg.substring(0, hg.lastIndexOf(".")));
         return height;

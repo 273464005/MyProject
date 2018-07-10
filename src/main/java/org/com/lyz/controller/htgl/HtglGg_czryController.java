@@ -150,7 +150,7 @@ public class HtglGg_czryController {
         int width = Constant_htgl.GG_IMGS_WIDTH_SHOW;
         if(gg_imgs != null && StringUtils.isNotEmpty(gg_imgs.getPkValue())){
             imgPath = FileUtils.getZxImgPath(request)+gg_imgs.getTpmc();
-            height =ImgUtils.getImgShowHeight(gg_imgs);
+            height = ImgUtils.getImgShowHeight(gg_imgs);
         }
         model.addAttribute("gg_imgs", gg_imgs);
         model.addAttribute("showImg",imgPath);
@@ -161,6 +161,29 @@ public class HtglGg_czryController {
         model.addAttribute("qxList", qxList);
         model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
         return "htgl/gg_czry/htglEdit_Czry";
+    }
+
+    /**
+     * 获取大图
+     * @param request 请求信息
+     * @param gg_imgs 图片信息
+     * @return 获取结果
+     * @throws SQLException 异常信息
+     */
+    @RequestMapping("/getBigImg")
+    @ResponseBody
+    public Map<String, Object> getBigImg(HttpServletRequest request, GG_IMGS gg_imgs) throws SQLException {
+        Map<String, Object> returnMap = new HashMap<String, Object>();
+        GG_IMGS imgs = imgService.selectById(gg_imgs.getId());
+
+        Map<String, Object> albumMap = LayerUtils.getBigImgMap(request, imgs);
+        JSONArray jsonArray2 = JSONArray.fromObject(albumMap);
+        int width = Constant_htgl.GG_IMGS_WIDTH_ALBUM;
+        int height = ImgUtils.getImgShowHeight(imgs,width);
+        returnMap.put("json", jsonArray2);
+        returnMap.put("width", width);
+        returnMap.put("height", height);
+        return returnMap;
     }
 
     /**

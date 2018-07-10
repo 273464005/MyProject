@@ -3,7 +3,6 @@
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-    String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/uploadImg"+"/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -85,12 +84,13 @@
             </div>
         </c:if>
         <div class="layui-form-item">
+            <label class="layui-form-label">头像</label>
             <div class="layui-input-block">
                 <div class="layui-upload">
                     <button type="button" class="layui-btn layui-btn-normal" id="xzwj">选择文件</button>
                     <%--<button type="button" class="layui-btn layui-btn-normal" id="sctp">上传图片</button>--%>
                     <div id="myImgeDiv">
-                        <img src="${showImg}" alt="${gg_imgs.tpmc}" id="myImge" height="${showImgHeight}" width="${showImgWidth}">
+                        <img src="${showImg}" alt="${gg_imgs.tpmc}" id="myImge" style="width: ${showImgWidth}px;height: ${showImgHeight}px">
                     </div>
                 </div>
             </div>
@@ -190,14 +190,48 @@
                         hg = wt * (img.height/img.width);
                         $("#myImge").attr('width', wt + 'px');
                         $("#myImge").attr('height', hg + 'px');
+                        $("#myImge").removeAttr("style");
                     };
                     $('#myImge').attr('src', result); //图片链接（base64）
                 });
             }
         });
 
+        $("#myImge").click(function () {
+            //大图查看器
+            /*layer.photos({
+                photos: '#myImgeDiv'
+                ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+            });*/
+            $.ajax({
+                method: 'post'
+                , url: '<%=basePath%>htgl/czry/getBigImg'
+                , data:{
+                    id:'${gg_imgs.id}'
+                }
+                , success:function (returnValue) {
+                    layer.photos({
+                        photos: returnValue.json[0]
+                        , area: [returnValue.width+'px',returnValue.height+'px']
+                        , shift: 5
+                        , closeBtn: 1
+                    });
+                }
+                , error:function (e) {
+                    layer.alert("发生未知异常，相册加载失败！", {
+                        icon: 5
+                        , shade: 0
+                        , anim: 6
+                    });
+                }
+            });
+
+        });
+
         form.render();
     });
+
+
 
 
 </script>

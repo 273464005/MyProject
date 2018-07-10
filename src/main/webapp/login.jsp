@@ -145,6 +145,12 @@
                         });
                     },
                     error:function (e) {
+                        layer.alert("发生未知异常，请联系管理员！",{
+                            icon:5
+                            , shade: 0
+                            , anim: 6
+                        });
+                        $("input[name=mm]").val("");
                         layer.close(processIndex);
                     }
                 });

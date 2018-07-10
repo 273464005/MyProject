@@ -5,6 +5,7 @@ function popupOk(data,successCallBack,errorCallBack){
             ,time:3000
             ,shade:0
             ,end:successCallBack
+            ,title:'提示信息'
         });
         return true;
     }
@@ -13,6 +14,7 @@ function popupOk(data,successCallBack,errorCallBack){
             icon:2
             ,shade:0
             ,end:errorCallBack
+            ,title:'提示信息'
         });
         return false;
     }

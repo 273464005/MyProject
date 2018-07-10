@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <dd><a href="javascript:;"  id="czmm">重置密码</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item"><a href="javascript:;" onclick="tcdl()">退出</a></li>
+      <li class="layui-nav-item"><a href="javascript:;" id="tcdl">退出</a></li>
     </ul>
   </div>
   
@@ -107,41 +107,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       , mm: SHA2(yzmm)
                   }
                   , success: function (returnValue) {
+                      layer.close(index1);
                       popupOk(returnValue, function () {
-                          layer.close(index1);
-                          layer.prompt({title: '请输入修改后的密码', formType: 3}, function (mm, index2) {
-                              layer.close(index2);
-                              layer.prompt({title: '请再次输入密码', formType: 3}, function (qrmm, index3) {
-                                  if (mm === qrmm) {
-                                      layer.close(index3);
-                                      $.ajax({
-                                          method: 'post'
-                                          , url: '<%=basePath%>htgl/czry/updateMm'
-                                          , data: {
-                                              id:'${user.id}'
-                                              , mm: SHA2(mm)
-                                          }
-                                          , success: function (returnValue) {
-                                              popupOk(returnValue, function () {
-                                                  location.href = "<%=basePath%>zcdl/exit";
-                                              }, function () {
-
-                                              });
-                                          }
-                                          , error: function () {
-
-                                          }
-                                      })
-                                  } else {
-                                      layer.msg("两次密码不匹配！", {
-                                          icon: 5
-                                          , shade: 0
-                                          , anim: 6
-                                          , time: 3000
-                                      });
-                                  }
-                              });
-                          });
+                          xgmm();
                       }, function () {
 
                       });
@@ -154,8 +122,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
           });
-      })
+      });
 
+      function xgmm() {
+          layer.prompt({title: '请输入修改后的密码', formType: 3}, function (mm, index2) {
+              layer.close(index2);
+              layer.prompt({title: '请再次输入密码', formType: 3}, function (qrmm, index3) {
+                  if (mm === qrmm) {
+                      layer.close(index3);
+                      $.ajax({
+                          method: 'post'
+                          , url: '<%=basePath%>htgl/czry/updateMm'
+                          , data: {
+                              id:'${user.id}'
+                              , mm: SHA2(mm)
+                          }
+                          , success: function (returnValue) {
+                              popupOk(returnValue, function () {
+                                  location.href = "<%=basePath%>zcdl/exit";
+                              }, function () {
+
+                              });
+                          }
+                          , error: function () {
+
+                          }
+                      })
+                  } else {
+                      layer.msg("两次密码不匹配！", {
+                          icon: 5
+                          , shade: 0
+                          , anim: 6
+                          , time: 3000
+                      });
+                  }
+              });
+          });
+      }
+
+        //退出登陆
+        $("#tcdl").click(function (){
+            layer.confirm("确认退出登陆？", {
+                icon: 3
+                , title: '提示'
+            }, function (index) {
+                location.href = "<%=basePath%>zcdl/exit";
+                layer.close(index);
+            });
+        });
 
     });
     //跳转页面
@@ -165,12 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         ztnr.attr("src",tzdz);
     }
 
-    //退出登陆
-    function tcdl() {
-        if(confirm("确认退出登陆？")){
-            location.href = "<%=basePath%>zcdl/exit";
-        }
-    }
+
 
 </script>
 </body>
