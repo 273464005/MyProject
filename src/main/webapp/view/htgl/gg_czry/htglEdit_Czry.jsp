@@ -88,7 +88,7 @@
             <div class="layui-input-block">
                 <div class="layui-upload">
                     <button type="button" class="layui-btn layui-btn-normal" id="xzwj">选择文件</button>
-                    <%--<button type="button" class="layui-btn layui-btn-normal" id="sctp">上传图片</button>--%>
+                    <button type="button" class="layui-btn layui-btn-normal" >历史头像</button>
                     <div id="myImgeDiv">
                         <img src="${showImg}" alt="${gg_imgs.tpmc}" id="myImge" style="width: ${showImgWidth}px;height: ${showImgHeight}px">
                     </div>

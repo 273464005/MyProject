@@ -85,12 +85,19 @@ public class StringUtils
         return strResult;
     }
 
+    /**
+     * 将阿拉伯数字转换为汉字数字
+     * @param a 需要转换的数字
+     * @return 汉字数字
+     */
     public static String translateNumToChinese(int a)
     {
         String units[] = {
+            // "", "十", "百", "千", "万", "十", "百", "千", "亿"
             "", "\u5341", "\u767E", "\u5343", "\u4E07", "\u5341", "\u767E", "\u5343", "\u4EBF"
         };
         String nums[] = {
+            // "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"
             "\u4E00", "\u4E8C", "\u4E09", "\u56DB", "\u4E94", "\u516D", "\u4E03", "\u516B", "\u4E5D", "\u5341"
         };
         String result = "";
@@ -110,7 +117,7 @@ public class StringUtils
                 result = (new StringBuilder(String.valueOf(result))).append(nums[Integer.parseInt(l) - 1]).toString();
                 result = (new StringBuilder(String.valueOf(result))).append(units[i]).toString();
             } else
-            if(!result.endsWith("\u96F6"))
+            if(!result.endsWith("\u96F6"))//"零"
                 result = (new StringBuilder(String.valueOf(result))).append("\u96F6").toString();
         }
 
@@ -230,6 +237,7 @@ public class StringUtils
         if(str == null)
             return "";
         else
+            // "\uFF1A" --> "："
             return (new StringBuilder(String.valueOf(str))).append("\uFF1A").toString();
     }
 
@@ -338,16 +346,16 @@ public class StringUtils
         if(strNum != null && strNum.length() > 0)
         {
             result = strNum;
-            result = result.replaceAll("0", "\u96F6");
-            result = result.replaceAll("1", "\u4E00");
-            result = result.replaceAll("2", "\u4E8C");
-            result = result.replaceAll("3", "\u4E09");
-            result = result.replaceAll("4", "\u56DB");
-            result = result.replaceAll("5", "\u4E94");
-            result = result.replaceAll("6", "\u516D");
-            result = result.replaceAll("7", "\u4E03");
-            result = result.replaceAll("8", "\u516B");
-            result = result.replaceAll("9", "\u4E5D");
+            result = result.replaceAll("0", "\u96F6");// 零
+            result = result.replaceAll("1", "\u4E00");// 一
+            result = result.replaceAll("2", "\u4E8C");// 二
+            result = result.replaceAll("3", "\u4E09");// 三
+            result = result.replaceAll("4", "\u56DB");// 四
+            result = result.replaceAll("5", "\u4E94");// 五
+            result = result.replaceAll("6", "\u516D");// 六
+            result = result.replaceAll("7", "\u4E03");// 七
+            result = result.replaceAll("8", "\u516B");// 八
+            result = result.replaceAll("9", "\u4E5D");// 九
         }
         return result;
     }
@@ -489,9 +497,15 @@ public class StringUtils
 
     public static void main(String args[])
     {
-        System.out.println(format("\uFFE5#,##0.00\u5143", Integer.valueOf(66778899)));
-        System.out.println(LowerToUpperOfNum(1300));
-        System.out.println(addComma("100111111111113000", 3));
+//        System.out.println(format("\uFFE5#,##0.00\u5143", Integer.valueOf(66778899)));
+//        System.out.println(LowerToUpperOfNum(1300));
+//        System.out.println(addComma("100111111111113000", 3));
+        String sfzh = "008123456789789000";
+        String sjh = "13100000000";
+//        String s = sfzh.substring(3, 14);
+//        String ss = numToAsterisk(s);
+//        System.out.println("ss-->"+ss+"\tssLen-->"+ss.length());
+        System.out.println(idAndMobilenumToAsterisk(sjh));
     }
 
     public static String getUUID()
@@ -587,6 +601,41 @@ public class StringUtils
         {
             return null;
         }
+    }
+
+    /**
+     * 将身份证或者手机号转换为*
+     * @param s 需要转换的数字
+     * @return 转换结果
+     */
+    public static String idAndMobilenumToAsterisk(String s){
+        StringBuffer sb = new StringBuffer();
+        String Transformation = "";
+        if(s.length()==11){
+            sb.append(s.substring(0, 3));
+            Transformation = s.substring(3,s.length());
+            sb.append(numToAsterisk(Transformation));
+        } else if(s.length() == 18){
+            sb.append(s.substring(0, 3));
+            Transformation = s.substring(3, 14);
+            sb.append(numToAsterisk(Transformation)).append(s.substring(14,s.length()));
+        } else{
+            sb.append(numToAsterisk(s));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 将数字转换为*
+     * @param s 需要转换的数字
+     * @return 转换结果
+     */
+    public static String numToAsterisk(String s){
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < s.length() ;i ++) {
+            sb.append("*");
+        }
+        return sb.toString();
     }
 
     private static String inj_sqls[] = {

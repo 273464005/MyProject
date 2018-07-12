@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.com.lyz.base.dao.IMG_LOGDao">
+  <resultMap id="BaseResultMap" type="org.com.lyz.base.model.po.IMG_LOG">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="glid" jdbcType="VARCHAR" property="glid" />
+    <result column="imgid" jdbcType="VARCHAR" property="imgid" />
+    <result column="logsj" jdbcType="DECIMAL" property="logsj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, glid, imgid, logsj
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from img_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from img_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.com.lyz.base.model.po.IMG_LOG">
+    insert into img_log (id, glid, imgid, 
+      logsj)
+    values (#{id,jdbcType=VARCHAR}, #{glid,jdbcType=VARCHAR}, #{imgid,jdbcType=VARCHAR}, 
+      #{logsj,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="org.com.lyz.base.model.po.IMG_LOG">
+    insert into img_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="glid != null">
+        glid,
+      </if>
+      <if test="imgid != null">
+        imgid,
+      </if>
+      <if test="logsj != null">
+        logsj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="glid != null">
+        #{glid,jdbcType=VARCHAR},
+      </if>
+      <if test="imgid != null">
+        #{imgid,jdbcType=VARCHAR},
+      </if>
+      <if test="logsj != null">
+        #{logsj,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.com.lyz.base.model.po.IMG_LOG">
+    update img_log
+    <set>
+      <if test="glid != null">
+        glid = #{glid,jdbcType=VARCHAR},
+      </if>
+      <if test="imgid != null">
+        imgid = #{imgid,jdbcType=VARCHAR},
+      </if>
+      <if test="logsj != null">
+        logsj = #{logsj,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.com.lyz.base.model.po.IMG_LOG">
+    update img_log
+    set glid = #{glid,jdbcType=VARCHAR},
+      imgid = #{imgid,jdbcType=VARCHAR},
+      logsj = #{logsj,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 自定义SQL -->
+  <select id="selectAllByColumnList" parameterType="java.lang.String" resultType="java.util.Map">
+     select
+    <include refid="Base_Column_List" />
+     from img_log
+    <where>
+      <trim prefix="" suffix="" suffixOverrides="AND">
+        <if test="glid != null">
+          glid = #{glid,jdbcType=VARCHAR} AND
+        </if>
+        <if test="imgid != null">
+          imgid = #{imgid,jdbcType=VARCHAR} AND
+        </if>
+        <if test="kssj !=null and jssj != null">
+          logsj <![CDATA[ >= ]]> #{kssj,jdbcType=INTEGER} AND logsj <![CDATA[ <= ]]> #{jssj,jdbcType=INTEGER} AND
+        </if>
+      </trim>
+      limit #{pageMin,jdbcType=INTEGER},#{pageMax,jdbcType=INTEGER}
+    </where>
+  </select>
+</mapper>

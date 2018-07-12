@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </c:if>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
-        <a href="javascript:;">
+        <a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry/editGg_czry?czryid=${user.id}')">
           <c:if test="${showImg != '' && showImg != null}">
             <img src="${showImg}" class="layui-nav-img">
           </c:if>
