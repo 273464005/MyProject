@@ -4,8 +4,10 @@ import net.sf.json.JSONArray;
 import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_IMGS;
+import org.com.lyz.base.model.po.IMG_LOG;
 import org.com.lyz.constant.Constant_htgl;
 import org.com.lyz.service.htgl.CzryService;
+import org.com.lyz.service.htgl.ImgLogService;
 import org.com.lyz.service.htgl.ImgService;
 import org.com.lyz.util.*;
 import org.com.lyz.util.pageutil.SplitPageInfo;
@@ -44,6 +46,10 @@ public class HtglGg_czryController {
     @Autowired
     @Qualifier("imgService")
     private ImgService imgService;
+
+    @Autowired
+    @Qualifier("imgLogService")
+    private ImgLogService imgLogService;
 
     @RequestMapping()
     public String Index(HttpServletRequest request, Model model) throws SQLException{
@@ -243,7 +249,7 @@ public class HtglGg_czryController {
      */
     @RequestMapping("/uploadImg")
     @ResponseBody
-    public Map<String,Object> saveUploadImg(HttpServletRequest request,@RequestParam("file") MultipartFile file,String czryid,String imgid) throws Exception{
+    public Map<String,Object> saveUploadImg(HttpServletRequest request,@RequestParam("file") MultipartFile file,String czryid) throws Exception{
         Map<String, Object> returnMap = new HashMap<String,Object>();
 
         String myFileName = file.getOriginalFilename();// 文件原名称
@@ -253,18 +259,23 @@ public class HtglGg_czryController {
 
         file.transferTo(localFile);
 
+        //图片数据
         GG_IMGS gg_imgs = new GG_IMGS();
-        if (StringUtils.isNotEmpty(imgid)){
-//            gg_imgs = imgService.selectById(imgid);
-        } else {
-//            gg_imgs = new GG_IMGS();
-        }
         gg_imgs.setScsj(DateUtil.getLongCurrDateTime14());
         gg_imgs.setTpdz(pat);
         gg_imgs.setTpmc(fileName);
         gg_imgs.setHeight(ImgUtils.getImgHeight(localFile));
         gg_imgs.setWidth(ImgUtils.getImgWidth(localFile));
         imgService.save(gg_imgs);
+
+        //图片日志
+        IMG_LOG img_log = new IMG_LOG();
+        img_log.setLogsj(DateUtil.getLongCurrDateTime());
+        img_log.setImgid(gg_imgs.getId());
+        img_log.setGlid(czryid);
+        imgLogService.save(img_log);
+
+        //人员头像修改
         GG_CZRY gg_czry = CzryService.selectById(czryid);
         gg_czry.setTxdz(gg_imgs.getId());
         CzryService.update(gg_czry);

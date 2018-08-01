@@ -13,5 +13,7 @@
 <a href="login.jsp" target="_blank">点我跳转jsp登陆页面</a>
 <br />
 <a href="view/angular/angularJSLogin.html" target="_blank">点我跳转angularJS登陆页面</a>
+<br />
+<a href="webSocketTest.jsp">点我跳转即时通信页面</a>
 </body>
 </html>

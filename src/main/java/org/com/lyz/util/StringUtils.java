@@ -505,7 +505,7 @@ public class StringUtils
 //        String s = sfzh.substring(3, 14);
 //        String ss = numToAsterisk(s);
 //        System.out.println("ss-->"+ss+"\tssLen-->"+ss.length());
-        System.out.println(idAndMobilenumToAsterisk(sjh));
+        System.out.println(idAndMobileNumToAsterisk(sjh));
     }
 
     public static String getUUID()
@@ -608,9 +608,9 @@ public class StringUtils
      * @param s 需要转换的数字
      * @return 转换结果
      */
-    public static String idAndMobilenumToAsterisk(String s){
+    public static String idAndMobileNumToAsterisk(String s){
         StringBuffer sb = new StringBuffer();
-        String Transformation = "";
+        String Transformation;
         if(s.length()==11){
             sb.append(s.substring(0, 3));
             Transformation = s.substring(3,s.length());

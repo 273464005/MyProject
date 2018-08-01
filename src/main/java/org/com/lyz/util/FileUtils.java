@@ -1,7 +1,17 @@
 package org.com.lyz.util;
 
+import org.com.lyz.base.model.po.GG_CZRY;
+import org.com.lyz.base.model.po.GG_IMGS;
+import org.com.lyz.base.model.po.IMG_LOG;
+import org.com.lyz.service.htgl.CzryService;
+import org.com.lyz.service.htgl.ImgLogService;
+import org.com.lyz.service.htgl.ImgService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.Random;
 
 /**
