@@ -131,7 +131,7 @@ public class ZcdlController {
      */
     @RequestMapping("/htglMainHome")
     public String htglMainHome(HttpServletRequest request,HttpSession session,Model model) throws SQLException{
-        logger.info("========进入后台管理页面=======");
+        logger.info("========初始化后台管理页面内容=======");
         GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
         XT_GNB xt_gnb = new XT_GNB();
         xt_gnb.setDyqx(gg_czry.getQx());
