@@ -230,13 +230,13 @@
 
         });
 
-        function showLstx(czryid,dqtx) {
+        window.showLstx = function (czryid,dqtx) {
             if(dqtx === '') {
                 msg("改用户未上传过头像",5);
             } else {
                 location.href = "<%=basePath%>";
             }
-        }
+        };
 
         form.render();
     });

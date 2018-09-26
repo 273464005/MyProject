@@ -104,4 +104,8 @@
 		<property name="basePackage" value="org.com.lyz.base.dao"/>
 		 
 	</bean>
+
+	<!-- 使用getBean获取 -->
+	<bean id="ltgnService" class="org.com.lyz.service.htgl.impl.LtgnServiceImpl" />
+
 </beans>

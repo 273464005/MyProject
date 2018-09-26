@@ -33,10 +33,10 @@
 
     <script type="text/html" id="cz">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="bj"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-        <a class="layui-btn {{d.zt==0?'layui-btn-warm':'layui-btn'}} layui-btn-xs" lay-event="jy">{{d.zt==0?'禁用':'启用'}}</a>
+        <a class="layui-btn {{d.zt==0?'layui-btn-warm':'layui-btn'}} layui-btn-xs" lay-event="jy">{{d.zt==0?'<i class="layui-icon layui-icon-close"></i>禁用':'<i class="layui-icon layui-icon-ok"></i>启用'}}</a>
         {{d.qx > ${user.qx}?'<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>':''}}
     </script>
-    <script src="<%=basePath%>layui/layui.all.js" charset="utf-8"></script>
+    <script type="text/javascript" src="<%=basePath%>layui/layui.all.js" charset="utf-8"></script>
     <script type="text/javascript" src="<%=basePath%>js/jquery-3.2.1.js"></script>
     <script type="text/javascript" src="<%=basePath%>js/information.js"></script>
     <script type="text/javascript">

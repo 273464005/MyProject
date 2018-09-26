@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.com.lyz.base.dao.GG_LTFJDao">
+  <resultMap id="BaseResultMap" type="org.com.lyz.base.model.po.GG_LTFJ">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="fjh" jdbcType="VARCHAR" property="fjh" />
+    <result column="fjmc" jdbcType="VARCHAR" property="fjmc" />
+    <result column="fjms" jdbcType="VARCHAR" property="fjms" />
+    <result column="fjzt" jdbcType="INTEGER" property="fjzt" />
+    <result column="fjmm" jdbcType="VARCHAR" property="fjmm" />
+    <result column="cjsj" jdbcType="DECIMAL" property="cjsj" />
+    <result column="cjr" jdbcType="VARCHAR" property="cjr" />
+    <result column="cjrmc" jdbcType="VARCHAR" property="cjrmc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, fjh, fjmc, fjms, fjzt, fjmm, cjsj, cjr, cjrmc
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gg_ltfj
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from gg_ltfj
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.com.lyz.base.model.po.GG_LTFJ">
+    insert into gg_ltfj (id, fjh, fjmc, 
+      fjms, fjzt, fjmm,
+      cjsj, cjr, cjrmc)
+    values (#{id,jdbcType=VARCHAR}, #{fjh,jdbcType=VARCHAR}, #{fjmc,jdbcType=VARCHAR},
+      #{fjms,jdbcType=VARCHAR}, #{fjzt,jdbcType=INTEGER}, #{fjmm,jdbcType=VARCHAR},
+      #{cjsj,jdbcType=DECIMAL}, #{cjr,jdbcType=VARCHAR}, #{cjrmc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.com.lyz.base.model.po.GG_LTFJ">
+    insert into gg_ltfj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fjh != null">
+        fjh,
+      </if>
+      <if test="fjmc != null">
+        fjmc,
+      </if>
+      <if test="fjms != null">
+        fjms,
+      </if>
+      <if test="fjzt != null">
+        fjzt,
+      </if>
+      <if test="fjmm != null">
+        fjmm,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="cjr != null">
+        cjr,
+      </if>
+      <if test="cjrmc != null">
+        cjrmc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="fjh != null">
+        #{fjh,jdbcType=VARCHAR},
+      </if>
+      <if test="fjmc != null">
+        #{fjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="fjms != null">
+        #{fjms,jdbcType=VARCHAR},
+      </if>
+      <if test="fjzt != null">
+        #{fjzt,jdbcType=INTEGER},
+      </if>
+      <if test="fjmm != null">
+        #{fjmm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=DECIMAL},
+      </if>
+      <if test="cjr != null">
+        #{cjr,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrmc != null">
+        #{cjrmc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.com.lyz.base.model.po.GG_LTFJ">
+    update gg_ltfj
+    <set>
+      <if test="fjh != null">
+        fjh = #{fjh,jdbcType=VARCHAR},
+      </if>
+      <if test="fjmc != null">
+        fjmc = #{fjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="fjms != null">
+        fjms = #{fjms,jdbcType=VARCHAR},
+      </if>
+      <if test="fjzt != null">
+        fjzt = #{fjzt,jdbcType=INTEGER},
+      </if>
+      <if test="fjmm != null">
+        fjmm = #{fjmm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=DECIMAL},
+      </if>
+      <if test="cjr != null">
+        cjr = #{cjr,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrmc != null">
+        cjrmc = #{cjrmc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.com.lyz.base.model.po.GG_LTFJ">
+    update gg_ltfj
+    set fjh = #{fjh,jdbcType=VARCHAR},
+      fjmc = #{fjmc,jdbcType=VARCHAR},
+      fjms = #{fjms,jdbcType=VARCHAR},
+      fjzt = #{fjzt,jdbcType=INTEGER},
+      fjmm = #{fjmm,jdbcType=VARCHAR},
+      cjsj = #{cjsj,jdbcType=DECIMAL},
+      cjr = #{cjr,jdbcType=VARCHAR},
+      cjrmc = #{cjrmc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 自定义SQL -->
+
+  <select id="selectAllLtfjByZt"  parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    select <include refid="Base_Column_List" /> from gg_ltfj
+    <where>
+      1 = 1
+      <if test="fjzt != null and fjzt != ''">
+        and fjzt = #{fjzt,jdbcType=INTEGER}
+      </if>
+      <if test="cjrmc != null and cjrmc != ''">
+        and cjrmc LIKE #{cjrmc,jdbcType=VARCHAR}
+        or  fjh LIKE #{cjrmc,jdbcType=VARCHAR}
+        or fjmc LIKE #{fjmc,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ORDER BY cjsj DESC
+    limit #{pageMin,jdbcType=INTEGER},#{pageMax,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectLtfjByCjr" parameterType="java.lang.String" resultType="java.util.HashMap">
+    select <include refid="Base_Column_List" /> from gg_ltfj where cjr = #{cjr,jdbcType=VARCHAR}
+  </select>
+</mapper>

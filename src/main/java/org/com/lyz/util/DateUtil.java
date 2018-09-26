@@ -1235,4 +1235,13 @@ public class DateUtil {
 	    String time=new SimpleDateFormat("yyyyMMddHHmmss").format(calendar.getTime());
 	    return ConvertUtils.createLong(time);
     }
+
+    /**
+     * 获取当前系统时间(毫秒数)
+     * @return 毫秒数
+     */
+    public static Long getNowTimeToOldTime(){
+        Date d = new Date();
+        return d.getTime();
+    }
 }

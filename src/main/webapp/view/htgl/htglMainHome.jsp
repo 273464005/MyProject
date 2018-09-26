@@ -20,8 +20,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="layui-header">
     <div class="layui-logo"><a href="javascript:;" onclick="window.location.reload()"><span style="color:#ffffff">LOGO位置</span></a></div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
-    <c:if test="${user.qx < GG_CZRY_QX_PTYH}">
-      <ul class="layui-nav layui-layout-left">
+    <ul class="layui-nav layui-layout-left">
+      <c:if test="${user.qx < GG_CZRY_QX_PTYH}">
         <li class="layui-nav-item">
           <a href="javascript:;" onclick="tz('<%=basePath%>htgl/xtgn')">功能管理</a>
           <dl class="layui-nav-child">
@@ -29,8 +29,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </dl>
         </li>
         <li class="layui-nav-item"><a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry')">用户管理</a></li>
-      </ul>
-    </c:if>
+      </c:if>
+      <li class="layui-nav-item"><a href="<%=basePath%>webSocketTest.jsp" target="_blank">测试聊天通信</a></li>
+      <li class="layui-nav-item"><a href="javascript:;" onclick="tz('<%=basePath%>ltyl/fjgl')">聊天娱乐</a></li>
+    </ul>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
         <a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry/editGg_czry?czryid=${user.id}')">

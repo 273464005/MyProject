@@ -11,6 +11,10 @@ public class SplitPageInfo {
 
     private int limit = 10;
 
+    /**
+     * limit中的起始位置（pageMin）
+     * @return
+     */
     public int getPage() {
         return page;
     }
@@ -22,6 +26,10 @@ public class SplitPageInfo {
         this.page = page;
     }
 
+    /**
+     * limit中的结束位置（pageMax）
+     * @return
+     */
     public int getLimit() {
         return limit;
     }

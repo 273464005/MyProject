@@ -10,6 +10,7 @@
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String webSocketPath = "//"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -17,8 +18,9 @@
     <title>webSocket测试页面</title>
     <link rel="stylesheet" type="text/css" href="<%=path%>/layui/css/layui.css"/>
     <script src="<%=basePath%>js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" src="<%=path%>/layer/layer.js"></script>
-    <script type="text/javascript" src="<%=path%>/layui/layui.all.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/layer/layer.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/layui/layui.all.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/js/myWebSocketJs.js"></script>
 </head>
 <body>
     <div>
@@ -26,6 +28,10 @@
             <legend>测试即时通信</legend>
         </fieldset>
         <div>
+            <div hidden="hidden">
+                <input id="userId" value="${user.id}" />
+                <input id="homeId" value="abc">
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-inline">
@@ -33,7 +39,7 @@
                 </div>
             </div>
             <div>
-                <button onclick="send()" class="layui-btn">发送消息</button>
+                <button onclick="send('fsnr')" class="layui-btn">发送消息</button>
             </div>
             <br />
             <button onclick="closeWebSocket()" class="layui-btn">关闭WebSocket连接</button>
@@ -43,55 +49,10 @@
     </div>
 </body>
 
+
 <script type="text/javascript">
-    var websocket = null;
-    //判断当前浏览器是否支持WebSocket
-    if ('WebSocket' in window) {
-        //建立连接，这里的/websocket ，是ManagerServlet中开头注解中的那个值
-        websocket = new WebSocket("ws://localhost:8080/myproject/websocket");
-    } else {
-        alert('当前浏览器 Not support websocket')
-    }
-
-    //连接发生错误的回调方法
-    websocket.onerror = function () {
-        setMessageInnerHTML("WebSocket连接发生错误");
-    };
-
-    //连接成功建立的回调方法
-    websocket.onopen = function () {
-        setMessageInnerHTML("WebSocket连接成功");
-    };
-
-    //接收到消息的回调方法
-    websocket.onmessage = function (event) {
-        setMessageInnerHTML(event.data);
-    };
-
-    //连接关闭的回调方法
-    websocket.onclose = function () {
-        setMessageInnerHTML("WebSocket连接关闭");
-    };
-
-    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
-    window.onbeforeunload = function () {
-        closeWebSocket();
-    };
-
-    //将消息显示在网页上
-    function setMessageInnerHTML(innerHTML) {
-        document.getElementById('message').innerHTML += innerHTML + '<br/>';
-    }
-
-    //关闭WebSocket连接
-    function closeWebSocket() {
-        websocket.close();
-    }
-
-    //发送消息
-    function send() {
-        var message = document.getElementById('fsnr').value;
-        websocket.send(message);
-    }
+    var homeId = $("#homeId").val();
+    var userId = $("#userId").val();
+    webSocketSendMsg('<%=webSocketPath%>',homeId,userId,'message');
 </script>
 </html>
