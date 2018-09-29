@@ -67,15 +67,17 @@
                             </div>
                             <c:if test="${ltfj.cjr == user.id && ltfj.cjr != fjry.get('ryid')}">
                                 <div style="float: right;">
-                                    <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="yhjy(this,'${fjry.get("ryid")}','${fjry.get("fjid")}')">
-                                        <c:if test="${fjry.get('zt') == GG_FJRYB_ZT_ZC}">
-                                            禁言
-                                        </c:if>
-                                        <c:if test="${fjry.get('zt') != GG_FJRYB_ZT_ZC}">
-                                            解禁
-                                        </c:if>
-                                    </button>
-                                    <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="yhtc('${fjry.get("ryid")}','${fjry.get("fjid")}')">踢出</button>
+                                    <div class="layui-btn-group">
+                                        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="yhjy(this,'${fjry.get("ryid")}','${fjry.get("fjid")}')">
+                                            <c:if test="${fjry.get('zt') == GG_FJRYB_ZT_ZC}">
+                                                禁言
+                                            </c:if>
+                                            <c:if test="${fjry.get('zt') != GG_FJRYB_ZT_ZC}">
+                                                解禁
+                                            </c:if>
+                                        </button>
+                                        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="yhtc('${fjry.get("ryid")}','${fjry.get("fjid")}')">踢出</button>
+                                    </div>
                                 </div>
                             </c:if>
                             <hr class="layui-bg-gray">
@@ -202,6 +204,7 @@
             })
         });
     }
+
 </script>
 </body>
 </html>

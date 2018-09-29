@@ -44,8 +44,10 @@ function webSocketSendMsg(url,homeId,userId,showMsg,basePath){
 
     //将消息显示在网页上
     window.setMessageInnerHTML = function(innerHTML) {
+        var showMsgDiv = document.getElementById("showMsgParent");
         document.getElementById(showMsg).innerHTML += '<blockquote class="layui-elem-quote">' +innerHTML +'</blockquote>';
-    }
+        showMsgDiv.scrollTop = showMsgDiv.scrollHeight;
+    };
 
     //关闭WebSocket连接
     window.closeWebSocket = function () {

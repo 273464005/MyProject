@@ -21,9 +21,9 @@
     <div>
         <fieldset class="layui-elem-field">
             <legend>即时通信</legend>
-            <div class="layui-field-box" style="height: 69%;width: 95%;display: inline-block;overflow:auto">
+            <div id="showMsgParent" class="layui-field-box" style="height: 69%;width: 95%;display: inline-block;overflow:auto">
                 <div hidden="hidden">
-                    <input id="userId" value="${user.id}" />
+                    <input id="userId" value="${user.id}"/>
                     <input id="homeId" value="${ltfj.id}">
                 </div>
                 <div id="message" style="display: inline-block;"></div>
@@ -49,5 +49,7 @@
     var homeId = $("#homeId").val();
     var userId = $("#userId").val();
     webSocketSendMsg('<%=webSocketPath%>',homeId,userId,'message','<%=basePath%>');
+
+
 </script>
 </html>

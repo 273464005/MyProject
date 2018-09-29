@@ -98,15 +98,6 @@ public class WebSocketController {
             logger.info("该用户已下线");
         }
 
-        if (!this.homeId.equals("")){
-            webSocketSet.remove(this.homeId);
-            subOnlineCount();
-            String str = userName + "退出房间，当前在线人数：" + getOnlineCount();
-            logger.info(str);
-        } else {
-            logger.info("该用户已下线");
-        }
-
     }
 
     /**

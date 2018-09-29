@@ -34,7 +34,7 @@ public class CzryServiceImpl implements CzryService {
      */
     public void insert(GG_CZRY gg_czry) throws SQLException {
         gg_czry.setId(StringUtils.getUUID());
-        gg_czry.setQx(Constant_htgl.GG_CZRY_QX_GLY);//暂时注册全部为普通管理员
+        gg_czry.setQx(Constant_htgl.GG_CZRY_QX_PTYH);//暂时注册全部为普通人员
         gg_czry.setZt(Constant_htgl.GG_CZRY_ZT_ZC);//新注册用户状态全部为正常
         logger.info("----添加操作人员成功----");
         czryDao.insertSelective(gg_czry);
