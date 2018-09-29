@@ -28,8 +28,8 @@ function popupOk(data,successCallBack,errorCallBack){
 function msg(text,type) {
     var time = 0;
     if (type > 1 && type%2 === 0){
-    } else {
         time = 3000;
+    } else {
     }
     layer.alert(text, {
         icon: type

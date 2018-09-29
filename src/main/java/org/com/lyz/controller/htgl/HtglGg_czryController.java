@@ -6,6 +6,7 @@ import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.base.model.po.IMG_LOG;
 import org.com.lyz.constant.Constant_htgl;
+import org.com.lyz.controller.BaseController;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.ImgLogService;
 import org.com.lyz.service.htgl.ImgService;
@@ -35,7 +36,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("htgl/czry")
-public class HtglGg_czryController {
+public class HtglGg_czryController extends BaseController {
 
     private final static Logger logger = Logger.getLogger(HtglXt_gnbController.class);
 

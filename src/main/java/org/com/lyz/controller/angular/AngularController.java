@@ -1,6 +1,7 @@
 package org.com.lyz.controller.angular;
 
 import org.com.lyz.base.model.po.GG_CZRY;
+import org.com.lyz.controller.BaseController;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.returnvalue.ReturnValue;
@@ -21,7 +22,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("angular")
-public class AngularController {
+public class AngularController extends BaseController {
 
     @Autowired
     private CzryService czryService;

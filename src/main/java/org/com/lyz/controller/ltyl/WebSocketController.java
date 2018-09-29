@@ -1,15 +1,12 @@
-package org.com.lyz.controller;
+package org.com.lyz.controller.ltyl;
 
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
-import org.com.lyz.service.htgl.CzryService;
-import org.com.lyz.service.htgl.LtgnService;
-import org.com.lyz.service.htgl.impl.CzryServiceImpl;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.com.lyz.base.model.po.GG_FJRYB;
+import org.com.lyz.base.model.po.GG_LTFJ;
+import org.com.lyz.service.ltyl.LtgnService;
+import org.com.lyz.util.ConvertUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 
@@ -18,6 +15,8 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -28,9 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 @ServerEndpoint("/websocket/{conversation}")
-public class WebSocketTestController {
+public class WebSocketController {
 
-    private final static Logger logger = Logger.getLogger(WebSocketTestController.class);
+    private final static Logger logger = Logger.getLogger(WebSocketController.class);
 
     //静态变量，记录当前在线连接数，应该为线程安全
     private static int onlineCount = 0;
@@ -39,7 +38,7 @@ public class WebSocketTestController {
     //private static CopyOnWriteArraySet<WebSocketTestController> webSocketTestControllers = new CopyOnWriteArraySet<WebSocketTestController>();
 
     //一对一的通信
-    private static ConcurrentHashMap<String, WebSocketTestController> webSocketSet = new ConcurrentHashMap<String, WebSocketTestController>();
+    private static ConcurrentHashMap<String, WebSocketController> webSocketSet = new ConcurrentHashMap<String, WebSocketController>();
 
     //这个session不是Httpsession，相当于用户的唯一标识，用它进行与指定用户通讯
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -50,6 +49,8 @@ public class WebSocketTestController {
     private String userId = "";
 
     private String userName = "";
+
+    private String homeName = "";
 
     private LtgnService ltgnService=(LtgnService) ContextLoader.getCurrentWebApplicationContext().getBean("ltgnService");
 
@@ -68,12 +69,17 @@ public class WebSocketTestController {
             GG_CZRY gg_czry = ltgnService.getGg_czyb(userId);
             this.userName = gg_czry.getMc();
         }
+        if (homeId != null && !"".equals(userId)){
+            GG_LTFJ gg_ltfj = ltgnService.getGg_lifj(homeId);
+            homeName = gg_ltfj.getFjmc();
+        }
         //加入set中
         //webSocketTestControllers.add(this);
         //加入map中
+//        webSocketSet.put(this.homeId,this);
         webSocketSet.put(this.userId,this);
         addOnlineCount();
-        logger.info(userName + "加入房间"+ homeId +"，当前在线人数：" + getOnlineCount());
+        logger.info(userName + "加入房间"+ homeName +"，当前在线人数：" + getOnlineCount());
     }
 
     /**
@@ -85,6 +91,15 @@ public class WebSocketTestController {
         //webSocketTestControllers.remove(this);
         if (!this.userId.equals("")){
             webSocketSet.remove(this.userId);
+            subOnlineCount();
+            String str = userName + "退出房间，当前在线人数：" + getOnlineCount();
+            logger.info(str);
+        } else {
+            logger.info("该用户已下线");
+        }
+
+        if (!this.homeId.equals("")){
+            webSocketSet.remove(this.homeId);
             subOnlineCount();
             String str = userName + "退出房间，当前在线人数：" + getOnlineCount();
             logger.info(str);
@@ -111,12 +126,6 @@ public class WebSocketTestController {
 //        }
 
 //        try {
-//            sendMessageToAll(msg);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        try {
 //            sendMessageToOne(msg);
 //        } catch (IOException e) {
 //            e.printStackTrace();
@@ -131,6 +140,11 @@ public class WebSocketTestController {
         if(json.has("jsrId")){
             to = (String) json.get("jsrId");
         }
+//        try {
+//            sendMessageToAll(string);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         send(string,userId,to,homeId);
     }
 
@@ -144,15 +158,15 @@ public class WebSocketTestController {
         logger.info("发生错误！");
         error.printStackTrace();
     }
-/*
-    *//**
+
+    /**
      * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。
      * @param msg 发送的消息
      * @throws IOException 异常
-     *//*
+     */
     private void sendMessage(String msg) throws IOException{
         this.webSocketSession.getBasicRemote().sendText(msg);
-    }*/
+    }
 
  /*   *//**
      * 给指定用户发消息
@@ -178,48 +192,77 @@ public class WebSocketTestController {
      */
     public void send(String msg,String from,String to,String socketId){
         try {
-            //to指定用户
-            WebSocketTestController con = webSocketSet.get(to);
-            if(con!=null){
-                if(socketId==con.homeId||con.homeId.equals(socketId)){
-                    con.webSocketSession.getBasicRemote().sendText(userName+"说："+msg);
+            //to指定用户（这里指房间号）
+            GG_FJRYB gg_fjryb = new GG_FJRYB();
+            gg_fjryb.setFjid(to);
+            List<Map<String, Object>> fjryList = ltgnService.getFjry(gg_fjryb);
+            for (Map<String, Object> map: fjryList) {
+                WebSocketController con = webSocketSet.get(ConvertUtils.createString(map.get("ryid")));
+                if(con!=null){
+                    //只将消息发送当前房间
+                    if (ConvertUtils.createString(map.get("fjid")) == con.homeId || ConvertUtils.createString(map.get("fjid")).equals(con.homeId)){
+                        if(socketId==con.homeId||con.homeId.equals(socketId)){
+                            con.webSocketSession.getBasicRemote().sendText(userName+"："+msg);
+                        }
+                    }
                 }
-
             }
-            //from具体用户
-            WebSocketTestController confrom = webSocketSet.get(from);
-            if(confrom!=null){
-                if(socketId==confrom.homeId||confrom.homeId.equals(socketId)){
-                    confrom.webSocketSession.getBasicRemote().sendText(userName+"说："+msg);
-                }
-
-            }
+//            WebSocketTestController con = webSocketSet.get(to);
+//            WebSocketTestController con = webSocketSet.get(socketId);
+//            if(con!=null){
+//                if(socketId==con.homeId||con.homeId.equals(socketId)){
+//                    con.webSocketSession.getBasicRemote().sendText(userName+"："+msg);
+//                }
+//
+//            }
+//            //from具体用户
+//            WebSocketTestController confrom = webSocketSet.get(from);
+//            if(confrom!=null){
+//                if(socketId==confrom.homeId||confrom.homeId.equals(socketId)){
+//                    confrom.webSocketSession.getBasicRemote().sendText(userName+"："+msg);
+//                }
+//
+//            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (SQLException e2){
+
         }
     }
 
 
-/*    *//**
+    /**
      * 给所有人发消息
      * @param msg 发送的消息  形式：  消息|发送的人
      * @throws IOException 异常信息
-     *//*
+     */
     private void sendMessageToAll(String msg) throws IOException{
-        String sendMessage = msg.split("[|]")[0];
+//        String sendMessage = msg.split("[|]")[0];
         //遍历HashMap
         for (String key : webSocketSet.keySet()) {
             try {
                 //判断接收用户是否是当前发消息的用户
                 if (!homeId.equals(key)) {
-                    webSocketSet.get(key).sendMessage("用户" + homeId + "发来消息：" + " <br/> " + sendMessage);
+                    webSocketSet.get(key).sendMessage(userName+"："+ msg);
                 }
+//                if (homeId.equals(key)) {
+//                    webSocketSet.get(key).sendMessage(userName+"说："+ msg);
+//                    logger.info("homeId.equals(key)");
+//                }
+//                if (!userId.equals(key)) {
+//                    webSocketSet.get(key).sendMessage(userName+"说："+ msg);
+//                    logger.info("!userId.equals(key)");
+//                }
+//                if (userId.equals(key)) {
+//                    webSocketSet.get(key).sendMessage(userName+"说："+ msg);
+//                    logger.info("userId.equals(key)");
+//                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 
 
     /**
@@ -234,7 +277,7 @@ public class WebSocketTestController {
      * 当前在线人数+1
      */
     private static synchronized void addOnlineCount() {
-        WebSocketTestController.onlineCount++;
+        WebSocketController.onlineCount++;
     }
 
     /**
@@ -243,7 +286,7 @@ public class WebSocketTestController {
      */
     private static synchronized void subOnlineCount() {
         if(getOnlineCount() > 0){
-            WebSocketTestController.onlineCount--;
+            WebSocketController.onlineCount--;
         }
     }
 }

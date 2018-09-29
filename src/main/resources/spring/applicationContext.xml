@@ -106,6 +106,6 @@
 	</bean>
 
 	<!-- 使用getBean获取 -->
-	<bean id="ltgnService" class="org.com.lyz.service.htgl.impl.LtgnServiceImpl" />
+	<bean id="ltgnService" class="org.com.lyz.service.ltyl.impl.LtgnServiceImpl" />
 
 </beans>

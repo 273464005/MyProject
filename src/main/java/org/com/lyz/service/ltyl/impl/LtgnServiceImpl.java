@@ -1,4 +1,4 @@
-package org.com.lyz.service.htgl.impl;
+package org.com.lyz.service.ltyl.impl;
 
 import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.GG_CZRYDao;
@@ -9,7 +9,8 @@ import org.com.lyz.base.model.po.GG_FJRYB;
 import org.com.lyz.base.model.po.GG_LTFJ;
 import org.com.lyz.constant.Constant_htgl;
 import org.com.lyz.constant.Constant_ltyl;
-import org.com.lyz.service.htgl.LtgnService;
+import org.com.lyz.service.ltyl.LtgnService;
+import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.DateUtil;
 import org.com.lyz.util.MisException;
 import org.com.lyz.util.StringUtils;
@@ -59,6 +60,18 @@ public class LtgnServiceImpl implements LtgnService {
         return ltfjDao.selectByPrimaryKey(id);
     }
 
+    public GG_LTFJ getGg_lifj(GG_LTFJ gg_ltfj) throws SQLException {
+        return this.getGg_lifj(gg_ltfj.getId());
+    }
+
+    public GG_FJRYB getGg_fjryb(String id) throws SQLException {
+        return fjrybDao.selectByPrimaryKey(id);
+    }
+
+    public GG_FJRYB getGg_fjryb(GG_FJRYB gg_fjryb) throws SQLException {
+        return this.getGg_fjryb(gg_fjryb.getId());
+    }
+
     public void saveGg_ltfj(GG_LTFJ gg_ltfj) throws SQLException {
         if (gg_ltfj != null){
             if (StringUtils.isNotEmpty(gg_ltfj.getId())){
@@ -67,7 +80,6 @@ public class LtgnServiceImpl implements LtgnService {
                 gg_ltfj.setId(StringUtils.getUUID());
                 this.insertGg_ltfj(gg_ltfj);
             }
-            logger.info("保存gg_ltfj成功！");
         } else {
             throw new  MisException("保存失败！gg_ltfj不能为空！");
         }
@@ -87,7 +99,6 @@ public class LtgnServiceImpl implements LtgnService {
                 gg_fjryb.setId(StringUtils.getUUID());
                 this.insertGg_fjryb(gg_fjryb);
             }
-            logger.info("保存gg_fjryb成功！");
         } else {
             throw new MisException("保存失败！gg_fjryb不能为空");
         }
@@ -168,5 +179,20 @@ public class LtgnServiceImpl implements LtgnService {
      */
     public List<Map<String, Object>> getFjry(GG_FJRYB gg_fjryb) throws SQLException {
         return fjrybDao.selectAllByFjidOrRyid(gg_fjryb.getFjid(),gg_fjryb.getRyid());
+    }
+
+    /**
+     * 解散房间
+     * @param gg_ltfj 房间信息
+     * @throws SQLException 异常信息
+     */
+    public void deleteJsfj(GG_LTFJ gg_ltfj) throws SQLException {
+        GG_FJRYB gg_fjryb = new GG_FJRYB();
+        gg_fjryb.setFjid(gg_ltfj.getId());
+        List<Map<String, Object>> fjryList = this.getFjry(gg_fjryb);
+        for (Map<String, Object> map : fjryList) {
+            this.deleteGg_fjryb(ConvertUtils.createString(map.get("id")));
+        }
+        this.deleteGg_ltfj(gg_ltfj.getId());
     }
 }

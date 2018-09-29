@@ -46,24 +46,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type="password" name="qrmm" id="qrmm" lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input" value="" onchange="mmjy()">
 				</div>
 			</div>
-			<div class="layui-form-item">
+			<%--<div class="layui-form-item">
 				<label class="layui-form-label">身份证号码</label>
 				<div class="layui-input-inline">
 					<input type="text" name="sfzh" lay-verify="identity" placeholder="请输入身份证号码" autocomplete="off" class="layui-input" value="">
 				</div>
-			</div>
-			<div class="layui-form-item">
+			</div>--%>
+			<%--<div class="layui-form-item">
 				<label class="layui-form-label">邮箱</label>
 				<div class="layui-input-inline">
 					<input type="text" name="email" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" value="">
 				</div>
-			</div>
-			<div class="layui-form-item">
+			</div>--%>
+			<%--<div class="layui-form-item">
 				<label class="layui-form-label">出生年月</label>
 				<div class="layui-input-inline">
 					<input type="text" name="csnyr" id="date" lay-verify="date" placeholder="选择出生年月日" autocomplete="off" class="layui-input">
 				</div>
-			</div>
+			</div>--%>
 			<div class="layui-form-item">
 				<label class="layui-form-label">手机号</label>
 				<div class="layui-input-inline">

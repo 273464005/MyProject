@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.XT_GNB;
 import org.com.lyz.constant.Constant_htgl;
+import org.com.lyz.controller.BaseController;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.ConvertUtils;
@@ -32,7 +33,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("htgl/xtgn")
-public class HtglXt_gnbController {
+public class HtglXt_gnbController extends BaseController {
 
     private final static Logger logger = Logger.getLogger(HtglXt_gnbController.class);
 
@@ -67,7 +68,7 @@ public class HtglXt_gnbController {
      */
     @RequestMapping("/xtgnIndex")
     public String xtgnIndex(HttpServletRequest request,Model model,HttpSession session) throws SQLException{
-        GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
+        GG_CZRY gg_czry = this.getGg_czry(request);
         TreeNodeUtils treeNode = new TreeNodeUtils("ROOT","所有功能",true);
         //遍历状态
         for (Map.Entry<Integer, String> entry : Constant_htgl.XT_GNB_ZTMap.entrySet()) {
@@ -154,7 +155,7 @@ public class HtglXt_gnbController {
      */
     @RequestMapping("/editXt_gnb")
     public String editXt_gnb(HttpServletRequest request,HttpSession session,String gnid,Model model) throws SQLException{
-        GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
+        GG_CZRY gg_czry = this.getGg_czry(request);
         XT_GNB xt_gnb = XtgnService.getXt_gnbById(gnid);
         XT_GNB queryGnb = new XT_GNB();
         queryGnb.setDyqx(Constant_htgl.GG_CZRY_QX_CJGLY);

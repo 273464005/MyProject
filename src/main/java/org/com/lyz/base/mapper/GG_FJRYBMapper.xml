@@ -84,7 +84,6 @@
   <select id="selectAllByFjidOrRyid" parameterType="java.lang.String" resultType="java.util.HashMap">
     select <include refid="Base_Column_List" /> from gg_fjryb
     <where>
-      1=1
       <if test="fjid != null and fjid != ''">
         and fjid = #{fjid,jdbcType=VARCHAR}
       </if>

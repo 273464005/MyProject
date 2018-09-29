@@ -66,7 +66,7 @@
             "fjh": '${ltfj.fjh}' // "name": "value"
             , "fjmc": '${ltfj.fjmc}'
             , "fjms": '${ltfj.fjms}'
-            , "fjmm": '${ltfj.fjmc}'
+            , "fjmm": '${ltfj.fjmm}'
         });
 
         //监听提交

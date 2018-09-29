@@ -1,4 +1,4 @@
-package org.com.lyz.service.htgl;
+package org.com.lyz.service.ltyl;
 
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_FJRYB;
@@ -28,6 +28,16 @@ public interface LtgnService {
      * @return 房间信息
      */
     GG_LTFJ getGg_lifj(String id) throws SQLException;
+    GG_LTFJ getGg_lifj(GG_LTFJ gg_ltfj) throws SQLException;
+
+    /**
+     * 获取房间人员信息
+     * @param id 房间人员表id
+     * @return 获取结果
+     * @throws SQLException 异常信息
+     */
+    GG_FJRYB getGg_fjryb(String id) throws SQLException;
+    GG_FJRYB getGg_fjryb(GG_FJRYB gg_fjryb) throws SQLException;
 
     /**
      * 保存房间信息
@@ -102,5 +112,12 @@ public interface LtgnService {
      * @throws SQLException 异常信息
      */
     List<Map<String,Object>> getFjry(GG_FJRYB gg_fjryb) throws SQLException;
+
+    /**
+     * 解散房间
+     * @param gg_ltfj 房间信息
+     * @throws SQLException 异常信息
+     */
+    void deleteJsfj(GG_LTFJ gg_ltfj) throws SQLException;
 
 }

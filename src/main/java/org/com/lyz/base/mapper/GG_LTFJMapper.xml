@@ -142,14 +142,13 @@
   <select id="selectAllLtfjByZt"  parameterType="java.lang.Integer" resultType="java.util.HashMap">
     select <include refid="Base_Column_List" /> from gg_ltfj
     <where>
-      1 = 1
-      <if test="fjzt != null and fjzt != ''">
+      <if test="fjzt == ''">
         and fjzt = #{fjzt,jdbcType=INTEGER}
       </if>
       <if test="cjrmc != null and cjrmc != ''">
         and cjrmc LIKE #{cjrmc,jdbcType=VARCHAR}
         or  fjh LIKE #{cjrmc,jdbcType=VARCHAR}
-        or fjmc LIKE #{fjmc,jdbcType=VARCHAR}
+        or fjmc LIKE #{cjrmc,jdbcType=VARCHAR}
       </if>
     </where>
     ORDER BY cjsj DESC

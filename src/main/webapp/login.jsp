@@ -114,7 +114,8 @@
                     title: '用户注册',
                     maxmin: true,
                     shadeClose: false, //点击遮罩关闭层 true可以关闭
-                    area : ['505px' , '691px'],
+//                    area : ['505px' , '691px'],
+                    area : ['505px' , '571px'],
                     resize : false,
                     content: '<%=basePath%>reg.jsp'
                 });

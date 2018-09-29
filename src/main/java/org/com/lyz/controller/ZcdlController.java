@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("zcdl")
-public class ZcdlController {
+public class ZcdlController extends BaseController{
 
     private final static Logger logger = Logger.getLogger(ZcdlController.class);
 
@@ -74,6 +74,12 @@ public class ZcdlController {
         return ReturnValue.newSuccessInstance("注册成功！欢迎使用本系统^_^");
     }
 
+    /**
+     * 将汉字转换为汉语拼音
+     * @param request 请求信息
+     * @param mc 需要转换的字
+     * @return 转换结果
+     */
     @RequestMapping("/getHypy")
     @ResponseBody
     public Map<String,Object> getHypy(HttpServletRequest request,String mc){
@@ -109,7 +115,7 @@ public class ZcdlController {
                 return ReturnValue.newErrorInstance("密码不正确！");
             } else {
                 //登陆用户添加session
-                session.setAttribute("user",gg_czry);
+                this.setGg_czry(session,gg_czry);
                 XT_GNB xt_gnb = new XT_GNB();
                 xt_gnb.setDyqx(gg_czry.getQx());
                 xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
@@ -131,21 +137,26 @@ public class ZcdlController {
      */
     @RequestMapping("/htglMainHome")
     public String htglMainHome(HttpServletRequest request,HttpSession session,Model model) throws SQLException{
-        logger.info("========初始化后台管理页面内容=======");
-        GG_CZRY gg_czry = (GG_CZRY) session.getAttribute("user");
-        XT_GNB xt_gnb = new XT_GNB();
-        xt_gnb.setDyqx(gg_czry.getQx());
-        xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
-        List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
-        String imgPath = "";
-        if(StringUtils.isNotEmpty(gg_czry.getTxdz())){
-            GG_IMGS gg_imgs  = imgService.selectById(gg_czry.getTxdz());
-            imgPath = FileUtils.getZxImgPath(request) + gg_imgs.getTpmc();
+        try {
+            logger.info("========初始化后台管理页面内容=======");
+            GG_CZRY gg_czry = this.getGg_czry(request);
+            XT_GNB xt_gnb = new XT_GNB();
+            xt_gnb.setDyqx(gg_czry.getQx());
+            xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
+            List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
+            String imgPath = "";
+            if(StringUtils.isNotEmpty(gg_czry.getTxdz())){
+                GG_IMGS gg_imgs  = imgService.selectById(gg_czry.getTxdz());
+                imgPath = FileUtils.getZxImgPath(request) + gg_imgs.getTpmc();
+            }
+            session.setAttribute("xtgnList", xtgnList);
+            model.addAttribute("showImg", imgPath);
+            model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
+            return "htgl/htglMainHome";
+        } catch (Exception e){
+            logger.info("========session失效，请重新登录=======");
+            return ControllerUtils.getStringRedirect("/login.jsp");
         }
-        session.setAttribute("xtgnList", xtgnList);
-        model.addAttribute("showImg", imgPath);
-        model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
-        return "htgl/htglMainHome";
     }
 
 

@@ -25,5 +25,20 @@ public class Constant_ltyl {
     }
 
     //房间描述，默认
-    public static final String GG_LTFJ_FJMS_DEFAULT = "房主很懒，没有留下什么";
+    public static final String GG_LTFJ_FJMS_DEFAULT = "房主很懒，什么都没有留下";
+
+    //房间人员的状态
+    public static final Integer GG_FJRYB_ZT_ZC = 0;
+    public static final Integer GG_FJRYB_ZT_JY = 1;
+    public static final Map<Integer, String> GG_FJRYB_ZT_MAP = new LinkedHashMap<Integer, String>();
+    static {
+        GG_FJRYB_ZT_MAP.put(GG_FJRYB_ZT_ZC, "正常");
+        GG_FJRYB_ZT_MAP.put(GG_FJRYB_ZT_JY, "禁言");
+    }
+    public static final Map<Integer,String> getGG_FJRYB_ZT_MAP(){
+        return GG_FJRYB_ZT_MAP;
+    }
+    public static final String getGG_FJRYB_ZT_MAP_LABLE(Integer zt){
+        return GG_FJRYB_ZT_MAP.get(zt);
+    }
 }

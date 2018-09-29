@@ -31,9 +31,16 @@
         </div>
     </div>
     <script type="text/html" id="cz">
-        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="jr"><i class="layui-icon layui-icon-edit"></i>加入</a>
+        {{# if(d.fjzt==0){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="jr"><i class="layui-icon layui-icon-edit"></i>加入</a>
+        {{# }else{ }}
+            {{# if(d.GG_CZRY_QX_GLY < ${user.qx}){ }}
+                该房间已被封禁。
+            {{# }else{ }}
+            {{# }}}
+        {{# }}}
         {{# if(d.GG_CZRY_QX_GLY >= ${user.qx}){ }}
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="jy">
+            <a class="layui-btn {{d.fjzt==0?'layui-btn-warm':'layui-btn'}} layui-btn-xs" lay-event="jy">
                 {{# if(d.fjzt==0){ }}
                     <i class="layui-icon layui-icon-close"></i>封禁
                 {{# }else{ }}
@@ -42,6 +49,7 @@
             </a>
         {{# }else{ }}
         {{# }}}
+        {{d.GG_CZRY_QX_CJGLY == ${user.qx}?'<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>':''}}
         <%--{{d.GG_CZRY_QX_GLY >= ${user.qx}?'<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="jy">{{d.fjzt==0?'<i class="layui-icon layui-icon-close"></i>封禁':'<i class="layui-icon layui-icon-ok"></i>解封'}}</a>':''}}--%>
     </script>
     <script type="text/javascript" src="<%=basePath%>layui/layui.all.js" charset="utf-8"></script>
@@ -72,11 +80,42 @@
             table.on('tool(fjlbTable)', function(obj){
                 var data = obj.data;
                 if (obj.event === 'jr'){
-                    //location.href = '<%=basePath%>htgl/czry/editGg_czry?czryid='+data.id;
+                    $.ajax({
+                        method:'post'
+                        ,url:'<%=basePath%>ltyl/fjgl/getFjmm?fjid='+data.id
+                        ,success:function (date) {
+                            if (date.state ==='w'){
+                                location.href = '<%=basePath%>ltyl/jstx/jstxIndex?fjid='+data.id;
+                            } else if (date.state === 'y'){
+                                layer.prompt({title: '请输入密码', formType: 1}, function (fjmm, index1) {
+                                    $.ajax({
+                                        method:'post'
+                                        ,url:'<%=basePath%>ltyl/fjgl/jstxIndexJymm'
+                                        ,data:{
+                                            id:data.id
+                                            ,fjmm:fjmm
+                                        }
+                                        ,success:function (returnValue) {
+                                            layer.close(index1);
+                                            popupOk(returnValue, function () {
+                                                location.href = '<%=basePath%>ltyl/jstx/jstxIndex?fjid='+data.id;
+                                            }, function () {
+
+                                            });
+                                        }
+                                    })
+                                });
+                            }
+                        }
+                        ,error:function () {
+                            msg("发生未知异常，请联系管理员", 2);
+                        }
+                    });
+
                 }
                 if (obj.event === 'jy'){
                     tsmc = '';
-                    if(data.zt==0){
+                    if(data.fjzt==0){
                         tsmc = '<span style="color: #FF5722">封禁</span>';;
                     } else {
                         tsmc = '<span style="color: #009688">解封</span>';;
@@ -92,6 +131,32 @@
                             , data:{
                                 id:data.id
                                 ,fjzt:data.fjzt
+                            }
+                            , success:function (data) {
+                                popupOk(data,function () {
+                                    table.reload('fjlbTable');
+                                },function () {
+
+                                });
+                                layer.close(processIndex);
+                            }
+                            , error:function (data) {
+                                layer.close(processIndex);
+                            }
+                        });
+                        layer.close(index);
+                    });
+                }
+                if (obj.event === 'del'){
+                    layer.confirm('确定删除该房间吗？', function(index){
+                        $.ajax({
+                            method:'post'
+                            , url:'<%=basePath%>/ltyl/fjgl/deleteGg_ltfj'
+                            ,beforeSend: function () {
+                                processIndex = layer.load();
+                            }
+                            , data:{
+                                id:data.id
                             }
                             , success:function (data) {
                                 popupOk(data,function () {
@@ -146,7 +211,7 @@
                                 title: '编辑房间信息',
                                 maxmin: true,
                                 shadeClose: true, //点击遮罩关闭层 true可以关闭
-                                area : ['505px' , '400px'],
+                                area : ['535px' , '400px'],
                                 resize : false,
                                 content: '<%=basePath%>ltyl/fjgl/editXjfj?ltfjid=""'
                             });
