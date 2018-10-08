@@ -99,7 +99,7 @@ public class ZcdlController extends BaseController{
      */
     @RequestMapping(value = "/dlxtjy")
     @ResponseBody
-    public ReturnValue dlxtAction(GG_CZRY czry, HttpSession session) throws SQLException{
+    public ReturnValue dlxtAction(HttpServletRequest request,GG_CZRY czry, HttpSession session) throws SQLException{
 
         GG_CZRY gg_czry = CzryService.getCzryByDlh(czry.getDlh());
         if (gg_czry == null) {
@@ -121,6 +121,8 @@ public class ZcdlController extends BaseController{
                 xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
                 List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
                 session.setAttribute("xtgnList", xtgnList);
+                //session添加绝对路径
+                this.setBasePath(request);
                 logger.info("用户【"+gg_czry.getMc()+"】登陆系统");
                 return ReturnValue.newSuccessInstance("登陆成功！");
             }
@@ -140,6 +142,8 @@ public class ZcdlController extends BaseController{
         try {
             logger.info("========初始化后台管理页面内容=======");
             GG_CZRY gg_czry = this.getGg_czry(request);
+            gg_czry = CzryService.selectById(gg_czry.getId());
+            this.setGg_czry(request,gg_czry);
             XT_GNB xt_gnb = new XT_GNB();
             xt_gnb.setDyqx(gg_czry.getQx());
             xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
@@ -150,6 +154,7 @@ public class ZcdlController extends BaseController{
                 imgPath = FileUtils.getZxImgPath(request) + gg_imgs.getTpmc();
             }
             session.setAttribute("xtgnList", xtgnList);
+            this.setBasePath(request);
             model.addAttribute("showImg", imgPath);
             model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
             return "htgl/htglMainHome";

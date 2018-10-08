@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * 静态常量类
  * Created by Administrator on 2018/5/17.
  */
 public class Constant_htgl {

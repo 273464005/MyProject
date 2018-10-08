@@ -45,7 +45,7 @@ public class TreeNodeUtils {
     // 风格
     private String skin;
     // 节点打开方式
-    private String target = "_self";
+    private String target = getTarget_self();
     // 是否追加逗号
     private boolean addComma = false;
     // 追加子节点

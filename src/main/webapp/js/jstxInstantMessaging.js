@@ -19,7 +19,7 @@ function webSocketSendMsg(url,homeId,userId,showMsg,basePath){
 
     //连接发生错误的回调方法
     websocket.onerror = function () {
-        setMessageInnerHTML("WebSocket连接发生错误");
+        alertMsg("发生未知异常！", 5);
     };
 
     //连接成功建立的回调方法
@@ -46,6 +46,15 @@ function webSocketSendMsg(url,homeId,userId,showMsg,basePath){
     window.setMessageInnerHTML = function(innerHTML) {
         var showMsgDiv = document.getElementById("showMsgParent");
         document.getElementById(showMsg).innerHTML += '<blockquote class="layui-elem-quote">' +innerHTML +'</blockquote>';
+        /*$("#msgUL").append('<li>'
+            + '<div class="layim-chat-user">'
+                + '<img src="../img/zanwu.jpg" class="layui-nav-img">'
+                + '<cite>'
+                + 123
+                + '</cite>'
+            + '</div><div class="layim-chat-text">'
+                +innerHTML
+            + '</div></li>');*/
         showMsgDiv.scrollTop = showMsgDiv.scrollHeight;
     };
 
@@ -66,22 +75,23 @@ function webSocketSendMsg(url,homeId,userId,showMsg,basePath){
                 if (data.state == 0){
                     var fsnr = document.getElementById(inputId).value;
                     if (fsnr == null || fsnr == ""){
-                        layer.msg("发送内容不能为空！");
+                        msg("发送内容不能为空！",2);
                     } else {
                         var message = JSON.stringify({'msg':fsnr,'jsrId':homeId });
                         websocket.send(message);
                         document.getElementById('fsnr').value = "";
                     }
-                } else {
-                    layer.alert("您已被禁言，请联系管理员", {
-                        icon: 2
-                        , shade: 0
-                        , title: '提示信息'
-                    });
+                } else if(data.state == 'ytc'){
+                    msg("您已被踢出房间",2,function () {
+                        // window.parent.location.href = basePath + 'ltyl/fjgl';
+                        closeThisWindow();
+                    })
+                }else {
+                    msg("您已被禁言，请联系管理员",2);
                 }
             }
             , error:function () {
-                msg("发生未知异常！",5)
+                alertMsg("发生未知异常！", 5);
             }
         });
 

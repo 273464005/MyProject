@@ -36,7 +36,7 @@
     <script type="text/html" id="cz">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="bj"><i class="layui-icon layui-icon-edit"></i>编辑</a>
         <a class="layui-btn {{d.zt==0?'layui-btn-warm':'layui-btn'}} layui-btn-xs" lay-event="jy">{{d.zt==0?'禁用':'启用'}}</a>
-        {{${user.qx} < ${GG_CZRY_QX_PTYH}?'<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>':''}}
+        {{${user.qx} < ${GG_CZRY_QX_GLY}?'<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>':''}}
     </script>
 
 </div>
@@ -58,12 +58,12 @@
             }
             ,cols: [[
                 {type:'numbers'}
-                ,{field:'gnmc', title:'功能名称'}
-                ,{field:'qxmc', title:'级别'}
-                ,{field:'fmc', title:'所属功能'}
-                ,{field:'ljdz', title:'连接地址'}
-                ,{field:'gnlb', title: '功能类别',width:80}
-                ,{field:'ztmc', title:'状态', width:80}
+                ,{field:'gnmc', title:'功能名称',align:'center'}
+                ,{field:'qxmc', title:'级别',align:'center'}
+                ,{field:'fmc', title:'所属功能',align:'center'}
+                ,{field:'ljdz', title:'连接地址',align:'center'}
+                ,{field:'gnlbmc', title: '功能类别',width:120,align:'center'}
+                ,{field:'ztmc', title:'状态', width:80,align:'center'}
                 ,{field:'right', title: '操作', width:200,toolbar:"#cz"}
             ]]
             ,page: true

@@ -148,7 +148,9 @@
                 }
                 , success: function (returnValue) {
                     popupOk(returnValue, function () {
-
+                        window.parent.location.reload(); //刷新父页面
+                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        parent.layer.close(index);  // 关闭layer
                     },function () {
 
                     });
@@ -232,7 +234,7 @@
 
         window.showLstx = function (czryid,dqtx) {
             if(dqtx === '') {
-                msg("改用户未上传过头像",5);
+                alertMsg("该用户未上传过头像",5);
             } else {
                 location.href = "<%=basePath%>";
             }

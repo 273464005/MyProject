@@ -21,6 +21,8 @@ import java.util.Random;
  */
 public class FileUtils {
 
+    private static final String tomcatUploadPath = "uploadImgs";
+
     /**
      * 获取文件上传路径
      * @param request 请求信息
@@ -28,7 +30,7 @@ public class FileUtils {
      */
     public static String getFIlePath(HttpServletRequest request){
         String xmPath = request.getSession().getServletContext().getRealPath("/");
-        String pat=xmPath.substring(0,xmPath.length()-4)+"uploadImgs\\";//获取文件保存路径
+        String pat=xmPath.substring(0,xmPath.length()-4)+ tomcatUploadPath +"\\";//获取文件保存路径
         return pat;
     }
 
@@ -71,8 +73,8 @@ public class FileUtils {
          * http://locahost:8080/项目名/图片名称
          * 进行访问图片
          */
-        String tomcatUploadPath = "/uploadImg/";
-        String imgPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + tomcatUploadPath;
+        String path = request.getContextPath();
+        String imgPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + tomcatUploadPath + "/";
         return imgPath;
     }
 }

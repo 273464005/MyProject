@@ -163,6 +163,14 @@ public class LtylJstxController extends BaseController {
         return ReturnValue.newSuccessInstance();
     }
 
+    /**
+     * 跳转即时通信页面
+     * @param request 请求信息
+     * @param fjid 房间id
+     * @param model 模型信息
+     * @return 跳转页面
+     * @throws SQLException 异常信息
+     */
     @RequestMapping("/jstxWebSocket")
     public String jstxWebSocket(HttpServletRequest request,String fjid,Model model) throws SQLException{
         GG_LTFJ gg_ltfj = ltgnService.getGg_lifj(fjid);
@@ -180,6 +188,13 @@ public class LtylJstxController extends BaseController {
         return "ltyl/jstx/jstxWebSocket";
     }
 
+    /**
+     * 发送信息前校验是否已经被禁言
+     * @param request 请求信息
+     * @param gg_ltfj 房间信息
+     * @return 操作结果
+     * @throws SQLException 异常信息
+     */
     @RequestMapping("/onJsxtSfjy")
     @ResponseBody
     public Map<String, Object> onJsxtSfjy(HttpServletRequest request,GG_LTFJ gg_ltfj) throws SQLException{
@@ -191,6 +206,8 @@ public class LtylJstxController extends BaseController {
         List<Map<String, Object>> fjryList = ltgnService.getFjry(gg_fjryb);
         if (fjryList != null && fjryList.size() > 0){
             returnMap.put("state", fjryList.get(0).get("zt"));
+        } else {
+            returnMap.put("state","ytc");
         }
         return returnMap;
     }

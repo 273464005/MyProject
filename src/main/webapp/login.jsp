@@ -22,6 +22,7 @@
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%=path%>/assets/ico/apple-touch-icon-114-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%=path%>/assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="<%=path%>/assets/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css">
         <!-- Javascript -->
         <%--<script src="<%=path%>/assets/js/jquery-1.11.1.min.js"></script>--%>
         <script src="<%=path%>/js/jquery-3.2.1.min.js"></script>
@@ -74,7 +75,7 @@
 			                        	<input type="password" name="mm" placeholder="请输入密码" class="form-password form-control" id="mm">
 			                        </div>
 			                        <%--<button type="submit" class="btn">登陆</button>--%>
-                                    <button class="btn" onclick="return dlxt('dlFrom')">登陆</button>
+                                    <button class="btn" type="submit" onclick="return dlxt()">登陆</button>
 			                    </form>
                                 <div hidden="hidden">
                                     <input type="text" id="msg" value="${msg}">
@@ -101,63 +102,68 @@
                 </div>
             </div>
         </div>
-        
-        <script type="text/javascript">
-//            var msg = $("#msg").val();
-//            if(msg != ""){
-//                $("span[name=msg]").css("color", "#FC4343");
-//                $("span[name=msg]").text(msg);
-//            }
-            function zczh(){
-                layer.open({
-                    type: 2,
-                    title: '用户注册',
-                    maxmin: true,
-                    shadeClose: false, //点击遮罩关闭层 true可以关闭
+    </body>
+    <script type="text/javascript">
+        function zczh(){
+            layer.open({
+                type: 2,
+                title: '用户注册',
+                maxmin: true,
+                shadeClose: true, //点击遮罩关闭层 true可以关闭
 //                    area : ['505px' , '691px'],
-                    area : ['505px' , '571px'],
-                    resize : false,
-                    content: '<%=basePath%>reg.jsp'
-                });
-            }
+                area : ['505px' , '571px'],
+                resize : false,
+                content: '<%=basePath%>reg.jsp'
+            });
+        }
 
-            function sha1() {
-                mm = $("input[name=mm]").val();
-                $("input[name=mm]").val(SHA2(mm));
-            }
-
-            function dlxt(fromid){
-                sha1();
-                $.ajax({
-                    method: "post",
-                    url: "<%=basePath%>zcdl/dlxtjy",
-                    data: $("#"+fromid).serialize(),
-                    beforeSend: function () {
-                        processIndex = layer.load();
-                    },
-                    success: function (data) {
-                        layer.close(processIndex);
-                        popupOk(data, function () {
-                            location.href = "zcdl/htglMainHome";
-                        },function () {
-                            $("span[name=msg]").css("color", "#FC4343");
-                            $("span[name=msg]").text(data.text);
-                            $("input[name=mm]").val("");
-                        });
-                    },
-                    error:function (e) {
-                        layer.alert("发生未知异常，请联系管理员！",{
-                            icon:5
-                            , shade: 0
-                            , anim: 6
-                        });
-                        $("input[name=mm]").val("");
-                        layer.close(processIndex);
-                    }
-                });
+        function dlxt(){
+            var dlh = $("#dlh").val();
+            var dlmm = $("#mm").val();
+            if(dlh == '' || dlh == null){
+                msg("请输入登陆账号！",5,function () {
+                    $("#dlh").addClass("input-error");
+                },2000);
                 return false;
             }
-        </script>
-    </body>
-    
+            if (dlmm == '' || dlmm == null){
+                msg("请输入密码！",5,function () {
+                    $("#dlh").addClass("input-error");
+                },2000);
+                return false;
+            }
+            $.ajax({
+                method: "post",
+                url: "${basePath}zcdl/dlxtjy",
+                data:{
+                    dlh:dlh
+                    ,mm:SHA2(dlmm)
+                },
+                beforeSend: function () {
+                    processIndex = layer.load();
+                },
+                success: function (data) {
+                    layer.close(processIndex);
+                    jsonMsg(data,function () {
+                        location.href = "zcdl/htglMainHome";
+                    },function () {
+                        $("span[name=msg]").css("color", "#FC4343");
+                        $("span[name=msg]").text(data.text);
+                        $("input[name=mm]").val(null);
+                    })
+
+                },
+                error:function (e) {
+                    layer.alert("发生未知异常，请联系管理员！",{
+                        icon:5
+                        , shade: 0
+                        , anim: 6
+                    });
+                    $("input[name=mm]").val("");
+                    layer.close(processIndex);
+                }
+            });
+            return false;
+        }
+    </script>
 </html>

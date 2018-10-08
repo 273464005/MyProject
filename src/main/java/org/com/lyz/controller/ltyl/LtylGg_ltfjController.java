@@ -89,11 +89,13 @@ public class LtylGg_ltfjController extends BaseController {
     @RequestMapping("/getRyfj")
     @ResponseBody
     public ReturnValue getRyfj(HttpServletRequest request, GG_CZRY gg_czry) throws SQLException{
-//        List<Map<String,Object>> ryfjList = ltgnService.getRyfj(gg_czry);
-//        if (ryfjList!=null && ryfjList.size()>0){
-//            return ReturnValue.newErrorInstance("您已有房间，不能创建新房间。");
-//        }
-        return ReturnValue.newSuccessInstance("正在创建新房间···");
+        List<Map<String,Object>> ryfjList = ltgnService.getRyfj(gg_czry);
+        String tsxx = "正在创建新房间···";
+        if (ryfjList!=null && ryfjList.size()>0){
+            tsxx = "您已有房间，不能创建新房间。<br/><span style='color:red'>提示：如果搜索不到，请联系管理员</span>";
+            return ReturnValue.newErrorInstance(tsxx);
+        }
+        return ReturnValue.newSuccessInstance(tsxx);
     }
 
     /**
@@ -206,6 +208,11 @@ public class LtylGg_ltfjController extends BaseController {
         if (gg_ltfj != null && StringUtils.isNotEmpty(gg_ltfj.getFjmm())){
             state = "y";
         }
+        //创建人不需要密码
+        GG_CZRY gg_czry = this.getGg_czry(request);
+        if (gg_ltfj != null && gg_czry.getId().equals(gg_ltfj.getCjr())) {
+            state = "w";
+        }
         returnMap.put("state", state);
         return returnMap;
     }
@@ -221,6 +228,7 @@ public class LtylGg_ltfjController extends BaseController {
     @ResponseBody
     public ReturnValue jstxIndexJymm(HttpServletRequest request,GG_LTFJ gg_ltfj) throws SQLException{
         GG_LTFJ ltfj = ltgnService.getGg_lifj(gg_ltfj.getId());
+        System.out.println(" gg_ltfj.getFjmm()="+ gg_ltfj.getFjmm()+"/nltfj.getFjmm()="+ltfj.getFjmm());
         if (gg_ltfj != null && ltfj != null && gg_ltfj.getFjmm().equals(ltfj.getFjmm())){
             return ReturnValue.newSuccessInstance("校验通过，正在进入房间···");
         }

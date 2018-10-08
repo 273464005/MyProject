@@ -129,11 +129,15 @@ public class HtglGg_czryController extends BaseController {
      */
     @RequestMapping("/editGg_czry")
     public String editGg_czry(HttpServletRequest request, String czryid, Model model) throws SQLException {
+        //编辑的账户
         GG_CZRY gg_czry = CzryService.selectById(czryid);
+        //当前登录账号
+        GG_CZRY user = this.getGg_czry(request);
         List<Map<String, Object>> qxList = new ArrayList<Map<String, Object>>();
         Map<String, Object> qxMap;
         for (Map.Entry<Integer,String> entry:Constant_htgl.GG_CZRY_QXMap.entrySet()){
-            if (gg_czry.getQx() <= entry.getKey()){
+            //可以给账户添加和自己同级别的权限。
+            if (user.getQx() <= entry.getKey()){
                 qxMap = new HashMap<String, Object>();
                 qxMap.put("key",entry.getKey());
                 qxMap.put("value", entry.getValue());

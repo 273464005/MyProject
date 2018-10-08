@@ -34,4 +34,33 @@ public class BaseController {
     public void setGg_czry(HttpSession session, Object obj){
         session.setAttribute("user",obj);
     }
+
+    /**
+     * session中添加路径
+     * @param request 请求信息
+     */
+    public void setBasePath(HttpServletRequest request){
+        String path = request.getContextPath();
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+        request.getSession().setAttribute("path", path);
+        request.getSession().setAttribute("basePath", basePath);
+    }
+
+    /**
+     * 获取绝对路径
+     * @param request 请求信息
+     * @return 绝对路径
+     */
+    public String getBasePath(HttpServletRequest request) {
+        return (String) request.getSession().getAttribute("basePath");
+    }
+
+    /**
+     * 获取路径
+     * @param request 请求信息
+     * @return 路径
+     */
+    public String getPath(HttpServletRequest request) {
+        return (String) request.getSession().getAttribute("path");
+    }
 }

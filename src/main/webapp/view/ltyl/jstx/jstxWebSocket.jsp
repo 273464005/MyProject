@@ -26,7 +26,15 @@
                     <input id="userId" value="${user.id}"/>
                     <input id="homeId" value="${ltfj.id}">
                 </div>
-                <div id="message" style="display: inline-block;"></div>
+                <div class="layim-chat-box">
+                    <div class="layim-chat layim-chat-friend layui-show">
+                        <div id="message" style="display: inline-block;" class="layim-chat-main">
+                            <ul id="msgUL">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </fieldset>
     </div>

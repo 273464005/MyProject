@@ -120,13 +120,14 @@
                     }
                     , success:function (returnValue) {
                         popupOk(returnValue,function () {
-                            location.href = '<%=basePath%>ltyl/fjgl'
+                            <%--location.href = '<%=basePath%>ltyl/fjgl'--%>
+                            closeThisWindow();
                         },function () {
                             
                         });
                     }
                     , error:function () {
-                        msg("发生未知异常！",2);
+                        alertMsg("发生未知异常！",2);
                     }
                 });
                 layer.close(index);
@@ -143,13 +144,14 @@
                     }
                     , success:function (returnValue) {
                         popupOk(returnValue,function () {
-                            location.href = '<%=basePath%>ltyl/fjgl'
+                            <%--location.href = '<%=basePath%>ltyl/fjgl'--%>
+                            closeThisWindow();
                         },function () {
 
                         });
                     }
                     , error:function () {
-                        msg("发生未知异常！",2);
+                        alertMsg("发生未知异常！",2);
                     }
                 });
                 layer.close(index);
@@ -175,7 +177,7 @@
                     })
                 }
                 , error:function () {
-                    msg("发生未知异常！",2);
+                    alertMsg("发生未知异常！",2);
                 }
             });
             layer.close(index);
@@ -199,7 +201,7 @@
                     })
                 }
                 , error:function () {
-                    msg("发生未知异常！",2);
+                    alertMsg("发生未知异常！",2);
                 }
             })
         });

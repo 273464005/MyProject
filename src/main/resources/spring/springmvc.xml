@@ -21,6 +21,31 @@
 	<!-- 开启web注解驱动：类型转换，时间处理，json处理 -->
 	<mvc:annotation-driven />
 
+	<mvc:interceptors>
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+		<!--<bean class="org.com.lyz.interceptor.HandlerInterceptorAdapter"/>-->
+		<mvc:interceptor>
+            <mvc:mapping path="/**/**"/>
+            <!--定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的-->
+            <bean class="org.com.lyz.interceptor.HandlerInterceptorAdapter">
+				<property name="allowUrls">
+					<list>
+					<!-- 如果请求中包含以下路径，则不进行拦截 -->
+						<value>/angular</value>
+						<value>/assets</value>
+						<value>/js</value>
+						<value>/css</value>
+						<value>/img</value>
+						<value>/layui</value>
+						<value>/layer</value>
+						<value>/images</value>
+						<value>/uploadImgs</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 	<bean id="multipartResolver"
 		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="1000000000" />
@@ -35,15 +60,6 @@
           
 	</bean>
 	-->
-	<!--<mvc:interceptors>  -->
-	    <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->  
-	    <!--<bean class="org.com.hwq.Interceptor.HandlerInterceptorAdapter"/>  -->
-	    <!-- <mvc:interceptor>  
-	        <mvc:mapping path="/test/number.do"/>  
-	        定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的  
-	        <bean class="com.host.app.web.interceptor.LoginInterceptor"/>  
-	    </mvc:interceptor>   -->
-	<!--</mvc:interceptors>    -->
 	
 	
 </beans>

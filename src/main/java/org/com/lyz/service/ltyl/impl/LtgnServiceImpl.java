@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -152,13 +153,21 @@ public class LtgnServiceImpl implements LtgnService {
                 cjrmc = "%" + gg_ltfj.getCjrmc() + "%";
             }
         }
-        List<Map<String,Object>> list;
+        List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> syfjList;
         if (gg_czry.getQx() <= Constant_htgl.GG_CZRY_QX_GLY){
-            list = ltfjDao.selectAllLtfjByZt(null,cjrmc,splitPageInfo.getPage(),splitPageInfo.getLimit());
+            syfjList = ltfjDao.selectAllLtfjByZt(null,cjrmc,splitPageInfo.getPage(),splitPageInfo.getLimit());
         } else {
-            list = ltfjDao.selectAllLtfjByZt(Constant_ltyl.GG_LTFJ_FJZT_ZC,cjrmc,splitPageInfo.getPage(),splitPageInfo.getLimit());
+            syfjList = ltfjDao.selectAllLtfjByZt(Constant_ltyl.GG_LTFJ_FJZT_ZC,cjrmc,splitPageInfo.getPage(),splitPageInfo.getLimit());
         }
-        return list;
+        List<Map<String, Object>> fjListBycjr = ltfjDao.selectLtfjByCjr(gg_czry.getId());
+        for (Map<String, Object> map : fjListBycjr) {
+            if (ConvertUtils.createInteger(map.get("fjzt")) == Constant_ltyl.GG_FJRYB_ZT_JY){
+                returnList.addAll(fjListBycjr);
+            }
+        }
+        returnList.addAll(syfjList);
+        return returnList;
     }
 
     /**

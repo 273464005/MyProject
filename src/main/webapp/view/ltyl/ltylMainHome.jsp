@@ -32,7 +32,7 @@
     </div>
     <script type="text/html" id="cz">
         {{# if(d.fjzt==0){ }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="jr"><i class="layui-icon layui-icon-edit"></i>加入</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="jr" target="_blank"><i class="layui-icon layui-icon-edit"></i>加入</a>
         {{# }else{ }}
             {{# if(d.GG_CZRY_QX_GLY < ${user.qx}){ }}
                 该房间已被封禁。
@@ -66,15 +66,15 @@
                 ,url:'<%=basePath%>/ltyl/fjgl/getFjTab'
                 ,cellMinWidth: 80
                 ,cols: [[
-                    {type:'numbers'}
-                    ,{field:'fjh', title:'房间号'}
-                    ,{field:'fjmc', title:'房间名称'}
-                    ,{field:'fjms', title:'房间描述'}
-                    ,{field:'cjrmc', title:'创建人'}
-                    ,{field:'cjsjgsh', title:'创建时间'}
+                    {field:'fjh', title:'房间号',align:'center'}
+                    ,{field:'fjmc', title:'房间名称',align:'center'}
+                    ,{field:'fjms', title:'房间描述',align:'center'}
+                    ,{field:'cjrmc', title:'创建人',align:'center'}
+                    ,{field:'cjsjgsh', title:'创建时间',align:'center'}
                     ,{field:'right', title: '操作',width:220, toolbar:"#cz"}
                 ]]
                 ,page: true
+
             });
 
             table.on('tool(fjlbTable)', function(obj){
@@ -85,7 +85,8 @@
                         ,url:'<%=basePath%>ltyl/fjgl/getFjmm?fjid='+data.id
                         ,success:function (date) {
                             if (date.state ==='w'){
-                                location.href = '<%=basePath%>ltyl/jstx/jstxIndex?fjid='+data.id;
+                                <%--location.href = '<%=basePath%>ltyl/jstx/jstxIndex?fjid='+data.id;--%>
+                                window.open('${basePath}ltyl/jstx/jstxIndex?fjid=' + data.id);
                             } else if (date.state === 'y'){
                                 layer.prompt({title: '请输入密码', formType: 1}, function (fjmm, index1) {
                                     $.ajax({
@@ -108,7 +109,7 @@
                             }
                         }
                         ,error:function () {
-                            msg("发生未知异常，请联系管理员", 2);
+                            alertMsg("发生未知异常，请联系管理员", 2);
                         }
                     });
 
@@ -220,7 +221,7 @@
                         });
                     }
                     ,error:function () {
-                        msg("发生未知异常！请联系管理员。",2);
+                        alertMsg("发生未知异常！请联系管理员。",2);
                     }
                 })
             })

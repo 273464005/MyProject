@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo"><a href="javascript:;" onclick="window.location.reload()"><span style="color:#ffffff">LOGO位置</span></a></div>
+    <div class="layui-logo"><a href="javascript:;" onclick="window.location.reload()"><span style="color:#ffffff">LYZ</span></a></div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
       <c:if test="${user.qx < GG_CZRY_QX_PTYH}">
@@ -30,8 +30,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
         <li class="layui-nav-item"><a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry')">用户管理</a></li>
       </c:if>
-      <li class="layui-nav-item"><a href="<%=basePath%>webSocketTest.jsp" target="_blank">测试聊天通信</a></li>
-      <li class="layui-nav-item"><a href="javascript:;" onclick="tz('<%=basePath%>ltyl/fjgl')">聊天娱乐</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
@@ -58,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree"  lay-filter="test">
         <c:forEach items="${xtgnList}" var="xtgnList">
-          <li class="layui-nav-item layui-nav-itemed">
+          <li class="layui-nav-item" onclick="showLi(this)">
           <a class="" href="javascript:;">${xtgnList.get('gnmc')}</a>
           <c:if test="${xtgnList.get('childrenList') != null}">
             <dl class="layui-nav-child">
@@ -181,7 +179,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         ztnr.attr("src",tzdz);
     }
 
-
+/**
+ * 左侧导航列表只展开当前点击的目录
+ * @param obj 点击对象
+ */
+function showLi(obj) {
+        $(".layui-nav-item").each(function () {
+            $(this).removeClass("layui-nav-itemed");
+        });
+        $(obj).addClass("layui-nav-itemed");
+    }
 
 </script>
 </body>

@@ -20,6 +20,12 @@
         <div hidden="hidden">
             <input name="id" value="${xt_gnb.id}">
             <input name="sxh" value="${xt_gnb.sxh}">
+            <c:if test="${xt_gnb==null}">
+                <input id="sfxz" value="true">
+            </c:if>
+            <c:if test="${xt_gnb!=null}">
+                <input id="sfxz" value="false">
+            </c:if>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">功能名称</label>
@@ -135,8 +141,14 @@
                 },
                 success:function (data) {
                     layer.close(index);
+                    var sfxz = $("#sfxz").val();
                     popupOk(data,function () {
-                        window.location.reload();
+                        if (sfxz == true || sfxz == "true"){
+                            location.href = '<%=basePath%>htgl/xtgn';
+                        } else {
+                            window.location.reload();
+                        }
+
                     },function () {
 
                     })

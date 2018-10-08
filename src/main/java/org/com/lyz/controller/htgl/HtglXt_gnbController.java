@@ -57,6 +57,7 @@ public class HtglXt_gnbController extends BaseController {
     @RequestMapping("/xtgnIndexTable")
     public String xtgnIndexTable(HttpServletRequest request,Model model) throws SQLException{
         model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
+        model.addAttribute("GG_CZRY_QX_GLY", Constant_htgl.GG_CZRY_QX_GLY);
         return "htgl/xt_gnb/htglTable_gnb";
     }
 
@@ -189,6 +190,7 @@ public class HtglXt_gnbController extends BaseController {
     @ResponseBody
     public ReturnValue saveXt_gnb(HttpServletRequest request,XT_GNB xt_gnb) throws SQLException{
 
+        //编辑保存信息
         int zt ;
         String ztstr = ConvertUtils.createString(xt_gnb.getZt());
         if (!"".equals(ztstr) && ztstr != null){
@@ -199,7 +201,7 @@ public class HtglXt_gnbController extends BaseController {
         xt_gnb.setZt(zt);
         String fid = xt_gnb.getFid();
         int sxh;
-        if(xt_gnb.getId() == null && "".equals(xt_gnb.getId())){
+        if(xt_gnb.getId() == null || "".equals(xt_gnb.getId())){
             Map<String,Object> map;
             if(fid != null && !"".equals(fid)){
                 map = XtgnService.getMaxSxhByFid(fid);
@@ -207,7 +209,7 @@ public class HtglXt_gnbController extends BaseController {
                 xt_gnb.setFid(null);
                 map = XtgnService.getMaxSxh();
             }
-            if(map.size() > 0){
+            if(map != null && map.size() > 0){
                 sxh = ConvertUtils.createInteger(map.get("maxsxh")) + 1;
             } else {
                 sxh = 1;
@@ -222,6 +224,18 @@ public class HtglXt_gnbController extends BaseController {
 
         xt_gnb.setSxh(ConvertUtils.createInteger(sxh));
         XtgnService.saveXt_gnb(xt_gnb);
+        //查询是否有子功能，如果有，全部修改
+        XT_GNB childrenQueryGnb = new XT_GNB();
+        childrenQueryGnb.setFid(xt_gnb.getId());
+        List<Map<String, Object>> childrenList = XtgnService.getChildrenGbnList(childrenQueryGnb);
+        if (childrenList != null && childrenList.size() > 0) {
+            for (Map<String, Object> map : childrenList) {
+                XT_GNB children = XtgnService.getXt_gnbById(ConvertUtils.createString(map.get("id")));
+                children.setZt(xt_gnb.getZt());
+                children.setDyqx(xt_gnb.getDyqx());
+                XtgnService.updateXt_gnb(children);
+            }
+        }
         return ReturnValue.newSuccessInstance("保存成功！");
     }
 
