@@ -609,20 +609,50 @@ public class StringUtils
      * @return 转换结果
      */
     public static String idAndMobileNumToAsterisk(String s){
-        StringBuffer sb = new StringBuffer();
-        String Transformation;
-        if(s.length()==11){
-            sb.append(s.substring(0, 3));
-            Transformation = s.substring(3,s.length());
-            sb.append(numToAsterisk(Transformation));
-        } else if(s.length() == 18){
-            sb.append(s.substring(0, 3));
-            Transformation = s.substring(3, 14);
-            sb.append(numToAsterisk(Transformation)).append(s.substring(14,s.length()));
-        } else{
-            sb.append(numToAsterisk(s));
+        if(isEmpty(s)){
+            return null;
         }
+        if(s.length()==11){
+            //手机号
+            return numToAsterisk(s, 3);
+        } else if(s.length() == 15 || s.length() == 18){
+            //身份证号，15位（老版）或18位（新版）
+            return numToAsterisk(s, 3,14);
+        } else{
+            return s + "不是合法的手机号或身份证号";
+        }
+    }
+
+    /**
+     * 将字符串从指定位置替换为*
+     * @param s 需要替换的字符串
+     * @param start 开始位置
+     * @param end 结束位置
+     * @return 替换结果
+     */
+    public static String numToAsterisk(String s,Integer start,Integer end){
+        StringBuffer sb = new StringBuffer();
+        if (isEmpty(s) || start == null) {
+            return null;
+        }
+        if (start > s.length()) {
+            return s;
+        }
+        if (end == null || end > s.length()) {
+            end = s.length();
+        }
+        sb.append(s.substring(0, start)).append(numToAsterisk(s.substring(start, end))).append(s.substring(end, s.length()));
         return sb.toString();
+    }
+
+    /**
+     * 将字符串从指定位置开始替换为*
+     * @param s 需要替换的字符串
+     * @param start 开始位置
+     * @return 替换结果
+     */
+    public static String numToAsterisk(String s,Integer start){
+        return numToAsterisk(s,start,null);
     }
 
     /**

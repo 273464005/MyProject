@@ -39,7 +39,7 @@
 						<value>/layui</value>
 						<value>/layer</value>
 						<value>/images</value>
-						<value>/uploadImgs</value>
+						<value>/showImgs</value>
 					</list>
 				</property>
 			</bean>

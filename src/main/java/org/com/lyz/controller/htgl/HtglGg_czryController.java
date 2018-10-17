@@ -258,7 +258,7 @@ public class HtglGg_czryController extends BaseController {
         Map<String, Object> returnMap = new HashMap<String,Object>();
 
         String myFileName = file.getOriginalFilename();// 文件原名称
-        String pat = FileUtils.getFIlePath(request);
+        String pat = FileUtils.getFileBasePath();
         String fileName = FileUtils.getFileRandomName(myFileName);
         File localFile = FileUtils.upload(request, fileName);
 

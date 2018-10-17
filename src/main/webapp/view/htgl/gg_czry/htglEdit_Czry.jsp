@@ -157,11 +157,12 @@
                     layer.close(loadIndex);
                 }
                 , error:function () {
-                    layer.alert('发生未知异常！', {
-                        icon: 5
-                        , shade: 0
-                        , anim: 6
-                    });
+                    alertMsg("发生未知异常!",5);
+//                    layer.alert('发生未知异常！', {
+//                        icon: 5
+//                        , shade: 0
+//                        , anim: 6
+//                    });
                     layer.close(loadIndex);
                 }
             });

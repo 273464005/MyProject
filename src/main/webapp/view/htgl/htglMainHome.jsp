@@ -36,6 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <a href="javascript:;" onclick="tz('<%=basePath%>htgl/czry/editGg_czry?czryid=${user.id}')">
           <c:if test="${showImg != '' && showImg != null}">
             <img src="${showImg}" class="layui-nav-img">
+            <%--<img src="<%=basePath%>showImgs?path=${imgPath}" class="layui-nav-img">--%>
           </c:if>
           <c:if test="${showImg == null || showImg == ''}">
             <img src="<%=path%>/img/zanwu.jpg" class="layui-nav-img">
@@ -125,9 +126,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       });
 
       function xgmm() {
-          layer.prompt({title: '请输入修改后的密码', formType: 3}, function (mm, index2) {
+          layer.prompt({title: '请输入修改后的密码', formType: 1}, function (mm, index2) {
               layer.close(index2);
-              layer.prompt({title: '请再次输入密码', formType: 3}, function (qrmm, index3) {
+              layer.prompt({title: '请再次输入密码', formType: 1}, function (qrmm, index3) {
                   if (mm === qrmm) {
                       layer.close(index3);
                       $.ajax({
@@ -149,12 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                           }
                       })
                   } else {
-                      layer.msg("两次密码不匹配！", {
-                          icon: 5
-                          , shade: 0
-                          , anim: 6
-                          , time: 3000
-                      });
+                      msg("两次密码不匹配！",5)
                   }
               });
           });
@@ -179,11 +175,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         ztnr.attr("src",tzdz);
     }
 
-/**
- * 左侧导航列表只展开当前点击的目录
- * @param obj 点击对象
- */
-function showLi(obj) {
+    /**
+     * 左侧导航列表只展开当前点击的目录
+     * @param obj 点击对象
+     */
+    function showLi(obj) {
         $(".layui-nav-item").each(function () {
             $(this).removeClass("layui-nav-itemed");
         });

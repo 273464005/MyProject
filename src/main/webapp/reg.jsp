@@ -30,20 +30,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="layui-form-item">
 				<label class="layui-form-label">登录号</label>
 				<div class="layui-input-inline">
-					<input type="text" name="dlh" id="dlh" lay-verify="required" placeholder="请输入登录号" autocomplete="off" class="layui-input" value="">
+					<input type="text" name="dlh" id="dlh" lay-verify="required" placeholder="请输入登录号" autocomplete="off" class="layui-input" value="" onchange="return LoginNameCheck(this)">
 				</div>
 				<div class="layui-form-mid layui-word-aux">登陆系统使用</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">密码</label>
 				<div class="layui-input-inline">
-					<input type="password" name="mm" id="mm" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
+					<input type="password" name="mm" id="mm" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" value="" onchange="return LoginPasswordCheck(this)">
 				</div>
+				<div class="layui-form-mid layui-word-aux">密码长度4-18位</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">确认密码</label>
 				<div class="layui-input-inline">
-					<input type="password" name="qrmm" id="qrmm" lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input" value="" onchange="mmjy()">
+					<input type="password" name="qrmm" id="qrmm" lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input" value="" onchange="return mmjy()">
 				</div>
 			</div>
 			<%--<div class="layui-form-item">
@@ -92,6 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 
 <script type="text/javascript" src="js/information.js"></script>
+<script type="text/javascript" src="js/regularcheck.js"></script>
 <script type="text/javascript">
     layui.use(['form', 'laydate'], function () {
         var form = layui.form
@@ -103,33 +105,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         });
         //监听提交
         form.on('submit(formDemo)', function(data){
-            mmjy()
-            data.field.csnyr = data.field.csnyr.replace(/-/g,'');
-            $.ajax({
-                url: '<%=basePath%>zcdl/zcczry'
-                , method: 'post'
-                , data: data.field
-                , beforeSend: function () {
-                   loadIndex = layer.load();
-                }
-                , success: function (returnValue) {
-                    popupOk(returnValue, function () {
-						index1 = parent.layer.getFrameIndex(window.name);
-						parent.layer.close(index1);
-                    },function () {
+            if (!LoginNameCheck("#dlh") || !LoginPasswordCheck("#mm") || !mmjy()){
+                return false;
+			} else {
+//                data.field.csnyr = data.field.csnyr.replace(/-/g,'');
+                $.ajax({
+                    url: '<%=basePath%>zcdl/zcczry'
+                    , method: 'post'
+                    , data: data.field
+                    , beforeSend: function () {
+                        loadIndex = layer.load();
+                    }
+                    , success: function (returnValue) {
+                        popupOk(returnValue, function () {
+                            index1 = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index1);
+                        },function () {
 
-                    });
-                    layer.close(loadIndex);
-                }
-                , error:function () {
-                    layer.alert('发生未知异常！', {
-                        icon: 5
-                        , shade: 0
-                        , anim: 6
-                    });
-                    layer.close(loadIndex);
-                }
-            });
+                        });
+                        layer.close(loadIndex);
+                    }
+                    , error:function () {
+                        alertMsg("发生未知异常", 5);
+//                    layer.alert('发生未知异常！', {
+//                        icon: 5
+//                        , shade: 0
+//                        , anim: 6
+//                    });
+                        layer.close(loadIndex);
+                    }
+                });
+			}
             return false;
         });
 
@@ -152,15 +158,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		qrmm = $("#qrmm").val();
 		if(mm === qrmm){
 		}else{
-            layer.msg("两次密码不匹配！", {
-                icon: 5
-                , shade: 0
-                , anim:6
-            });
-            $("#mm").val('');
-            $("#qrmm").val('');
+		    msg("两次密码不匹配！",5);
+//            layer.msg("两次密码不匹配！", {
+//                icon: 5
+//                , shade: 0
+//                , anim:6
+//            });
+//            $("#mm").val('');
+//            $("#qrmm").val('');
             return false;
 		}
+		return true;
     }
 
     //获取姓名全拼

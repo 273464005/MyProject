@@ -62,6 +62,27 @@ function msg(text,type,callBack,time) {
 }
 
 /**
+ * 吸附提示
+ * @param text 提示信息
+ * @param obj 对象（或者#id)
+ * @param direction 提示出现的方位（1-上，2-左，3-下，4-右）
+ * @param time 显示时间
+ */
+function tipsMsg(text,obj,direction,time) {
+    //默认提示右边
+    if (direction == '' || direction == null){
+        direction = 4;
+    }
+    if (time == '' || time == null){
+        time = 3000
+    }
+    layer.tips(text, obj, {
+        tips: direction
+        ,time:time
+    });
+}
+
+/**
  * 弹窗提示信息提示信息
  * @param text 提示内容
  * @param type 提示类型（1-√，2-×，3-？，4-锁，5-哭脸，6-笑脸，7-！）
@@ -124,4 +145,13 @@ function closeThisWindow() {
         window.open("", "_self");
         window.close();
     }
+}
+
+/**
+ * 刷新父页面
+ */
+function reloadParentWindow(){
+    window.parent.location.reload(); //刷新父页面
+    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    parent.layer.close(index);  // 关闭layer
 }

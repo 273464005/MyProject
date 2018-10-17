@@ -13,6 +13,7 @@
     <script src="<%=basePath%>/layui/layui.js" type="text/javascript"></script>
     <script type="text/javascript" src="<%=basePath%>layer/layer.js" ></script>
     <script type="text/javascript" src="<%=basePath%>js/information.js"></script>
+    <script type="text/javascript" src="${basePath}js/regularcheck.js"></script>
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -44,7 +45,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">房间密码</label>
             <div class="layui-input-inline">
-                <input type="text" name="fjmm" placeholder="请输入房间密码" maxlength="4" autocomplete="off" class="layui-input" >
+                <input type="text" name="fjmm" id="fjmm" placeholder="请输入房间密码" maxlength="4" autocomplete="off" class="layui-input" onchange="return LoginPasswordCheck(this)">
             </div>
             <div class="layui-form-mid layui-word-aux">默认无密码，最长可输入四位</div>
         </div>
@@ -71,6 +72,9 @@
 
         //监听提交
         form.on('submit(formDemo)', function(data){
+            if(!LoginPasswordCheck("#fjmm")){
+                return false;
+            }
             $.ajax({
                 url: '<%=basePath%>ltyl/fjgl/saveLtfj'
                 , method: 'post'
@@ -81,20 +85,14 @@
                 , success: function (returnValue) {
                     popupOk(returnValue, function () {
                         //关闭子页面刷新父页面
-                        window.parent.location.reload(); //刷新父页面
-                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                        parent.layer.close(index);  // 关闭layer
+                       reloadParentWindow();
                     },function () {
 
                     });
                     layer.close(loadIndex);
                 }
                 , error:function () {
-                    layer.alert('发生未知异常！', {
-                        icon: 5
-                        , shade: 0
-                        , anim: 6
-                    });
+                    alertMsg('发生未知异常',5);
                     layer.close(loadIndex);
                 }
             });

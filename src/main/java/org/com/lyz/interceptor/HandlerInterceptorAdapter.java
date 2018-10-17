@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class HandlerInterceptorAdapter implements HandlerInterceptor {
 
-    public String[] allowUrls;
+    private String[] allowUrls;
 
     public void setAllowUrls(String[] allowUrls) {
         this.allowUrls = allowUrls;
@@ -25,13 +25,9 @@ public class HandlerInterceptorAdapter implements HandlerInterceptor {
 
         //静态资源不拦截
         String requestUrl = request.getRequestURI().replace(request.getContextPath(), "");
-        String requestuploadImgsUrl = request.getRequestURL().toString();
         if (allowUrls != null && allowUrls.length > 0){
             for (String url : allowUrls) {
                 if (requestUrl.contains(url)) {
-                    return true;
-                }
-                if (requestuploadImgsUrl.contains(url)) {
                     return true;
                 }
             }
@@ -42,7 +38,7 @@ public class HandlerInterceptorAdapter implements HandlerInterceptor {
         }
 
         //注册用户，登陆 放行
-        if(request.getServletPath().startsWith("/zcdl/zcczry") || request.getServletPath().startsWith("/zcdl/dlxtjy")){
+        if(request.getServletPath().startsWith("/zcdl/zcczry") || request.getServletPath().startsWith("/zcdl/dlxtjy") || request.getServletPath().startsWith("/zcdl/getHypy")){
             return true;
         }
 
@@ -55,8 +51,8 @@ public class HandlerInterceptorAdapter implements HandlerInterceptor {
         //重定向到登录页面
         //session注销
         request.getSession().removeAttribute("user");
-//        response.sendRedirect(request.getContextPath() +"/login.jsp");
-        response.sendRedirect(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath() +"/login.jsp");
+        response.sendRedirect(request.getContextPath() +"/login.jsp");
+//        response.sendRedirect(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath() +"/login.jsp");
         return false;
     }
 

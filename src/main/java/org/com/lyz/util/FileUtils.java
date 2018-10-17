@@ -21,17 +21,29 @@ import java.util.Random;
  */
 public class FileUtils {
 
-    private static final String tomcatUploadPath = "uploadImgs";
+    //展示路径
+    public static final String TOMCATSHOWPATH = "showImgs";
+
+    //文件存储的实际路径
+    public static final String UPLOADBASEPATH = "G:\\upload\\";
 
     /**
-     * 获取文件上传路径
+     * 获取服务实际路径
      * @param request 请求信息
      * @return 路径
      */
     public static String getFIlePath(HttpServletRequest request){
         String xmPath = request.getSession().getServletContext().getRealPath("/");
-        String pat=xmPath.substring(0,xmPath.length()-4)+ tomcatUploadPath +"\\";//获取文件保存路径
-        return pat;
+//        String pat=xmPath.substring(0,xmPath.length()-4)+ TOMCATSHOWPATH +"\\";//获取文件保存路径
+        return xmPath;
+    }
+
+    /**
+     * 获取实际路径
+     * @return
+     */
+    public static String getFileBasePath(){
+        return UPLOADBASEPATH;
     }
 
     /**
@@ -52,7 +64,8 @@ public class FileUtils {
      * @return 上传结果
      */
     public static File upload(HttpServletRequest request,String fileName){
-        String pat = getFIlePath(request);
+//        String pat = getFIlePath(request);
+        String pat = getFileBasePath();
         File fileDir=new File(pat);
         if (!fileDir.exists()) { //如果不存在 则创建
             fileDir.mkdirs();
@@ -74,7 +87,8 @@ public class FileUtils {
          * 进行访问图片
          */
         String path = request.getContextPath();
-        String imgPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + tomcatUploadPath + "/";
+//        String imgPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + TOMCATSHOWPATH + "/";
+        String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/" + TOMCATSHOWPATH + "?path="+UPLOADBASEPATH;
         return imgPath;
     }
 }
