@@ -36,6 +36,16 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+  <listener>
+    <listener-class>org.com.lyz.base.listener.CustomServletListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.com.lyz.base.listener.CustomRequestListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.com.lyz.base.listener.CustomSessionListener</listener-class>
+  </listener>
+
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.css</url-pattern>

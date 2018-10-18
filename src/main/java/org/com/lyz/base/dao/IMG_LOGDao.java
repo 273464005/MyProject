@@ -31,4 +31,15 @@ public interface IMG_LOGDao {
      * @throws SQLException 异常信息
      */
     List<Map<String, Object>> selectAllByColumnList(@Param("glid") String glid, @Param("imgid") String imgid, @Param("kssj") Long kssj, @Param("jssj") Long jssj,@Param("pageMin") Integer pageMin,@Param("pageMax") Integer pageMax) throws SQLException;
+
+    /**
+     * 获取所有的图片历史记录
+     * @param glid 关联的id
+     * @param imgid 图片id
+     * @param kssj 搜索时间范围开始
+     * @param jssj 搜索时间范围结束
+     * @return 查询结果
+     * @throws SQLException 异常信息
+     */
+    List<Map<String, Object>> selectAllByColumnListNoLimit(@Param("glid") String glid, @Param("imgid") String imgid, @Param("kssj") Long kssj, @Param("jssj") Long jssj) throws SQLException;
 }

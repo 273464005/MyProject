@@ -32,6 +32,12 @@ public interface ImgLogService {
      * @return 查询结果
      * @throws SQLException 异常信息
      */
-    List<Map<String,Object>> getImgLogList(IMG_LOG img_log, Long kssj, Long jssj, SplitPageInfo splitPageInfo) throws SQLException;
+    List<Map<String,Object>> getImgLogListSplitPageInfo(IMG_LOG img_log, Long kssj, Long jssj, SplitPageInfo splitPageInfo) throws SQLException;
+
+    List<Map<String,Object>> getImgLogListSplitPageInfo(IMG_LOG img_log, SplitPageInfo splitPageInfo) throws SQLException;
+
+    List<Map<String,Object>> getImgLogList(IMG_LOG img_log) throws SQLException;
+
+    List<Map<String,Object>> getImgLogList(IMG_LOG img_log, Long kssj, Long jssj) throws SQLException;
 
 }

@@ -88,7 +88,7 @@ public class FileUtils {
          */
         String path = request.getContextPath();
 //        String imgPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + TOMCATSHOWPATH + "/";
-        String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/" + TOMCATSHOWPATH + "?path="+UPLOADBASEPATH;
+        String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/" + TOMCATSHOWPATH + "?path=";
         return imgPath;
     }
 }

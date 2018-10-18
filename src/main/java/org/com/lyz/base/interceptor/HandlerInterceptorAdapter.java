@@ -1,14 +1,14 @@
-package org.com.lyz.interceptor;
+package org.com.lyz.base.interceptor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 自定义拦截器
  * @author： 鲁玉震
  * @time： 2018/8/1
  */

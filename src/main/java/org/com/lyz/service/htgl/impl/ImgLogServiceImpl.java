@@ -64,7 +64,19 @@ public class ImgLogServiceImpl implements ImgLogService{
      * @return 查询结果
      * @throws SQLException 异常信息
      */
-    public List<Map<String, Object>> getImgLogList(IMG_LOG img_log, Long kssj, Long jssj, SplitPageInfo splitPageInfo) throws SQLException {
+    public List<Map<String, Object>> getImgLogListSplitPageInfo(IMG_LOG img_log, Long kssj, Long jssj, SplitPageInfo splitPageInfo) throws SQLException {
         return logDao.selectAllByColumnList(img_log.getGlid(),img_log.getImgid(),kssj,jssj,splitPageInfo.getPage(),splitPageInfo.getLimit());
+    }
+
+    public List<Map<String, Object>> getImgLogListSplitPageInfo(IMG_LOG img_log, SplitPageInfo splitPageInfo) throws SQLException {
+        return getImgLogListSplitPageInfo(img_log,null,null,splitPageInfo);
+    }
+
+    public List<Map<String, Object>> getImgLogList(IMG_LOG img_log, Long kssj, Long jssj) throws SQLException {
+        return logDao.selectAllByColumnListNoLimit(img_log.getGlid(),img_log.getImgid(),kssj,jssj);
+    }
+
+    public List<Map<String, Object>> getImgLogList(IMG_LOG img_log) throws SQLException {
+        return getImgLogList(img_log,null,null);
     }
 }

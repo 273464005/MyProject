@@ -291,4 +291,43 @@ public class HtglGg_czryController extends BaseController {
         returnMap.put("data", jsonArray);
         return returnMap;
     }
+
+    /**
+     * 查询用户的历史头像
+     *
+     * @param request 请求信息
+     * @param ryid    人员id
+     * @return 展示页面
+     */
+    @RequestMapping("/getHistoryImgs")
+    public String getHistoryImgs(HttpServletRequest request, String ryid, Model model) throws SQLException{
+        GG_CZRY gg_czry = CzryService.selectById(ryid);
+        IMG_LOG img_log = new IMG_LOG();
+        img_log.setGlid(gg_czry.getId());
+        List<Map<String,Object>> historyImgList = imgLogService.getImgLogList(img_log);
+        String showPath = FileUtils.getZxImgPath(request);
+        List<Map<String,Object>> showImgPathList = new ArrayList<Map<String,Object>>();
+        String showImgPath = null;
+        for (Map<String,Object> historyMap : historyImgList) {
+            GG_IMGS imgs = imgService.selectById(ConvertUtils.createString(historyMap.get("imgid")));
+            if (imgs != null){
+                showImgPath = showPath + imgs.getTpmc();
+                historyMap.put("showImgPath", showImgPath);
+                historyMap.put("tpmc", imgs.getTpmc());
+            }
+            showImgPathList.add(historyMap);
+        }
+        model.addAttribute("czry", gg_czry);
+        model.addAttribute("showImgPathList", showImgPathList);
+        return "htgl/gg_czry/htglHistoryImgs";
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateRyTx")
+    public ReturnValue updateRyTx(HttpServletRequest request,String ryid,String tpid) throws SQLException{
+        GG_CZRY gg_czry = CzryService.selectById(ryid);
+        gg_czry.setTxdz(tpid);
+        CzryService.update(gg_czry);
+        return ReturnValue.newSuccessInstance("更换成功");
+    }
 }

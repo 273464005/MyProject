@@ -100,4 +100,24 @@
       limit #{pageMin,jdbcType=INTEGER},#{pageMax,jdbcType=INTEGER}
     </where>
   </select>
+
+  <select id="selectAllByColumnListNoLimit" parameterType="java.lang.String" resultType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from img_log
+    <where>
+      <trim prefix="" suffix="" suffixOverrides="AND">
+        <if test="glid != null">
+          glid = #{glid,jdbcType=VARCHAR} AND
+        </if>
+        <if test="imgid != null">
+          imgid = #{imgid,jdbcType=VARCHAR} AND
+        </if>
+        <if test="kssj !=null and jssj != null">
+          logsj <![CDATA[ >= ]]> #{kssj,jdbcType=INTEGER} AND logsj <![CDATA[ <= ]]> #{jssj,jdbcType=INTEGER} AND
+        </if>
+      </trim>
+    </where>
+    ORDER BY logsj DESC
+  </select>
 </mapper>

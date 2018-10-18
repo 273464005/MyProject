@@ -148,9 +148,10 @@
                 }
                 , success: function (returnValue) {
                     popupOk(returnValue, function () {
-                        window.parent.location.reload(); //刷新父页面
-                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                        parent.layer.close(index);  // 关闭layer
+//                        window.parent.location.reload(); //刷新父页面
+//                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+//                        parent.layer.close(index);  // 关闭layer
+                        reloadParentWindow();
                     },function () {
 
                     });
@@ -175,9 +176,10 @@
             ,url: '<%=basePath%>htgl/czry/uploadImg'
             ,auto: false
             //,multiple: true
-            ,accpt:'file'
-            ,acceptMime:'image/*'
+            ,accpt:'image'
+            ,acceptMime:'image/jpg'
 //            ,bindAction: '#sctp'
+            ,exts:'jpg'
             ,bindAction:'#formDemo'
             ,data:{
                 czryid:$("input[name=id]").val()
@@ -202,15 +204,18 @@
             }
         });
 
+        //大图查看器
+        layer.photos({
+            photos: '#myImgeDiv'
+            ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+        });
+
+        //json格式的大图查看器
+        /*
         $("#myImge").click(function () {
-            //大图查看器
-            /*layer.photos({
-                photos: '#myImgeDiv'
-                ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-            });*/
             $.ajax({
                 method: 'post'
-                , url: '<%=basePath%>htgl/czry/getBigImg'
+                , url: '${basePath}htgl/czry/getBigImg'
                 , data:{
                     id:'${gg_imgs.id}'
                 }
@@ -223,21 +228,25 @@
                     });
                 }
                 , error:function (e) {
-                    layer.alert("发生未知异常，相册加载失败！", {
-                        icon: 5
-                        , shade: 0
-                        , anim: 6
-                    });
+                    alertMsg("发生未知异常，相册加载失败！",5);
                 }
             });
 
-        });
+        });*/
 
         window.showLstx = function (czryid,dqtx) {
             if(dqtx === '') {
                 alertMsg("该用户未上传过头像",5);
             } else {
-                location.href = "<%=basePath%>";
+                <%--location.href = "<%=basePath%>";--%>
+                var index = layer.open({
+                        type: 2
+                        , title: "历史头像"
+                        , area: ['60%','70%']
+                        , shadeClose :true
+                        , content:['${basePath}htgl/czry/getHistoryImgs?ryid=' + $("input[name=id]").val()]
+                });
+                layer.iframeAuto(index);
             }
         };
 

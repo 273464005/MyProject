@@ -23,11 +23,11 @@
 
 	<mvc:interceptors>
 		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
-		<!--<bean class="org.com.lyz.interceptor.HandlerInterceptorAdapter"/>-->
+		<!--<bean class="org.com.lyz.base.interceptor.HandlerInterceptorAdapter"/>-->
 		<mvc:interceptor>
             <mvc:mapping path="/**/**"/>
             <!--定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的-->
-            <bean class="org.com.lyz.interceptor.HandlerInterceptorAdapter">
+            <bean class="org.com.lyz.base.interceptor.HandlerInterceptorAdapter">
 				<property name="allowUrls">
 					<list>
 					<!-- 如果请求中包含以下路径，则不进行拦截 -->

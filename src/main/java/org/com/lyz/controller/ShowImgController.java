@@ -22,12 +22,13 @@ import java.io.*;
  */
 @Controller
 @RequestMapping(FileUtils.TOMCATSHOWPATH)
-public class ShowImgController {
+public class ShowImgController extends BaseController{
 
     @RequestMapping()
     public void bmpShow(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
 //        String imagePath = Global.getUserfilesBaseDir()+path;
-        String imagePath = path;
+//        String imagePath = path;
+        String imagePath = FileUtils.UPLOADBASEPATH + path;
         response.reset();
         OutputStream output = response.getOutputStream();// 得到输出流
         if (imagePath.toLowerCase().endsWith(".jpg"))// 使用编码处理文件流的情况：
