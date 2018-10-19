@@ -359,6 +359,7 @@ public class HtglGg_czryController extends BaseController {
         GG_IMGS gg_imgs = imgService.selectById(imgLog.getImgid());
         try {
             FileUtils.delFile(gg_imgs.getTpmc());
+            imgService.delete(gg_imgs);
             imgLogService.delete(img_log);
         } catch (IOException e) {
             return ReturnValue.newErrorInstance();
