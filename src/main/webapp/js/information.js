@@ -133,6 +133,25 @@ function loading(text,time){
 }
 
 /**
+ * 询问框
+ * @param text 提示信息
+ * @param callBack 回调函数
+ */
+function layerConfirm(text,callBack){
+    layer.confirm(text,{
+        icon:3
+        , title:'提示'
+    },callBack);
+}
+
+/**
+ * 窗口刷新
+ */
+function windowReload() {
+    window.location.reload();
+}
+
+/**
  * 关闭当前窗口
  */
 function closeThisWindow() {

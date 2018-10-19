@@ -25,6 +25,14 @@ public class ImgLogServiceImpl implements ImgLogService{
     @Autowired
     private IMG_LOGDao logDao;
 
+    public IMG_LOG select(String id) throws SQLException {
+        return logDao.selectByPrimaryKey(id);
+    }
+
+    public IMG_LOG select(IMG_LOG img_log) throws SQLException {
+        return select(img_log.getId());
+    }
+
     public void insert(IMG_LOG img_log) throws SQLException {
         logDao.insertSelective(img_log);
         logger.info("----添加图片历史记录成功----");

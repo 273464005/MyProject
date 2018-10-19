@@ -20,13 +20,22 @@
             <ul id="imgUL">
                 <c:forEach items="${showImgPathList}" var="imgs">
                     <li style="display: inline-block;margin-top: 5px">
-                        <img lay-src="${imgs.get("showImgPath")}" layer-pid alt="${imgs.get("tpmc")}"style="width: 190px;height: 119px">
-                        <button class="layui-btn layui-btn-xs" style="display: block;" onclick="sztx('${czry.txdz}','${imgs.get("imgid")}')">
-                            设为头像
-                            <c:if test="${czry.txdz == imgs.get('imgid')}">
-                                （当前头像）
+                        <img lay-src="${imgs.get("showImgPath")}" src="${imgs.get("showImgPath")}" layer-pid alt="${imgs.get("tpmc")}"style="width: 190px;height: 119px">
+                        <div class="layui-btn-group" style="display: block;">
+                            <button class="layui-btn layui-btn-xs" onclick="sztx('${czry.txdz}','${imgs.get("imgid")}')">
+                                <c:if test="${czry.txdz == imgs.get('imgid')}">
+                                    当前头像
+                                </c:if>
+                                <c:if test="${czry.txdz != imgs.get('imgid')}">
+                                    设为头像
+                                </c:if>
+                            </button>
+                            <c:if test="${czry.txdz != imgs.get('imgid')}">
+                                <button class="layui-btn layui-btn-primary layui-btn-xs"onclick="delImg('${imgs.get("id")}')">
+                                    <i class="layui-icon">&#xe640;</i>删除
+                                </button>
                             </c:if>
-                        </button>
+                        </div>
                     </li>
                 </c:forEach>
             </ul>
@@ -53,13 +62,13 @@
                     method: 'post'
                     , url:'${basePath}htgl/czry/updateRyTx'
                     , data:{
-                        ryid:${czry.id}
+                        ryid:'${czry.id}'
                         , tpid:tpid
                     }
                     , success:function (returnValue) {
                         jsonMsg(returnValue,function () {
                             reloadParentWindow();
-                            window.location.href = "${basePath}zcdl/htglMainHome"
+                            <%--window.location.href = "${basePath}zcdl/htglMainHome"--%>
                         },function () {
 
                         })
@@ -69,6 +78,30 @@
                     }
                 });
             }
+        }
+
+        function delImg(imgId) {
+            layerConfirm("确定删除吗？",function (index) {
+                $.ajax({
+                   method:'post'
+                   , url:'${basePath}htgl/czry/deleteImgLog'
+                   , data:{
+                     id:imgId
+                   }
+                   , success:function (returnValue) {
+                        jsonMsg(returnValue,function () {
+                            windowReload();
+                        },function () {
+
+                        })
+                   }
+                   , error:function () {
+                       alertMsg("发生未知异常", 2);
+                   }
+                });
+                layer.close(index);
+            });
+
         }
     </script>
 </body>

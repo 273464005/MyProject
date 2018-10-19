@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -73,6 +74,17 @@ public class FileUtils {
         String path = pat + fileName;
         File localFile = new File(path);
         return localFile;
+    }
+
+    /**
+     * 删除文件
+     * @param filePath 文件路径（文件路径+文件名称）
+     * @throws IOException 异常信息
+     */
+    public static void delFile(String filePath) throws IOException{
+        String baseFilePath = UPLOADBASEPATH + filePath;
+        File myDelFile = new File(baseFilePath);
+        myDelFile.delete();
     }
 
     /**

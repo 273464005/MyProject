@@ -171,6 +171,7 @@ public class HtglGg_czryController extends BaseController {
         model.addAttribute("gg_czry", gg_czry);
         model.addAttribute("qxList", qxList);
         model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
+        model.addAttribute("GG_CZRY_QX_CJGLY",Constant_htgl.GG_CZRY_QX_CJGLY);
         return "htgl/gg_czry/htglEdit_Czry";
     }
 
@@ -275,7 +276,7 @@ public class HtglGg_czryController extends BaseController {
 
         //图片日志
         IMG_LOG img_log = new IMG_LOG();
-        img_log.setLogsj(DateUtil.getLongCurrDateTime());
+        img_log.setLogsj(DateUtil.getLongCurrDateTime14());
         img_log.setImgid(gg_imgs.getId());
         img_log.setGlid(czryid);
         imgLogService.save(img_log);
@@ -315,13 +316,26 @@ public class HtglGg_czryController extends BaseController {
                 historyMap.put("showImgPath", showImgPath);
                 historyMap.put("tpmc", imgs.getTpmc());
             }
-            showImgPathList.add(historyMap);
+            //当前头像设置为第一个展示
+            if (gg_czry.getTxdz().equals(ConvertUtils.createString(historyMap.get("imgid")))){
+                showImgPathList.add(0,historyMap);
+            } else {
+                showImgPathList.add(historyMap);
+            }
         }
         model.addAttribute("czry", gg_czry);
         model.addAttribute("showImgPathList", showImgPathList);
         return "htgl/gg_czry/htglHistoryImgs";
     }
 
+    /**
+     * 更换头像
+     * @param request 请求信息
+     * @param ryid 人员id
+     * @param tpid 图片id
+     * @return 更换结果
+     * @throws SQLException 异常信息
+     */
     @ResponseBody
     @RequestMapping("/updateRyTx")
     public ReturnValue updateRyTx(HttpServletRequest request,String ryid,String tpid) throws SQLException{
@@ -329,5 +343,26 @@ public class HtglGg_czryController extends BaseController {
         gg_czry.setTxdz(tpid);
         CzryService.update(gg_czry);
         return ReturnValue.newSuccessInstance("更换成功");
+    }
+
+    /**
+     * 删除历史头像
+     * @param request 请求信息
+     * @param img_log 历史图片信息
+     * @return 删除结果
+     * @throws SQLException 异常信息
+     */
+    @ResponseBody
+    @RequestMapping("/deleteImgLog")
+    public ReturnValue deleteImgLog(HttpServletRequest request,IMG_LOG img_log) throws SQLException{
+        IMG_LOG imgLog = imgLogService.select(img_log);
+        GG_IMGS gg_imgs = imgService.selectById(imgLog.getImgid());
+        try {
+            FileUtils.delFile(gg_imgs.getTpmc());
+            imgLogService.delete(img_log);
+        } catch (IOException e) {
+            return ReturnValue.newErrorInstance();
+        }
+        return ReturnValue.newSuccessInstance("删除成功！");
     }
 }

@@ -13,6 +13,10 @@ import java.util.Map;
  */
 public interface ImgLogService {
 
+    IMG_LOG select(String id) throws SQLException;
+
+    IMG_LOG select(IMG_LOG img_log) throws SQLException;
+
     void insert(IMG_LOG img_log) throws SQLException;
 
     void save(IMG_LOG img_log) throws SQLException;

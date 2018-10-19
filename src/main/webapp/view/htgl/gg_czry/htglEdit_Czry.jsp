@@ -72,12 +72,7 @@
                 <div class="layui-input-inline">
                     <select name="qx">
                         <c:forEach items="${qxList}" var="qxs">
-                            <c:if test="${gg_czry.qx == qxs.key}">
-                                <option value="${qxs.key}" id="${qxs.key}" selected>${qxs.value}</option>
-                            </c:if>
-                            <c:if test="${gg_czry.qx != qxs.key}">
-                                <option value="${qxs.key}" id="${qxs.key}">${qxs.value}</option>
-                            </c:if>
+                            <option value="${qxs.key}" id="${qxs.key}"<c:if test="${gg_czry.qx == qxs.key}">selected</c:if> <c:if test="${gg_czry.qx == GG_CZRY_QX_CJGLY || qxs.key == GG_CZRY_QX_CJGLY}">disabled="disabled"</c:if>>${qxs.value}</option>
                         </c:forEach>
                     </select>
                 </div>
