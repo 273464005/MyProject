@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.XT_GNBDao;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.XT_GNB;
-import org.com.lyz.constant.Constant_htgl;
+import org.com.lyz.constant.Constants_htgl;
 import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.StringUtils;
@@ -161,9 +161,9 @@ public class XtgnServiceImpl implements XtgnService{
         }
         List<Map<String, Object>> returnList = xtgnDao.selectAllByLimit(gg_czry.getQx(), xt_gnb.getGnmc(), splitPageInfo.getPage(), splitPageInfo.getLimit());
         for (Map<String, Object> map : returnList) {
-            map.put("qxmc", Constant_htgl.getGG_CZRY_QXMap_Label(ConvertUtils.createInteger(map.get("dyqx"))));
-            map.put("ztmc", Constant_htgl.getXT_GNB_ZTMap_Label(ConvertUtils.createInteger(map.get("zt"))));
-            map.put("gnlbmc", Constant_htgl.getXT_GNB_GNLB_Map_Label(ConvertUtils.createInteger(map.get("gnlb"))));
+            map.put("qxmc", Constants_htgl.getGG_CZRY_QXMap_Label(ConvertUtils.createInteger(map.get("dyqx"))));
+            map.put("ztmc", Constants_htgl.getXT_GNB_ZTMap_Label(ConvertUtils.createInteger(map.get("zt"))));
+            map.put("gnlbmc", Constants_htgl.getXT_GNB_GNLB_Map_Label(ConvertUtils.createInteger(map.get("gnlb"))));
             String fid = ConvertUtils.createString(map.get("fid"));
             String fmc = "";
             if (StringUtils.isNotEmpty(fid)) {

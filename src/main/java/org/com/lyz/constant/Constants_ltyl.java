@@ -7,7 +7,7 @@ import java.util.Map;
  * @author： 鲁玉震
  * @time： 2018/9/20
  */
-public class Constant_ltyl {
+public class Constants_ltyl {
 
     //房间状态   0-正常   1-禁用
     public static final Integer GG_LTFJ_FJZT_ZC = 0;

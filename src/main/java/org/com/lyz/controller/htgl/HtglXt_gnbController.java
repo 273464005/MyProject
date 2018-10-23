@@ -1,13 +1,11 @@
 package org.com.lyz.controller.htgl;
 
 import net.sf.json.JSONArray;
-import org.apache.ibatis.jdbc.SQL;
 import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.XT_GNB;
-import org.com.lyz.constant.Constant_htgl;
+import org.com.lyz.constant.Constants_htgl;
 import org.com.lyz.controller.BaseController;
-import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.TreeNodeUtils;
@@ -56,8 +54,8 @@ public class HtglXt_gnbController extends BaseController {
      */
     @RequestMapping("/xtgnIndexTable")
     public String xtgnIndexTable(HttpServletRequest request,Model model) throws SQLException{
-        model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
-        model.addAttribute("GG_CZRY_QX_GLY", Constant_htgl.GG_CZRY_QX_GLY);
+        model.addAttribute("GG_CZRY_QX_PTYH", Constants_htgl.GG_CZRY_QX_PTYH);
+        model.addAttribute("GG_CZRY_QX_GLY", Constants_htgl.GG_CZRY_QX_GLY);
         return "htgl/xt_gnb/htglTable_gnb";
     }
 
@@ -72,7 +70,7 @@ public class HtglXt_gnbController extends BaseController {
         GG_CZRY gg_czry = this.getGg_czry(request);
         TreeNodeUtils treeNode = new TreeNodeUtils("ROOT","所有功能",true);
         //遍历状态
-        for (Map.Entry<Integer, String> entry : Constant_htgl.XT_GNB_ZTMap.entrySet()) {
+        for (Map.Entry<Integer, String> entry : Constants_htgl.XT_GNB_ZTMap.entrySet()) {
             TreeNodeUtils oneTreeNode = new TreeNodeUtils();
             oneTreeNode.setId(ConvertUtils.createString(entry.getKey()));
             oneTreeNode.setName(entry.getValue());
@@ -118,8 +116,8 @@ public class HtglXt_gnbController extends BaseController {
             treeNode.addChildrenNode(oneTreeNode);
         }
         model.addAttribute("treeDate", treeNode.toString());
-        model.addAttribute("zc", Constant_htgl.XT_GNB_ZT_ZC);
-        model.addAttribute("jy", Constant_htgl.XT_GNB_ZT_JY);
+        model.addAttribute("zc", Constants_htgl.XT_GNB_ZT_ZC);
+        model.addAttribute("jy", Constants_htgl.XT_GNB_ZT_JY);
         return "htgl/xt_gnb/htglTree_gnb";
     }
 
@@ -159,12 +157,12 @@ public class HtglXt_gnbController extends BaseController {
         GG_CZRY gg_czry = this.getGg_czry(request);
         XT_GNB xt_gnb = XtgnService.getXt_gnbById(gnid);
         XT_GNB queryGnb = new XT_GNB();
-        queryGnb.setDyqx(Constant_htgl.GG_CZRY_QX_CJGLY);
-        queryGnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
+        queryGnb.setDyqx(Constants_htgl.GG_CZRY_QX_CJGLY);
+        queryGnb.setZt(Constants_htgl.XT_GNB_ZT_ZC);
         List<Map<String, Object>> xt_gnbList = XtgnService.getXtgnList(queryGnb);
         List<Map<String, Object>> qxList = new ArrayList<Map<String, Object>>();
 
-        for (Map.Entry<Integer,String> entry:Constant_htgl.GG_CZRY_QXMap.entrySet()){
+        for (Map.Entry<Integer,String> entry: Constants_htgl.GG_CZRY_QXMap.entrySet()){
             if(gg_czry.getQx() <= entry.getKey()){
                 Map<String, Object> qxMap = new HashMap<String, Object>();
                 qxMap.put("key",entry.getKey());
@@ -175,7 +173,7 @@ public class HtglXt_gnbController extends BaseController {
         model.addAttribute("xt_gnb",xt_gnb);
         model.addAttribute("xt_gnbList", xt_gnbList);
         model.addAttribute("qxList",qxList);
-        model.addAttribute("gnjy", Constant_htgl.XT_GNB_ZT_JY);
+        model.addAttribute("gnjy", Constants_htgl.XT_GNB_ZT_JY);
         return "htgl/xt_gnb/htglEditXt_gnb";
     }
 
@@ -196,7 +194,7 @@ public class HtglXt_gnbController extends BaseController {
         if (!"".equals(ztstr) && ztstr != null){
             zt = ConvertUtils.createInteger(ztstr);
         } else{
-            zt = Constant_htgl.XT_GNB_ZT_ZC;
+            zt = Constants_htgl.XT_GNB_ZT_ZC;
         }
         xt_gnb.setZt(zt);
         String fid = xt_gnb.getFid();
@@ -249,10 +247,10 @@ public class HtglXt_gnbController extends BaseController {
     @RequestMapping("/editXt_gnb_zt")
     @ResponseBody
     public ReturnValue editXt_gnb_zt(HttpServletRequest request,XT_GNB xt_gnb) throws SQLException{
-        if(xt_gnb.getZt() == Constant_htgl.XT_GNB_ZT_JY){
-            xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
+        if(xt_gnb.getZt() == Constants_htgl.XT_GNB_ZT_JY){
+            xt_gnb.setZt(Constants_htgl.XT_GNB_ZT_ZC);
         } else {
-            xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_JY);
+            xt_gnb.setZt(Constants_htgl.XT_GNB_ZT_JY);
         }
         XtgnService.updateXt_gnb(xt_gnb);
         return ReturnValue.newSuccessInstance("操作成功！");

@@ -4,8 +4,8 @@ import net.sf.json.JSONArray;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_FJRYB;
 import org.com.lyz.base.model.po.GG_LTFJ;
-import org.com.lyz.constant.Constant_htgl;
-import org.com.lyz.constant.Constant_ltyl;
+import org.com.lyz.constant.Constants_htgl;
+import org.com.lyz.constant.Constants_ltyl;
 import org.com.lyz.controller.BaseController;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.ltyl.LtgnService;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,8 +65,8 @@ public class LtylGg_ltfjController extends BaseController {
         if (ltfjList != null && ltfjList.size() > 0){
             for (Map<String,Object> ltfjMap: ltfjList) {
                 ltfjMap.put("cjsjgsh",DateUtil.long2StrDate(ConvertUtils.createBigInteger(ltfjMap.get("cjsj"))));
-                ltfjMap.put("GG_CZRY_QX_GLY",Constant_htgl.GG_CZRY_QX_GLY);
-                ltfjMap.put("GG_CZRY_QX_CJGLY", Constant_htgl.GG_CZRY_QX_CJGLY);
+                ltfjMap.put("GG_CZRY_QX_GLY", Constants_htgl.GG_CZRY_QX_GLY);
+                ltfjMap.put("GG_CZRY_QX_CJGLY", Constants_htgl.GG_CZRY_QX_CJGLY);
             }
         }
         JSONArray jsonArray = JSONArray.fromObject(ltfjList);
@@ -130,12 +129,12 @@ public class LtylGg_ltfjController extends BaseController {
     @RequestMapping("/saveLtfj")
     @ResponseBody
     public ReturnValue saveLtfj(HttpServletRequest request,GG_LTFJ gg_ltfj) throws SQLException{
-        gg_ltfj.setFjzt(Constant_ltyl.GG_LTFJ_FJZT_ZC);
+        gg_ltfj.setFjzt(Constants_ltyl.GG_LTFJ_FJZT_ZC);
         GG_CZRY czry = this.getGg_czry(request);
         gg_ltfj.setCjr(czry.getId());
         gg_ltfj.setCjrmc(czry.getMc());
         if (StringUtils.isEmpty(gg_ltfj.getFjms())){
-            gg_ltfj.setFjms(Constant_ltyl.GG_LTFJ_FJMS_DEFAULT);
+            gg_ltfj.setFjms(Constants_ltyl.GG_LTFJ_FJMS_DEFAULT);
         }
         ltgnService.saveGg_ltfj(gg_ltfj);
         GG_FJRYB gg_fjryb = new GG_FJRYB();
@@ -144,7 +143,7 @@ public class LtylGg_ltfjController extends BaseController {
         List<Map<String,Object>> fjryList = ltgnService.getFjry(gg_fjryb);
         if (fjryList != null && fjryList.size() > 0){
         } else {
-            gg_fjryb.setZt(Constant_ltyl.GG_FJRYB_ZT_ZC);
+            gg_fjryb.setZt(Constants_ltyl.GG_FJRYB_ZT_ZC);
             ltgnService.saveGg_fjryb(gg_fjryb);
         }
         return ReturnValue.newSuccessInstance("操作成功！");
@@ -160,10 +159,10 @@ public class LtylGg_ltfjController extends BaseController {
     @RequestMapping("/editGg_ltfj_zt")
     @ResponseBody
     public ReturnValue editGg_ltfj_zt(HttpServletRequest request,GG_LTFJ gg_ltfj) throws SQLException{
-        if (gg_ltfj.getFjzt() == Constant_ltyl.GG_LTFJ_FJZT_JY){
-            gg_ltfj.setFjzt(Constant_ltyl.GG_LTFJ_FJZT_ZC);
-        }else if (gg_ltfj.getFjzt() == Constant_ltyl.GG_LTFJ_FJZT_ZC){
-            gg_ltfj.setFjzt(Constant_ltyl.GG_LTFJ_FJZT_JY);
+        if (gg_ltfj.getFjzt() == Constants_ltyl.GG_LTFJ_FJZT_JY){
+            gg_ltfj.setFjzt(Constants_ltyl.GG_LTFJ_FJZT_ZC);
+        }else if (gg_ltfj.getFjzt() == Constants_ltyl.GG_LTFJ_FJZT_ZC){
+            gg_ltfj.setFjzt(Constants_ltyl.GG_LTFJ_FJZT_JY);
         }
         ltgnService.updateGg_ltfj(gg_ltfj);
         return ReturnValue.newSuccessInstance();
@@ -204,6 +203,11 @@ public class LtylGg_ltfjController extends BaseController {
     public Map<String,Object> getFjmm(HttpServletRequest request,String fjid) throws SQLException{
         Map<String, Object> returnMap = new HashMap<String,Object>();
         GG_LTFJ gg_ltfj = ltgnService.getGg_lifj(fjid);
+        if (gg_ltfj == null){
+            returnMap.put("state",2);
+            returnMap.put("text", "该房间已解散");
+            return returnMap;
+        }
         String state = "w";
         if (gg_ltfj != null && StringUtils.isNotEmpty(gg_ltfj.getFjmm())){
             state = "y";

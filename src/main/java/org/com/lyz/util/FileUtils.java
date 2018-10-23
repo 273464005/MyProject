@@ -1,12 +1,16 @@
 package org.com.lyz.util;
 
+import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.base.model.po.IMG_LOG;
+import org.com.lyz.constant.Constants_core;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.ImgLogService;
 import org.com.lyz.service.htgl.ImgService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,32 +24,11 @@ import java.util.Random;
  * @author： 鲁玉震
  * @time： 2018/7/3
  */
+@Component
 public class FileUtils {
 
-    //展示路径
-    public static final String TOMCATSHOWPATH = "showImgs";
+    private final static Logger logger = Logger.getLogger(FileUtils.class);
 
-    //文件存储的实际路径
-    public static final String UPLOADBASEPATH = "G:\\upload\\";
-
-    /**
-     * 获取服务实际路径
-     * @param request 请求信息
-     * @return 路径
-     */
-    public static String getFIlePath(HttpServletRequest request){
-        String xmPath = request.getSession().getServletContext().getRealPath("/");
-//        String pat=xmPath.substring(0,xmPath.length()-4)+ TOMCATSHOWPATH +"\\";//获取文件保存路径
-        return xmPath;
-    }
-
-    /**
-     * 获取实际路径
-     * @return
-     */
-    public static String getFileBasePath(){
-        return UPLOADBASEPATH;
-    }
 
     /**
      * 修改文件名字，获取随机名字
@@ -60,15 +43,14 @@ public class FileUtils {
 
     /**
      * 上传图片
-     * @param request 请求信息
+     * @param czyPath 操作员id（拼接到路径上，每个人的头像单独存放一个文件夹）
      * @param fileName 图片名称
      * @return 上传结果
      */
-    public static File upload(HttpServletRequest request,String fileName){
-//        String pat = getFIlePath(request);
-        String pat = getFileBasePath();
+    public static File upload(String czyPath,String fileName){
+        String pat = Constants_core.HEADPORTRAITFILEPATH  + "\\" +czyPath;
         File fileDir=new File(pat);
-        if (!fileDir.exists()) { //如果不存在 则创建
+        if (!fileDir.exists()) { //如果目录不存在 则创建
             fileDir.mkdirs();
         }
         String path = pat + fileName;
@@ -77,14 +59,26 @@ public class FileUtils {
     }
 
     /**
+     * 获取文件夹路径
+     * @param czryid
+     * @return 路径
+     */
+    public static String getPath(String czryid){
+        String path = czryid + "\\" +DateUtil.getLongCurrDateTime6()+"\\";
+        return path;
+    }
+
+    /**
      * 删除文件
      * @param filePath 文件路径（文件路径+文件名称）
      * @throws IOException 异常信息
      */
     public static void delFile(String filePath) throws IOException{
-        String baseFilePath = UPLOADBASEPATH + filePath;
+        String baseFilePath = Constants_core.HEADPORTRAITFILEPATH + filePath;
         File myDelFile = new File(baseFilePath);
+        String logShowName = myDelFile.getName();
         myDelFile.delete();
+        logger.info("删除文件" + logShowName);
     }
 
     /**
@@ -100,7 +94,7 @@ public class FileUtils {
          */
         String path = request.getContextPath();
 //        String imgPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + TOMCATSHOWPATH + "/";
-        String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/" + TOMCATSHOWPATH + "?path=";
+        String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/" + Constants_core.HEADPORTRAITSHOWFILEPATH + "?imgPath=";
         return imgPath;
     }
 }

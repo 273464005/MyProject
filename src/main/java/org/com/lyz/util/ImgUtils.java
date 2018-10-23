@@ -1,7 +1,7 @@
 package org.com.lyz.util;
 
 import org.com.lyz.base.model.po.GG_IMGS;
-import org.com.lyz.constant.Constant_htgl;
+import org.com.lyz.constant.Constants_htgl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -62,7 +62,7 @@ public class ImgUtils {
      * @return 图片高度
      */
     public static int getImgShowHeight(GG_IMGS gg_imgs){
-        int width = Constant_htgl.GG_IMGS_WIDTH_SHOW;
+        int width = Constants_htgl.GG_IMGS_WIDTH_SHOW;
         return getImgShowHeight(gg_imgs,width);
     }
 

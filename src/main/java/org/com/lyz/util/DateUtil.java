@@ -357,6 +357,21 @@ public class DateUtil {
         return Long.valueOf(strYear + strMonth + strDate + srtHours + strMinute);
     }
 
+    public static Long getLongCurrDateTime6() {
+        // 获得当前日期
+        Calendar cldCurrent = Calendar.getInstance();
+        // 获得年月
+        String strYear = String.valueOf(cldCurrent.get(Calendar.YEAR));
+        String strMonth = String.valueOf(cldCurrent.get(Calendar.MONTH) + 1);
+
+        // 整理格式
+        if (strMonth.length() < 2) {
+            strMonth = "0" + strMonth;
+        }
+
+        return Long.valueOf(strYear + strMonth);
+    }
+
     public static Long getLongCurrDateTime8() {
         // 获得当前日期
         Calendar cldCurrent = Calendar.getInstance();

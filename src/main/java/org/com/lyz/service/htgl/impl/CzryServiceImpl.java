@@ -3,7 +3,7 @@ package org.com.lyz.service.htgl.impl;
 import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.GG_CZRYDao;
 import org.com.lyz.base.model.po.GG_CZRY;
-import org.com.lyz.constant.Constant_htgl;
+import org.com.lyz.constant.Constants_htgl;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.StringUtils;
@@ -34,8 +34,8 @@ public class CzryServiceImpl implements CzryService {
      */
     public void insert(GG_CZRY gg_czry) throws SQLException {
         gg_czry.setId(StringUtils.getUUID());
-        gg_czry.setQx(Constant_htgl.GG_CZRY_QX_PTYH);//暂时注册全部为普通人员
-        gg_czry.setZt(Constant_htgl.GG_CZRY_ZT_ZC);//新注册用户状态全部为正常
+        gg_czry.setQx(Constants_htgl.GG_CZRY_QX_PTYH);//暂时注册全部为普通人员
+        gg_czry.setZt(Constants_htgl.GG_CZRY_ZT_ZC);//新注册用户状态全部为正常
         logger.info("----添加操作人员成功----");
         czryDao.insertSelective(gg_czry);
     }
@@ -120,9 +120,9 @@ public class CzryServiceImpl implements CzryService {
         for (Map<String, Object> map : returnList) {
             map.put("sjh", StringUtils.idAndMobileNumToAsterisk(ConvertUtils.createString(map.get("sjh"))));
             map.put("sfzh", StringUtils.idAndMobileNumToAsterisk(ConvertUtils.createString(map.get("sfzh"))));
-            map.put("xbmc", Constant_htgl.getGG_CZRY_XBMap_Label(ConvertUtils.toInt(map.get("xb"))));
-            map.put("ztmc", Constant_htgl.getGG_CZRY_ZTMap_Label(ConvertUtils.toInt(map.get("zt"))));
-            map.put("qxmc", Constant_htgl.getGG_CZRY_QXMap_Label(ConvertUtils.toInt(map.get("qx"))));
+            map.put("xbmc", Constants_htgl.getGG_CZRY_XBMap_Label(ConvertUtils.toInt(map.get("xb"))));
+            map.put("ztmc", Constants_htgl.getGG_CZRY_ZTMap_Label(ConvertUtils.toInt(map.get("zt"))));
+            map.put("qxmc", Constants_htgl.getGG_CZRY_QXMap_Label(ConvertUtils.toInt(map.get("qx"))));
         }
         return returnList;
     }

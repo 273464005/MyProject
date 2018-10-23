@@ -22,7 +22,7 @@
                     <li style="display: inline-block;margin-top: 5px">
                         <img lay-src="${imgs.get("showImgPath")}" src="${imgs.get("showImgPath")}" layer-pid alt="${imgs.get("tpmc")}"style="width: 190px;height: 119px">
                         <div class="layui-btn-group" style="display: block;">
-                            <button class="layui-btn layui-btn-xs" onclick="sztx('${czry.txdz}','${imgs.get("imgid")}')">
+                            <button class="layui-btn layui-btn-xs" <c:if test="${czry.txdz != imgs.get('imgid')}"> onclick="sztx('${czry.txdz}','${imgs.get("imgid")}')" </c:if>>
                                 <c:if test="${czry.txdz == imgs.get('imgid')}">
                                     当前头像
                                 </c:if>
@@ -58,25 +58,31 @@
             if (dqtx == tpid){
                 msg("所选图片已是当前头像！",2)
             } else {
-                $.ajax({
-                    method: 'post'
-                    , url:'${basePath}htgl/czry/updateRyTx'
-                    , data:{
-                        ryid:'${czry.id}'
-                        , tpid:tpid
-                    }
-                    , success:function (returnValue) {
-                        jsonMsg(returnValue,function () {
-                            reloadParentWindow();
-                            <%--window.location.href = "${basePath}zcdl/htglMainHome"--%>
-                        },function () {
+                ajaxDefault('${basePath}htgl/czry/updateRyTx',{ryid:'${czry.id}', tpid:tpid},function (returnValue) {
+                    jsonMsg(returnValue,function () {
+                        reloadParentWindow();
+                    },function () {
 
-                        })
-                    }
-                    , error:function () {
-                        alertMsg("发生未知异常",2)
-                    }
+                    })
                 });
+                <%--$.ajax({--%>
+                    <%--method: 'post'--%>
+                    <%--, url:'${basePath}htgl/czry/updateRyTx'--%>
+                    <%--, data:{--%>
+                        <%--ryid:'${czry.id}'--%>
+                        <%--, tpid:tpid--%>
+                    <%--}--%>
+                    <%--, success:function (returnValue) {--%>
+                        <%--jsonMsg(returnValue,function () {--%>
+                            <%--reloadParentWindow();--%>
+                        <%--},function () {--%>
+
+                        <%--})--%>
+                    <%--}--%>
+                    <%--, error:function () {--%>
+                        <%--alertMsg("发生未知异常",2)--%>
+                    <%--}--%>
+                <%--});--%>
             }
         }
 
@@ -90,7 +96,7 @@
                    }
                    , success:function (returnValue) {
                         jsonMsg(returnValue,function () {
-                            windowReload();
+                            reloadWindow();
                         },function () {
 
                         })

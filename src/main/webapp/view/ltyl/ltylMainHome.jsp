@@ -99,17 +99,23 @@
                                         ,success:function (returnValue) {
                                             layer.close(index1);
                                             popupOk(returnValue, function () {
-                                                location.href = '<%=basePath%>ltyl/jstx/jstxIndex?fjid='+data.id;
+                                                window.open('${basePath}ltyl/jstx/jstxIndex?fjid=' + data.id);
                                             }, function () {
 
                                             });
                                         }
                                     })
                                 });
+                            }else{
+                                jsonMsg(date,function () {
+                                },function () {
+                                    table.reload('fjlbTable');
+                                });
                             }
                         }
                         ,error:function () {
                             alertMsg("发生未知异常，请联系管理员", 2);
+                            table.reload('fjlbTable');
                         }
                     });
 

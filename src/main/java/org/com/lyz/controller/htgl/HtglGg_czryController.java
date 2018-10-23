@@ -5,7 +5,8 @@ import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.base.model.po.IMG_LOG;
-import org.com.lyz.constant.Constant_htgl;
+import org.com.lyz.constant.Constants_core;
+import org.com.lyz.constant.Constants_htgl;
 import org.com.lyz.controller.BaseController;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.ImgLogService;
@@ -25,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -89,14 +89,14 @@ public class HtglGg_czryController extends BaseController {
     @RequestMapping("/editGg_czry_zt")
     @ResponseBody
     public ReturnValue editGg_czry_zt(HttpServletRequest request, GG_CZRY gg_czry) throws SQLException{
-        if (gg_czry.getQx() != null && gg_czry.getQx() == Constant_htgl.GG_CZRY_QX_CJGLY) {
+        if (gg_czry.getQx() != null && gg_czry.getQx() == Constants_htgl.GG_CZRY_QX_CJGLY) {
             return ReturnValue.newErrorInstance("超级管理员不能禁用！");
         }
         //修改状态
-        if (gg_czry.getZt() == Constant_htgl.GG_CZRY_ZT_JY) {
-            gg_czry.setZt(Constant_htgl.GG_CZRY_ZT_ZC);
+        if (gg_czry.getZt() == Constants_htgl.GG_CZRY_ZT_JY) {
+            gg_czry.setZt(Constants_htgl.GG_CZRY_ZT_ZC);
         } else {
-            gg_czry.setZt(Constant_htgl.GG_CZRY_ZT_JY);
+            gg_czry.setZt(Constants_htgl.GG_CZRY_ZT_JY);
         }
         CzryService.update(gg_czry);
         return ReturnValue.newSuccessInstance();
@@ -112,7 +112,7 @@ public class HtglGg_czryController extends BaseController {
     @RequestMapping("/deleteGg_czry")
     @ResponseBody
     public ReturnValue deleteGg_czry(HttpServletRequest request, GG_CZRY gg_czry) throws SQLException {
-        if (gg_czry.getQx() != null && gg_czry.getQx() == Constant_htgl.GG_CZRY_QX_CJGLY) {
+        if (gg_czry.getQx() != null && gg_czry.getQx() == Constants_htgl.GG_CZRY_QX_CJGLY) {
             return ReturnValue.newErrorInstance("超级管理员不能删除！");
         }
         CzryService.delete(gg_czry.getId());
@@ -135,7 +135,7 @@ public class HtglGg_czryController extends BaseController {
         GG_CZRY user = this.getGg_czry(request);
         List<Map<String, Object>> qxList = new ArrayList<Map<String, Object>>();
         Map<String, Object> qxMap;
-        for (Map.Entry<Integer,String> entry:Constant_htgl.GG_CZRY_QXMap.entrySet()){
+        for (Map.Entry<Integer,String> entry: Constants_htgl.GG_CZRY_QXMap.entrySet()){
             //可以给账户添加和自己同级别的权限。
             if (user.getQx() <= entry.getKey()){
                 qxMap = new HashMap<String, Object>();
@@ -158,9 +158,10 @@ public class HtglGg_czryController extends BaseController {
         String imgPath = "";
         //展示图片宽度
         int height = 0;
-        int width = Constant_htgl.GG_IMGS_WIDTH_SHOW;
+        int width = Constants_htgl.GG_IMGS_WIDTH_SHOW;
         if(gg_imgs != null && StringUtils.isNotEmpty(gg_imgs.getPkValue())){
-            imgPath = FileUtils.getZxImgPath(request)+gg_imgs.getTpmc();
+            //imgPath = FileUtils.getZxImgPath(request)+gg_imgs.getTpmc();
+            imgPath = FileUtils.getZxImgPath(request)+gg_imgs.getId();
             height = ImgUtils.getImgShowHeight(gg_imgs);
         }
         model.addAttribute("gg_imgs", gg_imgs);
@@ -170,8 +171,8 @@ public class HtglGg_czryController extends BaseController {
         model.addAttribute("csnyr", csnyr);
         model.addAttribute("gg_czry", gg_czry);
         model.addAttribute("qxList", qxList);
-        model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
-        model.addAttribute("GG_CZRY_QX_CJGLY",Constant_htgl.GG_CZRY_QX_CJGLY);
+        model.addAttribute("GG_CZRY_QX_PTYH", Constants_htgl.GG_CZRY_QX_PTYH);
+        model.addAttribute("GG_CZRY_QX_CJGLY", Constants_htgl.GG_CZRY_QX_CJGLY);
         return "htgl/gg_czry/htglEdit_Czry";
     }
 
@@ -190,7 +191,7 @@ public class HtglGg_czryController extends BaseController {
 
         Map<String, Object> albumMap = LayerUtils.getBigImgMap(request, imgs);
         JSONArray jsonArray2 = JSONArray.fromObject(albumMap);
-        int width = Constant_htgl.GG_IMGS_WIDTH_ALBUM;
+        int width = Constants_htgl.GG_IMGS_WIDTH_ALBUM;
         int height = ImgUtils.getImgShowHeight(imgs,width);
         returnMap.put("json", jsonArray2);
         returnMap.put("width", width);
@@ -259,16 +260,17 @@ public class HtglGg_czryController extends BaseController {
         Map<String, Object> returnMap = new HashMap<String,Object>();
 
         String myFileName = file.getOriginalFilename();// 文件原名称
-        String pat = FileUtils.getFileBasePath();
         String fileName = FileUtils.getFileRandomName(myFileName);
-        File localFile = FileUtils.upload(request, fileName);
+        //获取文件夹路径
+        String path = FileUtils.getPath(czryid);
+        File localFile = FileUtils.upload(path, fileName);
 
         file.transferTo(localFile);
 
         //图片数据
         GG_IMGS gg_imgs = new GG_IMGS();
         gg_imgs.setScsj(DateUtil.getLongCurrDateTime14());
-        gg_imgs.setTpdz(pat);
+        gg_imgs.setTpdz(path);
         gg_imgs.setTpmc(fileName);
         gg_imgs.setHeight(ImgUtils.getImgHeight(localFile));
         gg_imgs.setWidth(ImgUtils.getImgWidth(localFile));
@@ -312,7 +314,7 @@ public class HtglGg_czryController extends BaseController {
         for (Map<String,Object> historyMap : historyImgList) {
             GG_IMGS imgs = imgService.selectById(ConvertUtils.createString(historyMap.get("imgid")));
             if (imgs != null){
-                showImgPath = showPath + imgs.getTpmc();
+                showImgPath = showPath + imgs.getId();
                 historyMap.put("showImgPath", showImgPath);
                 historyMap.put("tpmc", imgs.getTpmc());
             }

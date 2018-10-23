@@ -8,7 +8,7 @@ import java.util.Map;
  * 静态常量类
  * Created by Administrator on 2018/5/17.
  */
-public class Constant_htgl {
+public class Constants_htgl {
 
     //---------------------------------------GG_CZRY-------------------------------------------------
     // 权限 0-超级管理员  1-管理员 2-普通用户

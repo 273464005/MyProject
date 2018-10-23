@@ -45,7 +45,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">房间密码</label>
             <div class="layui-input-inline">
-                <input type="text" name="fjmm" id="fjmm" placeholder="请输入房间密码" maxlength="4" autocomplete="off" class="layui-input" onchange="return LoginPasswordCheck(this)">
+                <input type="text" name="fjmm" id="fjmm" placeholder="请输入房间密码" maxlength="4" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">默认无密码，最长可输入四位</div>
         </div>
@@ -72,9 +72,12 @@
 
         //监听提交
         form.on('submit(formDemo)', function(data){
-            if(!LoginPasswordCheck("#fjmm")){
-                return false;
+            if ( !($("#fjmm").val() != null || $("#fjmm").val())){
+                if(!LoginPasswordCheck("#fjmm")){
+                    return false;
+                }
             }
+
             $.ajax({
                 url: '<%=basePath%>ltyl/fjgl/saveLtfj'
                 , method: 'post'
@@ -99,6 +102,11 @@
             return false;
         });
 
+        $("#fjmm").on('change',function () {
+            if ($(this).val() != null && $(this).val() != ''){
+                LoginPasswordCheck(this);
+            }
+        });
         form.render();
     });
 

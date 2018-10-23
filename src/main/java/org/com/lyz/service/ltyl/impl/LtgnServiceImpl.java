@@ -7,8 +7,8 @@ import org.com.lyz.base.dao.GG_LTFJDao;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_FJRYB;
 import org.com.lyz.base.model.po.GG_LTFJ;
-import org.com.lyz.constant.Constant_htgl;
-import org.com.lyz.constant.Constant_ltyl;
+import org.com.lyz.constant.Constants_htgl;
+import org.com.lyz.constant.Constants_ltyl;
 import org.com.lyz.service.ltyl.LtgnService;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.DateUtil;
@@ -155,14 +155,14 @@ public class LtgnServiceImpl implements LtgnService {
         }
         List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
         List<Map<String, Object>> syfjList;
-        if (gg_czry.getQx() <= Constant_htgl.GG_CZRY_QX_GLY){
+        if (gg_czry.getQx() <= Constants_htgl.GG_CZRY_QX_GLY){
             syfjList = ltfjDao.selectAllLtfjByZt(null,cjrmc,splitPageInfo.getPage(),splitPageInfo.getLimit());
         } else {
-            syfjList = ltfjDao.selectAllLtfjByZt(Constant_ltyl.GG_LTFJ_FJZT_ZC,cjrmc,splitPageInfo.getPage(),splitPageInfo.getLimit());
+            syfjList = ltfjDao.selectAllLtfjByZt(Constants_ltyl.GG_LTFJ_FJZT_ZC,cjrmc,splitPageInfo.getPage(),splitPageInfo.getLimit());
         }
         List<Map<String, Object>> fjListBycjr = ltfjDao.selectLtfjByCjr(gg_czry.getId());
         for (Map<String, Object> map : fjListBycjr) {
-            if (ConvertUtils.createInteger(map.get("fjzt")) == Constant_ltyl.GG_FJRYB_ZT_JY){
+            if (ConvertUtils.createInteger(map.get("fjzt")) == Constants_ltyl.GG_FJRYB_ZT_JY){
                 returnList.addAll(fjListBycjr);
             }
         }

@@ -1,15 +1,14 @@
 package org.com.lyz.controller.ltyl;
 
-import net.sf.json.JSONArray;
-import org.apache.commons.collections.map.HashedMap;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_FJRYB;
 import org.com.lyz.base.model.po.GG_LTFJ;
-import org.com.lyz.constant.Constant_ltyl;
+import org.com.lyz.constant.Constants_ltyl;
 import org.com.lyz.controller.BaseController;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.ltyl.LtgnService;
 import org.com.lyz.util.ConvertUtils;
+import org.com.lyz.util.MisException;
 import org.com.lyz.util.returnvalue.ReturnValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,7 +56,7 @@ public class LtylJstxController extends BaseController {
         if (ryIsInFj !=null && ryIsInFj.size() > 0){
         } else {
             fjryb.setFjid(gg_ltfj.getId());
-            fjryb.setZt(Constant_ltyl.GG_FJRYB_ZT_ZC);
+            fjryb.setZt(Constants_ltyl.GG_FJRYB_ZT_ZC);
             ltgnService.saveGg_fjryb(fjryb);
         }
         //查询房间所有人员
@@ -70,7 +69,7 @@ public class LtylJstxController extends BaseController {
         }
         model.addAttribute("ltfj", gg_ltfj);
         model.addAttribute("fjryList", fjryList);
-        model.addAttribute("GG_FJRYB_ZT_ZC", Constant_ltyl.GG_FJRYB_ZT_ZC);
+        model.addAttribute("GG_FJRYB_ZT_ZC", Constants_ltyl.GG_FJRYB_ZT_ZC);
         return "ltyl/jstx/jstxIndex";
     }
 
@@ -127,13 +126,13 @@ public class LtylJstxController extends BaseController {
         }
         GG_FJRYB fjryb = ltgnService.getGg_fjryb(ConvertUtils.createString(fjryList.get(0).get("id")));
         String showName = "禁言";
-        if (fjryb.getZt() == Constant_ltyl.GG_FJRYB_ZT_ZC){
-            fjryb.setZt(Constant_ltyl.GG_FJRYB_ZT_JY);
+        if (fjryb.getZt() == Constants_ltyl.GG_FJRYB_ZT_ZC){
+            fjryb.setZt(Constants_ltyl.GG_FJRYB_ZT_JY);
             showName = "解禁";
-        } else if (fjryb.getZt() == Constant_ltyl.GG_FJRYB_ZT_JY){
-            fjryb.setZt(Constant_ltyl.GG_FJRYB_ZT_ZC);
+        } else if (fjryb.getZt() == Constants_ltyl.GG_FJRYB_ZT_JY){
+            fjryb.setZt(Constants_ltyl.GG_FJRYB_ZT_ZC);
         } else {
-            fjryb.setZt(Constant_ltyl.GG_FJRYB_ZT_ZC);
+            fjryb.setZt(Constants_ltyl.GG_FJRYB_ZT_ZC);
         }
         ltgnService.updateGg_fjryb(fjryb);
         returnMap.put("showName", showName);
@@ -184,7 +183,7 @@ public class LtylJstxController extends BaseController {
         }
         model.addAttribute("fjry", gg_fjryb);
         model.addAttribute("ltfj", gg_ltfj);
-        model.addAttribute("GG_FJRYB_ZT_ZC", Constant_ltyl.GG_FJRYB_ZT_ZC);
+        model.addAttribute("GG_FJRYB_ZT_ZC", Constants_ltyl.GG_FJRYB_ZT_ZC);
         return "ltyl/jstx/jstxWebSocket";
     }
 

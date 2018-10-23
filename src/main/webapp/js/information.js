@@ -31,14 +31,14 @@ function jsonMsg(data,successCallBack,errorCallBack){
     if(data.state == 1){
         layer.msg(data.text, {
             icon: 1,
-            time: 3000 //2秒关闭（如果不配置，默认是3秒）
+            time: 2000 //2秒关闭（如果不配置，默认是3秒）
         }, successCallBack);
         return true;
     }
     if(data.state == 2){
         layer.msg(data.text, {
             icon: 2,
-            time: 3000 //2秒关闭（如果不配置，默认是3秒）
+            time: 2000 //2秒关闭（如果不配置，默认是3秒）
         }, errorCallBack);
         return false;
     }
@@ -147,7 +147,7 @@ function layerConfirm(text,callBack){
 /**
  * 窗口刷新
  */
-function windowReload() {
+function reloadWindow() {
     window.location.reload();
 }
 
@@ -173,4 +173,22 @@ function reloadParentWindow(){
     window.parent.location.reload(); //刷新父页面
     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
     parent.layer.close(index);  // 关闭layer
+}
+
+/**
+ * 简写的ajax
+ * @param url 请求地址
+ * @param data 参数
+ * @param successFunction 成功回调
+ */
+function ajaxDefault(url,data,successFunction){
+    $.ajax({
+        url: url
+        , method: 'post'
+        , data: data
+        , success: successFunction
+        , error:function () {
+            alertMsg("发生未知异常!",5);
+        }
+    });
 }

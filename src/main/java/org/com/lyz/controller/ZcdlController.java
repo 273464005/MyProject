@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.base.model.po.XT_GNB;
-import org.com.lyz.constant.Constant_htgl;
+import org.com.lyz.constant.Constants_htgl;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.ImgService;
 import org.com.lyz.service.htgl.XtgnService;
@@ -106,7 +106,7 @@ public class ZcdlController extends BaseController{
             return ReturnValue.newErrorInstance("账号不存在！");
         }
 
-        if (!gg_czry.getZt().equals(Constant_htgl.GG_CZRY_ZT_ZC)) {
+        if (!gg_czry.getZt().equals(Constants_htgl.GG_CZRY_ZT_ZC)) {
             return ReturnValue.newErrorInstance("该账号已被禁止登陆！请联系管理员!");
         }
         try {
@@ -118,7 +118,7 @@ public class ZcdlController extends BaseController{
                 this.setGg_czry(session,gg_czry);
                 XT_GNB xt_gnb = new XT_GNB();
                 xt_gnb.setDyqx(gg_czry.getQx());
-                xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
+                xt_gnb.setZt(Constants_htgl.XT_GNB_ZT_ZC);
                 List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
                 session.setAttribute("xtgnList", xtgnList);
                 //session添加绝对路径
@@ -146,17 +146,18 @@ public class ZcdlController extends BaseController{
             this.setGg_czry(request,gg_czry);
             XT_GNB xt_gnb = new XT_GNB();
             xt_gnb.setDyqx(gg_czry.getQx());
-            xt_gnb.setZt(Constant_htgl.XT_GNB_ZT_ZC);
+            xt_gnb.setZt(Constants_htgl.XT_GNB_ZT_ZC);
             List<Map<String,Object>> xtgnList = XtgnService.getXtgnList(xt_gnb);
             String imgPath = "";
             if(StringUtils.isNotEmpty(gg_czry.getTxdz())){
-                GG_IMGS gg_imgs  = imgService.selectById(gg_czry.getTxdz());
-                imgPath = FileUtils.getZxImgPath(request) + gg_imgs.getTpmc();
+//                GG_IMGS gg_imgs  = imgService.selectById(gg_czry.getTxdz());
+//                imgPath = FileUtils.getZxImgPath(request) + gg_imgs.getTpmc();
+                imgPath = FileUtils.getZxImgPath(request) + gg_czry.getTxdz();
             }
             session.setAttribute("xtgnList", xtgnList);
             this.setBasePath(request);
             model.addAttribute("showImg", imgPath);
-            model.addAttribute("GG_CZRY_QX_PTYH",Constant_htgl.GG_CZRY_QX_PTYH);
+            model.addAttribute("GG_CZRY_QX_PTYH",Constants_htgl.GG_CZRY_QX_PTYH);
             return "htgl/htglMainHome";
         } catch (Exception e){
             logger.info("========session失效，请重新登录=======");

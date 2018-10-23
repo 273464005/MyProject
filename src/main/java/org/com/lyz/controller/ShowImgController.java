@@ -4,7 +4,12 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageDecoder;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import jdk.nashorn.internal.objects.Global;
+import org.com.lyz.base.model.po.GG_IMGS;
+import org.com.lyz.constant.Constants_core;
+import org.com.lyz.service.htgl.ImgService;
 import org.com.lyz.util.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -14,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.sql.SQLException;
 
 /**
  * 展示图片类
@@ -21,14 +27,20 @@ import java.io.*;
  * @time： 2018/10/17
  */
 @Controller
-@RequestMapping(FileUtils.TOMCATSHOWPATH)
+@RequestMapping(Constants_core.HEADPORTRAITSHOWFILEPATH)
 public class ShowImgController extends BaseController{
 
+    @Autowired
+    @Qualifier("imgService")
+    private ImgService imgService;
+
     @RequestMapping()
-    public void bmpShow(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
+    public void bmpShow(HttpServletRequest request, HttpServletResponse response, String imgPath) throws IOException,SQLException {
 //        String imagePath = Global.getUserfilesBaseDir()+path;
 //        String imagePath = path;
-        String imagePath = FileUtils.UPLOADBASEPATH + path;
+        GG_IMGS gg_imgs = imgService.selectById(imgPath);
+        String path = gg_imgs.getTpdz() + gg_imgs.getTpmc();
+        String imagePath = Constants_core.HEADPORTRAITFILEPATH + path;
         response.reset();
         OutputStream output = response.getOutputStream();// 得到输出流
         if (imagePath.toLowerCase().endsWith(".jpg"))// 使用编码处理文件流的情况：
