@@ -266,6 +266,7 @@ public class HtglGg_czryController extends BaseController {
         File localFile = FileUtils.upload(path, fileName);
 
         file.transferTo(localFile);
+        logger.info("上传文件====>>>>" + path + fileName);
 
         //图片数据
         GG_IMGS gg_imgs = new GG_IMGS();
