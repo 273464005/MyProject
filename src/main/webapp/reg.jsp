@@ -85,11 +85,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 		</form>
-		<div>
+		<%--<div>
 			<div align="right">
 				<button class="layui-btn layui-btn-primary layui-btn-radius" onclick="yyzhdwdl()">已有账号？点我登陆</button>
 			</div>
-		</div>
+		</div>--%>
 	</div>
 
 <script type="text/javascript" src="js/information.js"></script>

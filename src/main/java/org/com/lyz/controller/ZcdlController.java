@@ -161,7 +161,7 @@ public class ZcdlController extends BaseController{
             return "htgl/htglMainHome";
         } catch (Exception e){
             logger.info("========session失效，请重新登录=======");
-            return ControllerUtils.getStringRedirect("/login.jsp");
+            return ControllerUtils.getStringRedirect("/index.html");
         }
     }
 
@@ -180,9 +180,9 @@ public class ZcdlController extends BaseController{
             session.removeAttribute("xtgnList");
         } catch (Exception e){
 //            throw new MisException("发生未知异常");
-            return ControllerUtils.getStringRedirect("/login.jsp");
+            return ControllerUtils.getStringRedirect("/index.html");
         }
-        return ControllerUtils.getStringRedirect("/login.jsp");
+        return ControllerUtils.getStringRedirect("/index.html");
     }
 
 

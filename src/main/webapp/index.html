@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>登录页</title>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<script type="text/javascript" src="layui/layui.js"></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<script type="text/javascript" src="js/information.js"></script>
+		<script type="text/javascript" src="js/sha1.js"></script>
+		<script type="text/javascript" src="layer/layer.js"></script>
+	</head>
+
+	<body>
+		<div class="layui-main">
+			<div style="text-align: center;margin-top: 5%;">
+				<h1>欢迎使用本系统</h1>
+			</div>
+			<div>
+				<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+					<ul class="layui-tab-title">
+						<li class="layui-this lyz-active" data-type="loginTab">登陆</li>
+						<li class="lyz-active" data-type="regTab">注册</li>
+					</ul>
+					<div class="layui-tab-content" style="height: 100px;">
+						<div class="layui-tab-item layui-show" id="loginTml">
+							<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+								<legend>用户登陆</legend>
+							</fieldset>
+							<form class="layui-form" action="">
+						        <div class="layui-form-item">
+						            <label class="layui-form-label">登录号</label>
+						            <div class="layui-input-inline">
+						                <input type="text" name="dlh" id="dlh" lay-verify="required" placeholder="请输入登录号" autocomplete="off" class="layui-input">
+						            </div>
+
+						        </div>
+						        <div class="layui-form-item">
+									<label class="layui-form-label">密码</label>
+									<div class="layui-input-inline">
+										<input type="password" name="mm" id="mm" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
+									</div>
+								</div>
+						        <div class="layui-form-item">
+						            <div class="layui-input-block">
+						                <button class="layui-btn" lay-submit lay-filter="loginFrom">登陆</button>
+						            </div>
+						        </div>
+						    </form>
+						</div>
+						<div class="layui-tab-item" id="regTml">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+<script type="text/javascript">
+	layui.use(['element','form'], function(){
+//	    var $ = layui.jquery
+        var form = layui.form
+		  ,element = layui.element;
+		form.on('submit(loginFrom)', function(data){
+            $.ajax({
+                method: "post",
+                url: "zcdl/dlxtjy",
+                data:{
+                    dlh:$("#dlh").val()
+                    ,mm:SHA2($("#mm").val())
+                },
+                beforeSend: function () {
+                    processIndex = layer.load();
+                },
+                success: function (data) {
+                    layer.close(processIndex);
+                    jsonMsg(data,function () {
+                        location.href = "zcdl/htglMainHome";
+                    },function () {
+//                        $("span[name=msg]").css("color", "#FC4343");
+//                        $("span[name=msg]").text(data.text);
+                        $("input[name=mm]").val(null);
+                    })
+
+                },
+                error:function (e) {
+                    alertMsg("发生未知异常，请联系管理员！" , 5);
+                    $("input[name=mm]").val("");
+                    layer.close(processIndex);
+                }
+            });
+            return false;
+        });
+		var active = {
+		    loginTab:function(){
+
+			}
+			,regTab:function(){
+		        $("#regTml").load("reg.jsp")
+		    }
+		};
+		$(".lyz-active").on('click',function(){
+		    var othis = $(this), type = othis.data('type');
+		    active[type] ? active[type].call(this, othis) : '';
+		});
+	});
+</script>
+</html>

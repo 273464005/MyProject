@@ -33,7 +33,7 @@ public class HandlerInterceptorAdapter implements HandlerInterceptor {
             }
         }
         //起始页面，注册页面，登陆页面放行
-        if(request.getServletPath().startsWith("msg.jsp") || request.getServletPath().startsWith("reg.jsp") ||request.getServletPath().startsWith("login.jsp")){
+        if(request.getServletPath().startsWith("reg.jsp") ||request.getServletPath().startsWith("index.html")){
             return true;
         }
 
@@ -51,8 +51,8 @@ public class HandlerInterceptorAdapter implements HandlerInterceptor {
         //重定向到登录页面
         //session注销
         request.getSession().removeAttribute("user");
-        response.sendRedirect(request.getContextPath() +"/login.jsp");
-//        response.sendRedirect(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath() +"/login.jsp");
+        response.sendRedirect(request.getContextPath() +"/index.html");
+//        response.sendRedirect(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath() +"/index.html");
         return false;
     }
 
