@@ -610,7 +610,7 @@ public class StringUtils
      */
     public static String idAndMobileNumToAsterisk(String s){
         if(isEmpty(s)){
-            return null;
+            return "";
         }
         if(s.length()==11){
             //手机号

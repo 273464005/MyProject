@@ -38,7 +38,7 @@ public class HandlerInterceptorAdapter implements HandlerInterceptor {
         }
 
         //注册用户，登陆 放行
-        if(request.getServletPath().startsWith("/zcdl/zcczry") || request.getServletPath().startsWith("/zcdl/dlxtjy") || request.getServletPath().startsWith("/zcdl/getHypy")){
+        if(request.getServletPath().startsWith("/zcdl/")){
             return true;
         }
 

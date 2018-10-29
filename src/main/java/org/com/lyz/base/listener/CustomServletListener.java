@@ -35,8 +35,12 @@ public class CustomServletListener implements ServletContextListener {
                 String value = prop.getProperty(key);
                 map.put(key, value);
             }
-            Constants_core.HEADPORTRAITFILEPATH = ConvertUtils.createString(map.get("cfg.czry.filepath.headPortrait"));
-            logger.info("加载头像文件上传路径[" + Constants_core.HEADPORTRAITFILEPATH + "]");
+            Constants_core.HEAD_PORTRAIT_FILE_PATH = ConvertUtils.createString(map.get("cfg.czry.filepath.headPortrait"));
+            logger.info("加载头像文件上传路径[" + Constants_core.HEAD_PORTRAIT_FILE_PATH + "]");
+            Constants_core.FOOTER_SHOW_EMAIL = ConvertUtils.createString(map.get("cfg.html.footer.showEmail"));
+            logger.info("加载固定区域展示邮箱[" + Constants_core.FOOTER_SHOW_EMAIL + "]");
+            Constants_core.FOOTER_SHOW_GITHUB = ConvertUtils.createString(map.get("cfg.html.footer.showGitHub"));
+            logger.info("加载固定区域展示下载链接[" + Constants_core.FOOTER_SHOW_GITHUB + "]");
         } catch (Exception e) {
             throw new MisException(e);
         }

@@ -48,7 +48,7 @@ public class FileUtils {
      * @return 上传结果
      */
     public static File upload(String czyPath,String fileName){
-        String pat = Constants_core.HEADPORTRAITFILEPATH  + getSlash() +czyPath;
+        String pat = Constants_core.HEAD_PORTRAIT_FILE_PATH  + getSlash() +czyPath;
         File fileDir=new File(pat);
         if (!fileDir.exists()) { //如果目录不存在 则创建
             fileDir.mkdirs();
@@ -75,7 +75,7 @@ public class FileUtils {
      * @throws IOException 异常信息
      */
     public static void delFile(String filePath) throws IOException{
-        String baseFilePath = Constants_core.HEADPORTRAITFILEPATH + getSlash() + filePath;
+        String baseFilePath = Constants_core.HEAD_PORTRAIT_FILE_PATH + getSlash() + filePath;
         File myDelFile = new File(baseFilePath);
         String logShowName = myDelFile.getName();
         myDelFile.delete();
@@ -95,12 +95,12 @@ public class FileUtils {
          */
         String path = request.getContextPath();
 //        String imgPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + TOMCATSHOWPATH + "/";
-        String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/" + Constants_core.HEADPORTRAITSHOWFILEPATH + "?imgPath=";
+        String imgPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/" + Constants_core.HEAD_PORTRAIT_SHOW_FILE_PATH + "?imgPath=";
         return imgPath;
     }
 
     private static String getSlash(){
-        String path = Constants_core.HEADPORTRAITFILEPATH;
+        String path = Constants_core.HEAD_PORTRAIT_FILE_PATH;
         String sub = path.substring(path.length() - 1, path.length());
         if ("\\".equals(sub) || "/".equals(sub)){
             return sub;

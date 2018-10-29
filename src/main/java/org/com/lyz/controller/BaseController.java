@@ -1,9 +1,13 @@
 package org.com.lyz.controller;
 
 import org.com.lyz.base.model.po.GG_CZRY;
+import org.com.lyz.constant.Constants_core;
+import org.com.lyz.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author： 鲁玉震
@@ -62,5 +66,41 @@ public class BaseController {
      */
     public String getPath(HttpServletRequest request) {
         return (String) request.getSession().getAttribute("path");
+    }
+
+    /**
+     * 获取IP地址
+     * @param request 请求信息
+     * @return IP地址
+     */
+    public String getIp(HttpServletRequest request){
+        String ip = request.getHeader("X-Forwarded-For");
+        if (StringUtils.isNotEmpty(ip) && "unKnown".equalsIgnoreCase(ip)){
+            //多次反向代理后会有多个ip值，第一个ip才是真实ip
+            int index = ip.indexOf(",");
+            if (index != -1){
+                return ip.substring(0,index);
+            } else {
+                return ip;
+            }
+        }
+        ip = request.getHeader("X-Real-IP");
+        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+            return ip;
+        }
+        return request.getRemoteAddr();
+    }
+
+    /**
+     * 底部固定区域展示信息
+     * @return
+     */
+    public String getFooter(){
+        StringBuffer show = new StringBuffer();
+        show.append("&nbsp;&nbsp;&nbsp;").append("<span class=\"layui-breadcrumb\" lay-separator=\"&nbsp;\" style=\"visibility: visible;\">");
+        show.append("<a href=\"####").append("\">").append(Constants_core.FOOTER_SHOW_EMAIL).append("</a>");
+        show.append("<a href=\"").append(Constants_core.FOOTER_SHOW_GITHUB).append("\" target=\"_blank\">").append("GitHub").append("</a>");
+        show.append("</span>");
+        return show.toString();
     }
 }

@@ -5,7 +5,8 @@ import org.com.lyz.util.StringUtils;
 import java.security.MessageDigest;
 
 /**
- * Created by Administrator on 2018/5/22.
+ * 加密工具类
+ * Created by 鲁玉震 on 2018/5/22.
  */
 public class SHAEncryptionUtil {
 

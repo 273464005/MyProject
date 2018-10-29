@@ -3,107 +3,87 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>登录页</title>
+		<title>欢迎使用</title>
 		<link rel="stylesheet" href="layui/css/layui.css">
 		<script type="text/javascript" src="layui/layui.js"></script>
 		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="js/information.js"></script>
 		<script type="text/javascript" src="js/sha1.js"></script>
 		<script type="text/javascript" src="layer/layer.js"></script>
+		<script type="text/javascript" src="js/regularcheck.js"></script>
 	</head>
+	<body class="layui-bg-gray">
+		<!--<div class="layui-bg-gray" style="width: 100%;height: 100%">-->
 
-	<body>
-		<div class="layui-main">
+		<!--</div>-->
+		<div class="layui-main" style="background-color: #FFFFFF;padding: 10px;margin-top: 5%">
 			<div style="text-align: center;margin-top: 5%;">
 				<h1>欢迎使用本系统</h1>
 			</div>
 			<div>
-				<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+				<div class="layui-tab layui-tab-brief layui-row" lay-filter="docDemoTabBrief">
 					<ul class="layui-tab-title">
 						<li class="layui-this lyz-active" data-type="loginTab">登陆</li>
 						<li class="lyz-active" data-type="regTab">注册</li>
 					</ul>
-					<div class="layui-tab-content" style="height: 100px;">
-						<div class="layui-tab-item layui-show" id="loginTml">
-							<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-								<legend>用户登陆</legend>
-							</fieldset>
-							<form class="layui-form" action="">
-						        <div class="layui-form-item">
-						            <label class="layui-form-label">登录号</label>
-						            <div class="layui-input-inline">
-						                <input type="text" name="dlh" id="dlh" lay-verify="required" placeholder="请输入登录号" autocomplete="off" class="layui-input">
-						            </div>
-
-						        </div>
-						        <div class="layui-form-item">
-									<label class="layui-form-label">密码</label>
-									<div class="layui-input-inline">
-										<input type="password" name="mm" id="mm" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
-									</div>
-								</div>
-						        <div class="layui-form-item">
-						            <div class="layui-input-block">
-						                <button class="layui-btn" lay-submit lay-filter="loginFrom">登陆</button>
-						            </div>
-						        </div>
-						    </form>
+					<div class="layui-tab-content layui-col-xs6">
+						<div class="layui-tab-item layui-show" style="margin-top: 10px" id="loginTml">
 						</div>
-						<div class="layui-tab-item" id="regTml">
-							
+						<!--<div class="layui-tab-item" id="regTml">-->
+						<!--</div>-->
+					</div>
+					<!--  图片展示区 -->
+					<div class="layui-col-xs6">
+						<div style="margin-top: 20px">
+							<img src="img/login.png" style="width: 100%">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<hr style="margin-top: 50px">
+		<div class="layui-footer">
+			<!-- 底部固定区域 -->
+			<div style="text-align: center;" id="showLow">
+				©
+			</div>
+			
+		</div>
 	</body>
 <script type="text/javascript">
 	layui.use(['element','form'], function(){
 //	    var $ = layui.jquery
-        var form = layui.form
-		  ,element = layui.element;
-		form.on('submit(loginFrom)', function(data){
-            $.ajax({
-                method: "post",
-                url: "zcdl/dlxtjy",
-                data:{
-                    dlh:$("#dlh").val()
-                    ,mm:SHA2($("#mm").val())
-                },
-                beforeSend: function () {
-                    processIndex = layer.load();
-                },
-                success: function (data) {
-                    layer.close(processIndex);
-                    jsonMsg(data,function () {
-                        location.href = "zcdl/htglMainHome";
-                    },function () {
-//                        $("span[name=msg]").css("color", "#FC4343");
-//                        $("span[name=msg]").text(data.text);
-                        $("input[name=mm]").val(null);
-                    })
-
-                },
-                error:function (e) {
-                    alertMsg("发生未知异常，请联系管理员！" , 5);
-                    $("input[name=mm]").val("");
-                    layer.close(processIndex);
-                }
-            });
-            return false;
-        });
+        var form = layui.form;
+		var element = layui.element;
 		var active = {
 		    loginTab:function(){
-
+                $("#loginTml").load("zcdl/login");
 			}
 			,regTab:function(){
-		        $("#regTml").load("reg.jsp")
+		        $("#loginTml").load("zcdl/reg");
 		    }
 		};
 		$(".lyz-active").on('click',function(){
 		    var othis = $(this), type = othis.data('type');
 		    active[type] ? active[type].call(this, othis) : '';
 		});
+
+        $.ajax({
+            method:'post'
+            ,url:'zcdl/showFooter'
+            ,success:function (returnValue) {
+				$("#showLow").append(returnValue.showFooter);
+				//加载完成后重新渲染页面
+                element.init();
+            }
+            ,error:function () {
+
+            }
+        });
+
 	});
+	$(function () {
+        $("#loginTml").load("zcdl/login");
+    })
 </script>
 </html>

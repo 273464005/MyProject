@@ -27,7 +27,7 @@ import java.sql.SQLException;
  * @time： 2018/10/17
  */
 @Controller
-@RequestMapping(Constants_core.HEADPORTRAITSHOWFILEPATH)
+@RequestMapping(Constants_core.HEAD_PORTRAIT_SHOW_FILE_PATH)
 public class ShowImgController extends BaseController{
 
     @Autowired
@@ -40,7 +40,7 @@ public class ShowImgController extends BaseController{
 //        String imagePath = path;
         GG_IMGS gg_imgs = imgService.selectById(imgPath);
         String path = gg_imgs.getTpdz() + gg_imgs.getTpmc();
-        String imagePath = Constants_core.HEADPORTRAITFILEPATH + path;
+        String imagePath = Constants_core.HEAD_PORTRAIT_FILE_PATH + path;
         response.reset();
         OutputStream output = response.getOutputStream();// 得到输出流
         if (imagePath.toLowerCase().endsWith(".jpg"))// 使用编码处理文件流的情况：

@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.base.model.po.XT_GNB;
+import org.com.lyz.constant.Constants_core;
 import org.com.lyz.constant.Constants_htgl;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.ImgService;
@@ -18,8 +19,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -47,15 +52,38 @@ public class ZcdlController extends BaseController{
     @Qualifier("imgService")
     private ImgService imgService;
 
+    @RequestMapping("/login")
+    public String login(HttpServletRequest request){
+        return "zcdl/login";
+    }
+
+    @RequestMapping("/reg")
+    public String reg(HttpServletRequest request){
+        return "zcdl/reg";
+    }
+
+    /**
+     * 底部固定区域
+     * @param request 请求信息
+     * @return 返回结果
+     */
+    @ResponseBody
+    @RequestMapping("/showFooter")
+    public Map<String,Object> showFooter(HttpServletRequest request){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("showFooter",this.getFooter());
+        return map;
+    }
     /**
      * 注册用户
-     * @param model
-     * @param gg_czry
+     * @param request 请求信息
+     * @param gg_czry 人员信息
+     * @param yzm 验证码
      * @return
      */
     @RequestMapping(value = "/zcczry")
     @ResponseBody
-    public ReturnValue zcczryAction(Model model, GG_CZRY gg_czry) throws SQLException{
+    public ReturnValue zcczryAction(HttpServletRequest request, GG_CZRY gg_czry, String yzm) throws SQLException{
         try {
             String mm = SHAEncryptionUtil.SHAEncryption(gg_czry.getMm());
             gg_czry.setMm(mm);
@@ -63,6 +91,9 @@ public class ZcdlController extends BaseController{
             logger.error("注册失败，失败原因："+e.getMessage());
             e.printStackTrace();
             return ReturnValue.newErrorInstance("注册失败！");
+        }
+        if (!validationCode(request,yzm)){
+            return ReturnValue.newErrorInstance("验证码不匹配");
         }
         GG_CZRY czry = CzryService.getCzryByDlh(gg_czry.getDlh());
         if(czry != null){
@@ -89,6 +120,29 @@ public class ZcdlController extends BaseController{
         return returnMap;
     }
 
+    /**
+     * 验证码
+     * @param request 请求信息
+     * @param response 请求信息
+     * @throws Exception 异常信息
+     */
+    @ResponseBody
+    @RequestMapping("/validationCode")
+    public void getValidationCode(HttpServletRequest request , HttpServletResponse response) throws Exception{
+        Object [] validationImge = ImgUtils.getValidationCode();
+        request.getSession().setAttribute("validation_code",validationImge[0]);
+        //将图片输出给浏览器
+        BufferedImage image = (BufferedImage) validationImge[1];
+        // 禁止图像缓存。
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.setContentType("image/jpeg");
+        OutputStream os = response.getOutputStream();
+        ImageIO.write(image, "jpeg", os);
+        os.flush();
+    }
+
 
     /**
      * 登陆校验
@@ -99,8 +153,11 @@ public class ZcdlController extends BaseController{
      */
     @RequestMapping(value = "/dlxtjy")
     @ResponseBody
-    public ReturnValue dlxtAction(HttpServletRequest request,GG_CZRY czry, HttpSession session) throws SQLException{
+    public ReturnValue dlxtAction(HttpServletRequest request,GG_CZRY czry, String yzm ,HttpSession session) throws SQLException{
 
+        if (!validationCode(request,yzm)){
+            return ReturnValue.newErrorInstance("验证码不匹配");
+        }
         GG_CZRY gg_czry = CzryService.getCzryByDlh(czry.getDlh());
         if (gg_czry == null) {
             return ReturnValue.newErrorInstance("账号不存在！");
@@ -123,7 +180,7 @@ public class ZcdlController extends BaseController{
                 session.setAttribute("xtgnList", xtgnList);
                 //session添加绝对路径
                 this.setBasePath(request);
-                logger.info("用户【"+gg_czry.getMc()+"】登陆系统");
+                logger.info("用户【"+gg_czry.getMc()+"】登陆系统，登录地址【" + getIp(request) + "】");
                 return ReturnValue.newSuccessInstance("登陆成功！");
             }
 
@@ -183,6 +240,21 @@ public class ZcdlController extends BaseController{
             return ControllerUtils.getStringRedirect("/index.html");
         }
         return ControllerUtils.getStringRedirect("/index.html");
+    }
+
+    private boolean validationCode(HttpServletRequest request,String yzm){
+        HttpSession session = request.getSession();
+        String validation_code = ConvertUtils.createString(session.getAttribute("validation_code"));
+        if (yzm != null){
+            String yzmUp = yzm.toUpperCase();
+            if (!validation_code.equals(yzmUp)){
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
 

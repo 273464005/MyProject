@@ -75,8 +75,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 10px;">
-    	<iframe id="ztnr" name="ztnr" width="100%" onload="this.height=ztnr.document.body.scrollHeight" frameborder="0" marginwidth="0" marginheight="0"
-                src="<%=basePath%>view/htgl/welcome.html">
+        <!-- onload="this.height=ztnr.document.body.scrollHeight" -->
+    	<iframe id="ztnr" name="ztnr" width="100%" height="97%"  frameborder="0" marginwidth="0" marginheight="0"
+                src="${basePath}view/htgl/welcome.html">
 
         </iframe>
     </div>
@@ -84,7 +85,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <div class="layui-footer">
     <!-- 底部固定区域 -->
-    © lyz_0220@163.com - 作者邮箱
+    <div id="showLow">
+      ©
+    </div>
   </div>
 </div>
 <script type="text/javascript" src="<%=path%>/js/jquery-3.2.1.js" ></script>
@@ -97,6 +100,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     layui.use(['element','layer'], function(){
       var element = layui.element
           ,layer = layui.layer;
+
+        $.ajax({
+            method:'post'
+            ,url:'${basePath}zcdl/showFooter'
+            ,success:function (returnValue) {
+                $("#showLow").append(returnValue.showFooter);
+                //加载完成后重新渲染页面
+                element.init();
+            }
+            ,error:function () {
+
+            }
+        });
 
       $("#czmm").click(function () {
           layer.prompt({title: '请输入密码', formType: 1}, function (yzmm, index1) {
