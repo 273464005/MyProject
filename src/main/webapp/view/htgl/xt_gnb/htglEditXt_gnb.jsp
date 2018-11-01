@@ -144,11 +144,11 @@
                     var sfxz = $("#sfxz").val();
                     popupOk(data,function () {
                         if (sfxz == true || sfxz == "true"){
-                            location.href = '<%=basePath%>htgl/xtgn';
+                            childrenDelParentThisTab
                         } else {
-                            window.location.reload();
+                            childrenDelParentThisTab
+                            <%--location.href = '${basePath}htgl/xtgn';--%>
                         }
-
                     },function () {
 
                     })

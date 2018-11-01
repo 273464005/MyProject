@@ -82,16 +82,17 @@
                 if (obj.event === 'jr'){
                     $.ajax({
                         method:'post'
-                        ,url:'<%=basePath%>ltyl/fjgl/getFjmm?fjid='+data.id
+                        ,url:'${basePath}ltyl/fjgl/getFjmm?fjid='+data.id
                         ,success:function (date) {
                             if (date.state ==='w'){
                                 <%--location.href = '<%=basePath%>ltyl/jstx/jstxIndex?fjid='+data.id;--%>
-                                window.open('${basePath}ltyl/jstx/jstxIndex?fjid=' + data.id);
+                                <%--window.open('${basePath}ltyl/jstx/jstxIndex?fjid=' + data.id);--%>
+                                childrenAddParentTab('${basePath}ltyl/jstx/jstxIndex?fjid=' + data.id+'','jstx',"即时通信");
                             } else if (date.state === 'y'){
                                 layer.prompt({title: '请输入密码', formType: 1}, function (fjmm, index1) {
                                     $.ajax({
                                         method:'post'
-                                        ,url:'<%=basePath%>ltyl/fjgl/jstxIndexJymm'
+                                        ,url:'${basePath}ltyl/fjgl/jstxIndexJymm'
                                         ,data:{
                                             id:data.id
                                             ,fjmm:fjmm
@@ -99,7 +100,8 @@
                                         ,success:function (returnValue) {
                                             layer.close(index1);
                                             popupOk(returnValue, function () {
-                                                window.open('${basePath}ltyl/jstx/jstxIndex?fjid=' + data.id);
+                                                <%--window.open('${basePath}ltyl/jstx/jstxIndex?fjid=' + data.id);--%>
+                                                childrenAddParentTab('${basePath}ltyl/jstx/jstxIndex?fjid=' + data.id+'','jstx',"即时通信");
                                             }, function () {
 
                                             });

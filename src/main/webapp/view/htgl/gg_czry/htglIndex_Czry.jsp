@@ -134,7 +134,7 @@
                 }
 
                 if (obj.event === 'bj'){
-                    location.href = '<%=basePath%>htgl/czry/editGg_czry?czryid='+data.id;
+                    childrenAddParentTab('${basePath}htgl/czry/editGg_czry?czryid='+data.id+'',data.id,data.mc + "的信息");
                 }
 
             });

@@ -1,12 +1,13 @@
 package org.com.lyz.controller.ltyl;
 
 import net.sf.json.JSONObject;
-import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_FJRYB;
 import org.com.lyz.base.model.po.GG_LTFJ;
 import org.com.lyz.service.ltyl.LtgnService;
 import org.com.lyz.util.ConvertUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 
@@ -29,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/websocket/{conversation}")
 public class WebSocketController {
 
-    private final static Logger logger = Logger.getLogger(WebSocketController.class);
+    private final static Logger logger = LoggerFactory.getLogger(WebSocketController.class);
 
     //静态变量，记录当前在线连接数，应该为线程安全
     private static int onlineCount = 0;

@@ -1,7 +1,6 @@
 package org.com.lyz.controller.htgl;
 
 import net.sf.json.JSONArray;
-import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.XT_GNB;
 import org.com.lyz.constant.Constants_htgl;
@@ -11,6 +10,8 @@ import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.TreeNodeUtils;
 import org.com.lyz.util.pageutil.SplitPageInfo;
 import org.com.lyz.util.returnvalue.ReturnValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ import java.util.Map;
 @RequestMapping("htgl/xtgn")
 public class HtglXt_gnbController extends BaseController {
 
-    private final static Logger logger = Logger.getLogger(HtglXt_gnbController.class);
+    private final static Logger logger = LoggerFactory.getLogger(HtglXt_gnbController.class);
 
     @Autowired
     @Qualifier("xtgnService")

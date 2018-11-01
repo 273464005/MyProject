@@ -1,6 +1,7 @@
 package org.com.lyz.base.listener;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class CustomRequestListener implements ServletRequestListener {
 
-    private final static Logger logger = Logger.getLogger(CustomRequestListener.class);
+    private final static Logger logger = LoggerFactory.getLogger(CustomRequestListener.class);
 
     /**
      * 请求销毁时执行

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.XT_GNBDao;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.XT_GNB;
@@ -15,6 +14,8 @@ import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.StringUtils;
 import org.com.lyz.util.pageutil.SplitPageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Service;
 @Service("xtgnService")
 public class XtgnServiceImpl implements XtgnService{
 
-	private static final Logger logger = Logger.getLogger(XtgnServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(XtgnServiceImpl.class);
 
     @Autowired
     private XT_GNBDao xtgnDao;

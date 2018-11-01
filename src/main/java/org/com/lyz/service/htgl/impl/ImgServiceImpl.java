@@ -1,10 +1,11 @@
 package org.com.lyz.service.htgl.impl;
 
-import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.GG_IMGSDao;
 import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.service.htgl.ImgService;
 import org.com.lyz.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.sql.SQLException;
 @Service("imgService")
 public class ImgServiceImpl implements ImgService{
 
-    private static final Logger logger = Logger.getLogger(ImgService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImgService.class);
 
     @Autowired
     private GG_IMGSDao imgsDao;

@@ -1,9 +1,10 @@
 package org.com.lyz.base.listener;
 
-import org.apache.log4j.Logger;
 import org.com.lyz.constant.Constants_core;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.MisException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -19,7 +20,7 @@ import java.util.Properties;
  */
 public class CustomServletListener implements ServletContextListener {
 
-    private final static Logger logger = Logger.getLogger(CustomServletListener.class);
+    private final static Logger logger = LoggerFactory.getLogger(CustomServletListener.class);
 
     private Map<String,Object> map = new HashMap<String,Object>();
 

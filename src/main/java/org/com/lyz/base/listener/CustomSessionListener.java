@@ -1,6 +1,7 @@
 package org.com.lyz.base.listener;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -15,23 +16,20 @@ import javax.servlet.http.HttpSessionListener;
  */
 public class CustomSessionListener implements HttpSessionListener {
 
-    private final static Logger logger = Logger.getLogger(CustomSessionListener.class);
+    private final static Logger logger = LoggerFactory.getLogger(CustomSessionListener.class);
 
     public void sessionCreated(HttpSessionEvent se) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String path = request.getContextPath();
         String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-        //初始化的时候，将项目的相对路径和绝对路径存入session中
-//        request.getSession().setAttribute("path",path);
-//        request.getSession().setAttribute("basePath",basePath);
         HttpSession session = se.getSession();
         session.setAttribute("path",path);
         session.setAttribute("basePath",basePath);
-        logger.info("====成功加载sessionCreated方法====");
+        logger.info("session已被创建···");
     }
 
     public void sessionDestroyed(HttpSessionEvent se) {
 
-        logger.info("====成功加载sessionDestroyed方法====");
+        logger.info("session已被销毁···");
     }
 }

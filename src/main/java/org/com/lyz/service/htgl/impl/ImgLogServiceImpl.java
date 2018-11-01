@@ -1,11 +1,12 @@
 package org.com.lyz.service.htgl.impl;
 
-import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.IMG_LOGDao;
 import org.com.lyz.base.model.po.IMG_LOG;
 import org.com.lyz.service.htgl.ImgLogService;
 import org.com.lyz.util.StringUtils;
 import org.com.lyz.util.pageutil.SplitPageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ import java.util.Map;
 @Service("imgLogService")
 public class ImgLogServiceImpl implements ImgLogService{
 
-    private final static Logger logger = Logger.getLogger(ImgLogServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(ImgLogServiceImpl.class);
 
     @Autowired
     private IMG_LOGDao logDao;

@@ -3,17 +3,20 @@ package org.com.lyz.controller;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.constant.Constants_core;
 import org.com.lyz.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * @author： 鲁玉震
  * @time： 2018/9/28
  */
 public class BaseController {
+
+    private final static Logger logger = LoggerFactory.getLogger(BaseController.class);
 
     /**
      * 从session中获取用户

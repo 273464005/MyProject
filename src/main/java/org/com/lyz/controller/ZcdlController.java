@@ -1,10 +1,7 @@
 package org.com.lyz.controller;
 
-import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
-import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.base.model.po.XT_GNB;
-import org.com.lyz.constant.Constants_core;
 import org.com.lyz.constant.Constants_htgl;
 import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.service.htgl.ImgService;
@@ -12,6 +9,8 @@ import org.com.lyz.service.htgl.XtgnService;
 import org.com.lyz.util.*;
 import org.com.lyz.util.encryptionutil.SHAEncryptionUtil;
 import org.com.lyz.util.returnvalue.ReturnValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -38,7 +37,7 @@ import java.util.Map;
 @RequestMapping("zcdl")
 public class ZcdlController extends BaseController{
 
-    private final static Logger logger = Logger.getLogger(ZcdlController.class);
+    private final static Logger logger = LoggerFactory.getLogger(ZcdlController.class);
 
     @Autowired
     @Qualifier("xtgnService")
@@ -54,6 +53,7 @@ public class ZcdlController extends BaseController{
 
     @RequestMapping("/login")
     public String login(HttpServletRequest request){
+        request.getSession().setAttribute("","");
         return "zcdl/login";
     }
 
@@ -212,6 +212,7 @@ public class ZcdlController extends BaseController{
                 imgPath = FileUtils.getZxImgPath(request) + gg_czry.getTxdz();
             }
             session.setAttribute("xtgnList", xtgnList);
+            request.getSession().setAttribute("sss","sss");
             this.setBasePath(request);
             model.addAttribute("showImg", imgPath);
             model.addAttribute("GG_CZRY_QX_PTYH",Constants_htgl.GG_CZRY_QX_PTYH);
@@ -242,6 +243,12 @@ public class ZcdlController extends BaseController{
         return ControllerUtils.getStringRedirect("/index.html");
     }
 
+    /**
+     * 验证码校验
+     * @param request 请求信息
+     * @param yzm 输入的验证码
+     * @return 校验结果
+     */
     private boolean validationCode(HttpServletRequest request,String yzm){
         HttpSession session = request.getSession();
         String validation_code = ConvertUtils.createString(session.getAttribute("validation_code"));
@@ -256,8 +263,5 @@ public class ZcdlController extends BaseController{
             return false;
         }
     }
-
-
-
 
 }

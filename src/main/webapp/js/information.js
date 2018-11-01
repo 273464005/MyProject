@@ -192,3 +192,21 @@ function ajaxDefault(url,data,successFunction){
         }
     });
 }
+
+/**
+ * 在子页面操作增加选项卡
+ * @param url 地址
+ * @param tabid 选项卡id
+ * @param tabname 选项卡名称
+ */
+function childrenAddParentTab(url,tabid,tabname){
+    $("#showIframe",window.top.document).html(tabname);
+    top.tz(url,tabid,"#showIframe");
+}
+
+/**
+ * 在子页面关闭当前的选项卡(如果是多层嵌套，可以不关闭)
+ */
+function childrenDelParentThisTab() {
+    $("#delTab",window.parent.document).click();
+}

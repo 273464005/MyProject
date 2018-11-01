@@ -143,10 +143,8 @@
                 }
                 , success: function (returnValue) {
                     popupOk(returnValue, function () {
-//                        window.parent.location.reload(); //刷新父页面
-//                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-//                        parent.layer.close(index);  // 关闭layer
-                        reloadParentWindow();
+//                        reloadParentWindow();
+                        childrenDelParentThisTab();
                     },function () {
 
                     });
@@ -154,11 +152,7 @@
                 }
                 , error:function () {
                     alertMsg("发生未知异常!",5);
-//                    layer.alert('发生未知异常！', {
-//                        icon: 5
-//                        , shade: 0
-//                        , anim: 6
-//                    });
+
                     layer.close(loadIndex);
                 }
             });

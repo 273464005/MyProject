@@ -134,7 +134,8 @@
             }
 
             if (obj.event === 'bj'){
-                location.href = '<%=basePath%>htgl/xtgn/editXt_gnb?gnid='+data.id;
+                <%--location.href = '<%=basePath%>htgl/xtgn/editXt_gnb?gnid='+data.id;--%>
+                childrenAddParentTab('${basePath}htgl/xtgn/editXt_gnb?gnid='+data.id+'',data.id,"编辑"+data.gnmc);
             }
 
         });

@@ -44,6 +44,9 @@
   <listener>
     <listener-class>org.com.lyz.base.listener.CustomSessionListener</listener-class>
   </listener>
+  <listener>
+    <listener-class>org.com.lyz.base.listener.CustomSessionAttributeListener</listener-class>
+  </listener>
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>

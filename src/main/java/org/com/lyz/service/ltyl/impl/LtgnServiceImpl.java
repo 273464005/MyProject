@@ -1,6 +1,5 @@
 package org.com.lyz.service.ltyl.impl;
 
-import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.GG_CZRYDao;
 import org.com.lyz.base.dao.GG_FJRYBDao;
 import org.com.lyz.base.dao.GG_LTFJDao;
@@ -15,6 +14,8 @@ import org.com.lyz.util.DateUtil;
 import org.com.lyz.util.MisException;
 import org.com.lyz.util.StringUtils;
 import org.com.lyz.util.pageutil.SplitPageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ import java.util.Map;
 @Service("ltgnService")
 public class LtgnServiceImpl implements LtgnService {
 
-    private final static Logger logger = Logger.getLogger(LtgnServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(LtgnServiceImpl.class);
 
     @Autowired
     private GG_CZRYDao czryDao;

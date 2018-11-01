@@ -83,6 +83,10 @@ public class ImgUtils {
         return height;
     }
 
+    /**
+     * 生成验证码
+     * @return 生成的验证码和图片
+     */
     public static Object[] getValidationCode(){
         Object obj[] = new Object[2];
         //区分大小写
@@ -123,6 +127,12 @@ public class ImgUtils {
         return obj;
     }
 
+    /**
+     * 获取随机颜色
+     * @param minColor 最小颜色范围
+     * @param maxColor 最大颜色范围
+     * @return 随机颜色
+     */
     private static Color getRandomColor(int minColor, int maxColor) {
         Random random = new Random();
         if(minColor > 255){

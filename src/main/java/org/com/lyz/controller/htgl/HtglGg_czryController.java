@@ -1,7 +1,6 @@
 package org.com.lyz.controller.htgl;
 
 import net.sf.json.JSONArray;
-import org.apache.log4j.Logger;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.base.model.po.GG_IMGS;
 import org.com.lyz.base.model.po.IMG_LOG;
@@ -14,6 +13,8 @@ import org.com.lyz.service.htgl.ImgService;
 import org.com.lyz.util.*;
 import org.com.lyz.util.pageutil.SplitPageInfo;
 import org.com.lyz.util.returnvalue.ReturnValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ import java.util.*;
 @RequestMapping("htgl/czry")
 public class HtglGg_czryController extends BaseController {
 
-    private final static Logger logger = Logger.getLogger(HtglXt_gnbController.class);
+    private final static Logger logger = LoggerFactory.getLogger(HtglXt_gnbController.class);
 
     @Autowired
     @Qualifier("czryService")

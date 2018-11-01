@@ -1,6 +1,5 @@
 package org.com.lyz.service.htgl.impl;
 
-import org.apache.log4j.Logger;
 import org.com.lyz.base.dao.GG_CZRYDao;
 import org.com.lyz.base.model.po.GG_CZRY;
 import org.com.lyz.constant.Constants_htgl;
@@ -8,6 +7,8 @@ import org.com.lyz.service.htgl.CzryService;
 import org.com.lyz.util.ConvertUtils;
 import org.com.lyz.util.StringUtils;
 import org.com.lyz.util.pageutil.SplitPageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ import java.util.Map;
 @Service("czryService")
 public class CzryServiceImpl implements CzryService {
 
-    private final static Logger logger = Logger.getLogger(CzryServiceImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(CzryServiceImpl.class);
 
     @Autowired
     private GG_CZRYDao czryDao;
