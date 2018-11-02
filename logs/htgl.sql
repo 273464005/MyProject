@@ -21,19 +21,19 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `gg_czry`;
 CREATE TABLE `gg_czry` (
   `id` varchar(32) NOT NULL,
-  `mc` varchar(100) DEFAULT NULL COMMENT '名称',
-  `dlh` varchar(50) DEFAULT NULL COMMENT '登录号',
-  `mm` varchar(100) DEFAULT NULL COMMENT '密码',
-  `sfzh` varchar(18) DEFAULT NULL COMMENT '身份证号',
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `xb` int(2) DEFAULT NULL COMMENT '性别  0-男  1-女',
-  `csnyr` int(8) DEFAULT NULL COMMENT '出生年月日',
-  `sjh` varchar(11) DEFAULT NULL COMMENT '手机号',
-  `txdz` varchar(32) DEFAULT NULL COMMENT '头像地址id ',
-  `qx` int(2) DEFAULT NULL COMMENT '权限 0-超级管理员  1- 管理员  2- 普通人员',
-  `zt` int(2) DEFAULT NULL COMMENT '状态 0-正常  1-禁用',
+  `mc` varchar(100) DEFAULT NULL COMMENT '',
+  `dlh` varchar(50) DEFAULT NULL COMMENT '',
+  `mm` varchar(100) DEFAULT NULL COMMENT '',
+  `sfzh` varchar(18) DEFAULT NULL COMMENT '',
+  `email` varchar(50) DEFAULT NULL COMMENT '',
+  `xb` int(2) DEFAULT NULL COMMENT '',
+  `csnyr` int(8) DEFAULT NULL COMMENT '',
+  `sjh` varchar(11) DEFAULT NULL COMMENT '',
+  `txdz` varchar(32) DEFAULT NULL COMMENT '',
+  `qx` int(2) DEFAULT NULL COMMENT '',
+  `zt` int(2) DEFAULT NULL COMMENT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作人员表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='';
 
 -- ----------------------------
 -- Records of gg_czry
@@ -46,11 +46,11 @@ INSERT INTO `gg_czry` VALUES ('superadmin', '超级管理员', 'superadmin', 'b6
 DROP TABLE IF EXISTS `gg_fjryb`;
 CREATE TABLE `gg_fjryb` (
   `id` varchar(32) NOT NULL,
-  `fjid` varchar(32) DEFAULT NULL COMMENT '房间id',
-  `ryid` varchar(32) DEFAULT NULL COMMENT '人员id',
-  `zt` int(2) DEFAULT NULL COMMENT '房间人员状态  0-正常  1-禁言',
+  `fjid` varchar(32) DEFAULT NULL COMMENT '',
+  `ryid` varchar(32) DEFAULT NULL COMMENT '',
+  `zt` int(2) DEFAULT NULL COMMENT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房间-人员表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='';
 
 -- ----------------------------
 -- Records of gg_fjryb
@@ -63,13 +63,13 @@ CREATE TABLE `gg_fjryb` (
 DROP TABLE IF EXISTS `gg_imgs`;
 CREATE TABLE `gg_imgs` (
   `id` varchar(32) NOT NULL,
-  `tpmc` varchar(100) DEFAULT NULL COMMENT '图片名称',
-  `tpdz` varchar(200) DEFAULT NULL COMMENT '图片地址（绝对路径）',
-  `height` int(6) DEFAULT NULL COMMENT '图片高度',
-  `width` int(6) DEFAULT NULL COMMENT '图片宽度',
-  `scsj` decimal(14,0) DEFAULT NULL COMMENT '上传时间',
+  `tpmc` varchar(100) DEFAULT NULL COMMENT '',
+  `tpdz` varchar(200) DEFAULT NULL COMMENT '',
+  `height` int(6) DEFAULT NULL COMMENT '',
+  `width` int(6) DEFAULT NULL COMMENT '',
+  `scsj` decimal(14,0) DEFAULT NULL COMMENT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='图片表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='';
 
 -- ----------------------------
 -- Records of gg_imgs
@@ -82,16 +82,16 @@ CREATE TABLE `gg_imgs` (
 DROP TABLE IF EXISTS `gg_ltfj`;
 CREATE TABLE `gg_ltfj` (
   `id` varchar(32) NOT NULL,
-  `fjh` varchar(16) DEFAULT NULL COMMENT '房间号',
-  `fjmc` varchar(50) DEFAULT NULL COMMENT '房间名称',
-  `fjms` varchar(200) DEFAULT NULL COMMENT '房间描述',
-  `fjzt` int(2) DEFAULT NULL COMMENT '房间状态   0-正常   1-禁用 ',
-  `fjmm` varchar(8) DEFAULT NULL COMMENT '房间密码',
-  `cjsj` decimal(14,0) DEFAULT NULL COMMENT '创建时间',
-  `cjr` varchar(32) DEFAULT NULL COMMENT '房间创建人，gg_czry表ID',
-  `cjrmc` varchar(50) DEFAULT NULL COMMENT '创建人名称，同步gg_czry表名称',
+  `fjh` varchar(16) DEFAULT NULL COMMENT '',
+  `fjmc` varchar(50) DEFAULT NULL COMMENT '',
+  `fjms` varchar(200) DEFAULT NULL COMMENT '',
+  `fjzt` int(2) DEFAULT NULL COMMENT ' ',
+  `fjmm` varchar(8) DEFAULT NULL COMMENT '',
+  `cjsj` decimal(14,0) DEFAULT NULL COMMENT '',
+  `cjr` varchar(32) DEFAULT NULL COMMENT '',
+  `cjrmc` varchar(50) DEFAULT NULL COMMENT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房间表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='';
 
 -- ----------------------------
 -- Records of gg_ltfj
@@ -104,11 +104,11 @@ CREATE TABLE `gg_ltfj` (
 DROP TABLE IF EXISTS `img_log`;
 CREATE TABLE `img_log` (
   `id` varchar(32) NOT NULL,
-  `glid` varchar(32) DEFAULT NULL COMMENT '关联的id（例如人员表的id，或者其他用到图片的表的id）',
-  `imgid` varchar(32) DEFAULT NULL COMMENT '图片id',
-  `logsj` decimal(14,0) DEFAULT NULL COMMENT '日志创建时间',
+  `glid` varchar(32) DEFAULT NULL COMMENT '',
+  `imgid` varchar(32) DEFAULT NULL COMMENT '',
+  `logsj` decimal(14,0) DEFAULT NULL COMMENT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='图片日志表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='';
 
 -- ----------------------------
 -- Records of img_log
@@ -121,15 +121,15 @@ CREATE TABLE `img_log` (
 DROP TABLE IF EXISTS `xt_gnb`;
 CREATE TABLE `xt_gnb` (
   `id` varchar(32) NOT NULL,
-  `gnmc` varchar(50) DEFAULT NULL COMMENT '功能名称',
-  `dyqx` int(2) DEFAULT NULL COMMENT '对应权限',
-  `fid` varchar(32) DEFAULT NULL COMMENT '所属功能，是那个功能的子功能，为空是顶级功能',
-  `ljdz` varchar(100) DEFAULT NULL COMMENT '功能的跳转地址',
-  `gnlb` int(2) DEFAULT NULL COMMENT '功能类别：0-节点 1-目录  目录没有跳转地址',
-  `sxh` int(4) DEFAULT NULL COMMENT '顺序号',
-  `zt` int(2) DEFAULT NULL COMMENT '使用状态 0-正常 1-禁用',
+  `gnmc` varchar(50) DEFAULT NULL COMMENT '',
+  `dyqx` int(2) DEFAULT NULL COMMENT '',
+  `fid` varchar(32) DEFAULT NULL COMMENT '',
+  `ljdz` varchar(100) DEFAULT NULL COMMENT '',
+  `gnlb` int(2) DEFAULT NULL COMMENT '',
+  `sxh` int(4) DEFAULT NULL COMMENT '',
+  `zt` int(2) DEFAULT NULL COMMENT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统功能表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='';
 
 -- ----------------------------
 -- Records of xt_gnb
